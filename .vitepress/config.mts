@@ -62,7 +62,7 @@ export default defineConfig({
         }
     },
     base: '/dynamicFormDoc/', // 仓库名
-    build: {
+    /*build: {
         outDir: 'docs/.vitepress/dist'   //构建产物输出目录
-    },
+    },*/
 })
