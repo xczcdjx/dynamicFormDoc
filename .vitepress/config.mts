@@ -60,5 +60,9 @@ export default defineConfig({
             // 这里写你的库名
             noExternal: ['dynamicformdjx']
         }
-    }
+    },
+    base: '/dynamicFormDoc/', // 仓库名
+    build: {
+        outDir: 'docs/.vitepress/dist'   //构建产物输出目录
+    },
 })
