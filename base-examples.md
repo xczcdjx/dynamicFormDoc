@@ -3,7 +3,7 @@ outline: deep
 ---
 
 # DynamicForm
-hello
+hello world
 
 ## 基本使用
 
@@ -138,3 +138,36 @@ const setData = () => {
 | `onSet(o?: object)`    | `o = object` → 设置新表单数据<br>`o = undefined` → 重置表单 | `void`             | 设置或重置表单数据  |
 | `getResult(t = 'res')` | `t = 'res'` → 获取当前最终结果<br>`t = 'ori'` → 获取渲染时数组  | `object` / `array` | 获取表单内部数据结构 |
 
+## Extra Use
+
+如果你项目使用了[Naive Ui](https://www.naiveui.com)或 [Element Plus](https://element-plus.org/),可使用下方导入
+```vue
+<script setup lang="ts">
+// 依赖于naive-ui
+import {NaiveUiDynamicForm} from "dynamicformdjx/naiveUi";
+// 依赖于element-plus
+import {ElementPlusDynamicForm} from "dynamicformdjx/elementPlus";
+const test2 = ref<{ d: number[] }>({
+  d: [6, 6, 6]
+})
+const test3 = ref<{ e: string }>({
+  e: "victory"
+})
+</script>
+
+<template>
+  <div>
+    <p>Base on NaiveUi</p>
+    <naive-ui-dynamic-form v-model="test2"
+                           is-controller
+    />
+    <pre>{{ test2 }}</pre>
+    <p>Base on element plus</p>
+    <element-plus-dynamic-form v-model="test3"
+                               :dy-list-configs="{arraySplitSymbol:'-'}"
+    />
+    <pre>{{ test3 }}</pre>
+  </div>
+</template>
+
+```

@@ -4,7 +4,7 @@ import {defineConfig} from 'vitepress'
 export default defineConfig({
     lang: 'zh-CN',
     title: "dynamicformdjx",
-    description: "A VitePress Site",
+    description: "dynamicformdjx document",
     themeConfig: {
         socialLinks: [
             {icon: 'github', link: 'https://github.com/xczcdjx/dynamicForm'}
@@ -19,15 +19,16 @@ export default defineConfig({
                 // 导航标题栏
                 nav: [
                     {text: '主页', link: '/'},
-                    {text: '案例', link: '/markdown-examples'}
+                    {text: '案例', link: '/base-examples'}
                 ],
                 // 侧边栏
                 sidebar: [
                     {
-                        text: 'Examples',
+                        text: '案例',
                         items: [
                             // {text: 'Markdown Examples', link: '/markdown-examples'},
-                            {text: '组件', link: '/base-examples'}
+                            {text: '单组件', link: '/base-examples'},
+                            {text: '级联组件', link: '/cascade-examples'}
                         ]
                     }
                 ],
@@ -40,15 +41,15 @@ export default defineConfig({
             themeConfig: {
                 nav: [
                     {text: 'Home', link: '/en/'},
-                    {text: 'Example', link: '/en/markdown-examples'}
+                    {text: 'Example', link: '/en/base-examples'}
                     // {text: 'Runtime API Examples', link: '/en/base-examples'}
                 ],
                 sidebar: [
                     {
                         text: 'Examples',
                         items: [
-                            // {text: 'Markdown Examples', link: '/markdown-examples'},
-                            {text: 'Component', link: '/en/base-examples'}
+                            {text: 'Single Component', link: '/en/base-examples'},
+                            {text: 'Cascade Component', link: '/en/cascade-examples'}
                         ]
                     }
                 ],
