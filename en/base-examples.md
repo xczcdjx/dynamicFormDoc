@@ -138,3 +138,43 @@ const setData = () => {
 | `onSet(o?: object)`    | `o = object` → set new form data<br>`o = undefined` → reset form      | `void`             | Set or reset form data      |
 | `getResult(t = 'res')` | `t = 'res'` → get rendered result<br>`t = 'ori'` → get original array | `object` / `array` | Get current form data state |
 
+## Extra Usage
+If your project is using either Naive UI or Element Plus , you can import the corresponding integration components as shown below:
+```vue
+<script setup lang="ts">
+import { ref } from "vue";
+
+// For Naive UI integration
+import { NaiveUiDynamicForm } from "dynamicformdjx/naiveUi";
+
+// For Element Plus integration
+import { ElementPlusDynamicForm } from "dynamicformdjx/elementPlus";
+
+const test2 = ref<{ d: number[] }>({
+  d: [6, 6, 6]
+});
+
+const test3 = ref<{ e: string }>({
+  e: "victory"
+});
+</script>
+
+<template>
+  <div>
+    <p>Based on Naive UI</p>
+    <naive-ui-dynamic-form
+      v-model="test2"
+      is-controller
+    />
+    <pre>{{ test2 }}</pre>
+
+    <p>Based on Element Plus</p>
+    <element-plus-dynamic-form
+      v-model="test3"
+      :dy-list-configs="{ arraySplitSymbol: '-' }"
+    />
+    <pre>{{ test3 }}</pre>
+  </div>
+</template>
+
+```
