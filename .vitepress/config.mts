@@ -62,8 +62,8 @@ export default defineConfig({
                         {
                             text: '输入组件',
                             items: [
-                                { text: 'Single Input', link: concatPath('react', 'single-input') },
-                                { text: 'Cascade Input', link: concatPath('react', 'cascade-input') },
+                                { text: '单输入', link: concatPath('react', 'single-input') },
+                                { text: '级联输入', link: concatPath('react', 'cascade-input') },
                             ]
                         },
                     ],
