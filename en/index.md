@@ -15,15 +15,15 @@ hero:
 
 features:
   - title: dynamicForm
-    link: /dynamic-form/
+    link: /v3/single-input/
     linkText: View Docs
 
   - title: dynamicForm-vue2
-    link: /dynamic-form-vue2/
+    link: /v2/single-input/
     linkText: Vue2 Version
 
   - title: dynamicForm-react
-    link: /dynamic-form-react/
+    link: /react/single-input/
     linkText: React Version
 
   - title: Dynamic Input
