@@ -2,14 +2,14 @@
 outline: deep
 ---
 
-# DynamicForm
+# DynamicInput
 hello world
 
 ## 基本使用
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { DynamicForm, type dynamicFormRef } from 'dynamicformdjx'
+import { DynamicInput, type dynamicInputRef } from 'dynamicformdjx'
 
 const test = ref<{ a: string; b: number; c: number[] }>({
   a: 'Hello world',
@@ -17,7 +17,7 @@ const test = ref<{ a: string; b: number; c: number[] }>({
   c: [5, 2, 0]
 })
 
-const dyRef = ref<dynamicFormRef | null>(null)
+const dyRef = ref<dynamicInputRef | null>(null)
 
 const setData = () => {
   dyRef.value?.onSet({ test: 'helloWorld' })
@@ -32,7 +32,7 @@ const setData = () => {
 ```vue [TypeScript]
 <script setup lang="ts">
 import { ref } from 'vue'
-import { DynamicForm, type dynamicFormRef } from 'dynamicformdjx'
+import { DynamicInput, type dynamicInputRef } from 'dynamicformdjx'
 
 const test = ref<{ a: string; b: number; c: number[] }>({
   a: 'Hello world',
@@ -40,7 +40,7 @@ const test = ref<{ a: string; b: number; c: number[] }>({
   c: [5, 2, 0]
 })
 
-const dyRef = ref<dynamicFormRef | null>(null)
+const dyRef = ref<dynamicInputRef | null>(null)
 
 const setData = () => {
   dyRef.value?.onSet({ test: 'helloWorld' })
@@ -49,7 +49,7 @@ const setData = () => {
 
 <template>
   <p>Base</p>
-  <DynamicForm v-model="test" ref="dyRef" />
+  <DynamicInput v-model="test" ref="dyRef" />
   <pre>{{ test }}</pre>
   <div>
     <button @click="setData">setData</button>
@@ -60,7 +60,7 @@ const setData = () => {
 ```vue [JavaScript]
 <script setup>
 import { ref } from 'vue'
-import { DynamicForm } from 'dynamicformdjx'
+import { DynamicInput } from 'dynamicformdjx'
 
 const test = ref({
   a: 'Hello world',
@@ -77,7 +77,7 @@ const setData = () => {
 
 <template>
   <p>Base</p>
-  <DynamicForm v-model="test" ref="dyRef" />
+  <DynamicInput v-model="test" ref="dyRef" />
   <pre>{{ test }}</pre>
   <div>
     <button @click="setData">setData</button>
@@ -91,7 +91,7 @@ const setData = () => {
 
   <!-- 下面是实际效果 -->
   <p>效果</p>
-  <DynamicForm v-model="test" ref="dyRef" is-controller/>
+  <DynamicInput v-model="test" ref="dyRef" is-controller/>
   <p>结果</p>
   <pre>{{ test }}</pre>
   <div>
@@ -144,9 +144,9 @@ const setData = () => {
 ```vue
 <script setup lang="ts">
 // 依赖于naive-ui
-import {NaiveUiDynamicForm} from "dynamicformdjx/naiveUi";
+import {NaiDynamicInput} from "dynamicformdjx/naiveUi";
 // 依赖于element-plus
-import {ElementPlusDynamicForm} from "dynamicformdjx/elementPlus";
+import {EleDynamicInput} from "dynamicformdjx/elementPlus";
 const test2 = ref<{ d: number[] }>({
   d: [6, 6, 6]
 })
@@ -158,12 +158,12 @@ const test3 = ref<{ e: string }>({
 <template>
   <div>
     <p>Base on NaiveUi</p>
-    <naive-ui-dynamic-form v-model="test2"
+    <nai-dynamic-input v-model="test2"
                            is-controller
     />
     <pre>{{ test2 }}</pre>
     <p>Base on element plus</p>
-    <element-plus-dynamic-form v-model="test3"
+    <ele-dynamic-input v-model="test3"
                                :dy-list-configs="{arraySplitSymbol:'-'}"
     />
     <pre>{{ test3 }}</pre>

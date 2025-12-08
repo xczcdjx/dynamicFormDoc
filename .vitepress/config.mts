@@ -1,5 +1,8 @@
 import {defineConfig} from 'vitepress'
-
+const concatPath=(type:string,name:string,lang:string)=>{
+    const path=`/${type}/${name}`
+    return lang?`${lang}/${path}`:path
+}
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
     lang: 'zh-CN',
@@ -18,20 +21,53 @@ export default defineConfig({
             themeConfig: {
                 // 导航标题栏
                 nav: [
-                    {text: '主页', link: '/'},
-                    {text: '案例', link: '/base-examples'}
+                    { text: 'Vue3', link: '/v3/install' },
+                    { text: 'Vue2', link: '/v2/install' },
+                    { text: 'React', link: '/react/install' }
                 ],
-                // 侧边栏
-                sidebar: [
-                    {
-                        text: '案例',
-                        items: [
-                            // {text: 'Markdown Examples', link: '/markdown-examples'},
-                            {text: '单组件', link: '/base-examples'},
-                            {text: '级联组件', link: '/cascade-examples'}
-                        ]
-                    }
-                ],
+                sidebar: {
+                    '/v3/': [
+                        {
+                            text: '安装 - Vue3',
+                            link: concatPath('v3', 'install'),
+                        },
+                        {
+                            text: '输入组件',
+                            items: [
+                                { text: '单输入', link: concatPath('v3', 'single-input') },
+                                { text: '级联输入', link: concatPath('v3', 'cascade-input') },
+                            ]
+                        },
+                    ],
+
+                    '/v2/': [
+                        {
+                            text: '安装 - Vue2',
+                            link: concatPath('v2', 'install'),
+                        },
+                        {
+                            text: '输入组件',
+                            items: [
+                                { text: '单输入', link: concatPath('v2', 'single-input') },
+                                { text: '级联输入', link: concatPath('v2', 'cascade-input') },
+                            ]
+                        },
+                    ],
+
+                    '/react/': [
+                        {
+                            text: '安装 - React',
+                            link: concatPath('react', 'install'),
+                        },
+                        {
+                            text: '输入组件',
+                            items: [
+                                { text: 'Single Input', link: concatPath('react', 'single-input') },
+                                { text: 'Cascade Input', link: concatPath('react', 'cascade-input') },
+                            ]
+                        },
+                    ],
+                },
             }
         },
         en: {
@@ -40,19 +76,41 @@ export default defineConfig({
             // 对应 /en/ 下的内容
             themeConfig: {
                 nav: [
-                    {text: 'Home', link: '/en/'},
-                    {text: 'Example', link: '/en/base-examples'}
-                    // {text: 'Runtime API Examples', link: '/en/base-examples'}
+                    { text: 'Vue3', link: '/en/v3/single-input' },
+                    { text: 'Vue2', link: '/en/v2/single-input' },
+                    { text: 'React', link: '/en/react/single-input' }
                 ],
-                sidebar: [
-                    {
-                        text: 'Examples',
-                        items: [
-                            {text: 'Single Component', link: '/en/base-examples'},
-                            {text: 'Cascade Component', link: '/en/cascade-examples'}
-                        ]
-                    }
-                ],
+                sidebar: {
+                    '/en/v3/': [
+                        {
+                            text: 'Input Component (Vue3)',
+                            items: [
+                                { text: 'Single Component', link: concatPath('v3', 'single-input', 'en') },
+                                { text: 'Cascade Component', link: concatPath('v3', 'cascade-input', 'en') },
+                            ]
+                        },
+                    ],
+
+                    '/en/v2/': [
+                        {
+                            text: 'Input Component (Vue2)',
+                            items: [
+                                { text: 'Single Component', link: concatPath('v2', 'single-input', 'en') },
+                                { text: 'Cascade Component', link: concatPath('v2', 'cascade-input', 'en') },
+                            ]
+                        },
+                    ],
+
+                    '/en/react/': [
+                        {
+                            text: 'Input Component (React)',
+                            items: [
+                                { text: 'Single Component', link: concatPath('react', 'single-input', 'en') },
+                                { text: 'Cascade Component', link: concatPath('react', 'cascade-input', 'en') },
+                            ]
+                        },
+                    ],
+                },
             }
         }
     },

@@ -2,7 +2,7 @@
 outline: deep
 ---
 
-# CascadeDynamicForm
+# DynamicCascadeInput
 hello world
 
 
@@ -10,7 +10,7 @@ hello world
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { DynamicCascadeForm, type dynamicCascadeFormRef } from 'dynamicformdjx'
+import { DynamicCascadeInput, type dynamicCascadeInputRef } from 'dynamicformdjx'
 
 const test = ref({
   a: {
@@ -26,7 +26,7 @@ const test = ref({
   aaa: 1314
 })
 
-const dyRef = ref<dynamicCascadeFormRef | null>(null)
+const dyRef = ref<dynamicCascadeInputRef | null>(null)
 
 const setData = () => {
   dyRef.value?.onSet({ test: 'helloWorld' })
@@ -41,7 +41,7 @@ const setData = () => {
 ```vue [TypeScript]
 <script setup lang="ts">
 import { ref } from 'vue'
-import { DynamicCascadeForm, type dynamicCascadeFormRef } from 'dynamicformdjx'
+import { DynamicCascadeInput, type dynamicCascadeInputRef } from 'dynamicformdjx'
 
 const test = ref({
   a: {
@@ -57,7 +57,7 @@ const test = ref({
   aaa: 1314
 })
 
-const dyRef = ref<dynamicCascadeFormRef | null>(null)
+const dyRef = ref<dynamicCascadeInputRef | null>(null)
 
 const setData = () => {
     dyRef.value?.onSet({ test: 'helloWorld' })
@@ -66,7 +66,7 @@ const setData = () => {
 
 <template>
   <p>Base</p>
-  <DynamicCascadeForm v-model="test" ref="dyRef" is-controller/>
+  <DynamicCascadeInput v-model="test" ref="dyRef" is-controller/>
   <pre>{{ test }}</pre>
   <div>
     <button @click="setData">setData</button>
@@ -77,7 +77,7 @@ const setData = () => {
 ```vue [JavaScript]
 <script setup>
 import { ref } from 'vue'
-import { DynamicCascadeForm } from 'dynamicformdjx'
+import { DynamicCascadeInput } from 'dynamicformdjx'
 
 const test = ref({
   a: {
@@ -102,7 +102,7 @@ const setData = () => {
 
 <template>
   <p>Base</p>
-  <DynamicCascadeForm v-model="test" ref="dyRef" is-controller/>
+  <DynamicCascadeInput v-model="test" ref="dyRef" is-controller/>
   <pre>{{ test }}</pre>
   <div>
     <button @click="setData">setData</button>
@@ -116,7 +116,7 @@ const setData = () => {
 
   <!-- 下面是实际效果 -->
   <p>效果</p>
-  <DynamicCascadeForm v-model="test" ref="dyRef" is-controller/>
+  <DynamicCascadeInput v-model="test" ref="dyRef" is-controller/>
   <p>结果</p>
   <pre>{{ test }}</pre>
   <div>
@@ -170,9 +170,9 @@ const setData = () => {
 ```vue
 <script setup lang="ts">
 // 依赖于naive-ui
-import {NaiveUiDynamicCascadeForm} from "dynamicformdjx/naiveUi";
+import {NaiDynamicCascadeInput} from "dynamicformdjx/naiveUi";
 // 依赖于element-plus
-import {ElementPlusDynamicCascadeForm} from "dynamicformdjx/elementPlus";
+import {EleDynamicCascadeInput} from "dynamicformdjx/elementPlus";
 const test2 = ref<{ d: number[] }>({
   d: [6, 6, 6]
 })
@@ -184,12 +184,12 @@ const test3 = ref<{ e: string }>({
 <template>
   <div>
     <p>Base on NaiveUi</p>
-    <naive-ui-dynamic-cascade-form v-model="test2"
+    <nai-dynamic-cascade-input v-model="test2"
                            is-controller
     />
     <pre>{{ test2 }}</pre>
     <p>Base on element plus</p>
-    <element-plus-dynamic-cascade-form v-model="test3"
+    <ele-dynamic-cascade-input v-model="test3"
                                :dy-list-configs="{arraySplitSymbol:'-'}"
     />
     <pre>{{ test3 }}</pre>
