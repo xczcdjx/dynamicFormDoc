@@ -70,7 +70,7 @@ export default defineConfig({
                 },
             }
         },
-        en: {
+        /*en: {
             label: 'English',
             lang: 'en-US',
             // 对应 /en/ 下的内容
@@ -112,7 +112,7 @@ export default defineConfig({
                     ],
                 },
             }
-        }
+        }*/
     },
     vite: {
         ssr: {

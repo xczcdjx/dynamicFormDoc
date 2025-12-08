@@ -4,17 +4,30 @@ layout: home
 lang: en-US
 hero:
   name: "dynamicformdjx"
-  tagline: A flexible and dynamic form input component that allows users to add, edit, and remove key-value pairs. It offers multiple customization options, including button text, form layout, and input filtering.
+  tagline: A flexible, dynamic form component that uses arrays to simplify template operations and lets users add, edit, and remove key-value pairs.
   actions:
-    - theme: brand
-      text: Code Examples
-      link: /base-examples
+  # - theme: brand
+  #   text: Markdown Examples
+  #   link: /markdown-examples
+  # - theme: brand
+  #   text: Code Examples
+  #   link: /base-examples
 
 features:
-  - title: Feature 1
-    details: Supports two-way binding using `v-model` for any object (including controlled and uncontrolled modes) with dynamic field add/remove capability.
-  - title: Feature 2
-    details: Supports parsing values into string, number, or array (string array or number array).
-  - title: Feature 3
-    details: Fully customizable texts, styles, array separators, and more.
+  - title: dynamicForm
+    link: /dynamic-form/
+    linkText: View Docs
+
+  - title: dynamicForm-vue2
+    link: /dynamic-form-vue2/
+    linkText: Vue2 Version
+
+  - title: dynamicForm-react
+    link: /dynamic-form-react/
+    linkText: React Version
+
+  - title: Dynamic Input
+    details: The current release provides dynamic input for Vue 3, Vue 2, and React.
+  - title: Dynamic Form
+    details: More adapters and improvements will be added later.
 ---
