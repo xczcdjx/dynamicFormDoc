@@ -50,17 +50,17 @@ export default App
 | ----- | ---------------------------------------------------------------------------------------------- | -------- | ------- | -------- |
 | value | The form model value passed from the parent component and kept in sync (replaces `modelValue`) | `object` | -       | ✅        |
 
-[Go to v3 Props](/v3/single-input#props)
+[Go to v3 Props](../v3/single-input#props)
 
 ### Function
 | Name       | Description                                                                                           | Callback Params   | Required |
 | ---------- | ----------------------------------------------------------------------------------------------------- | ----------------- | -------- |
 | `onChange` | Triggered when the form value changes, returns the updated model value (replaces `update:modelValue`) | `(value: object)` | ✅        |
 
-[Go to v3 Emits](/v3/single-input.html#emits)
+[Go to v3 Emits](../v3/single-input.html#emits)
 
 ### Ref
 
-[Go to v3 Expose](/v3/single-input.html#expose)
+[Go to v3 Expose](../v3/single-input.html#expose)
 
 [//]: # (## Extra Use)

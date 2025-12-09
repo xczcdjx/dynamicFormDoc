@@ -45,12 +45,12 @@ hello world
 ## API
 >  (Props and exposed methods are the same as the Vue 3 version)
 ### Props
-[Go to v3 Props](/v3/single-input#props)
+[Go to v3 Props](../v3/single-input#props)
 
 ### Emits
-[Go to Emits](/v3/single-input.html#emits)
+[Go to Emits](../v3/single-input.html#emits)
 
 ### Expose
-[Go to v3 Expose](/v3/single-input.html#expose)
+[Go to v3 Expose](../v3/single-input.html#expose)
 
 [//]: # (## Extra Use)

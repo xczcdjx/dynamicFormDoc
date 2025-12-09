@@ -50,7 +50,7 @@ export default App
 |-------|--------------------------------------|----------|-----|----|
 | value | 绑定到表单的模型值，父组件传入并与表单同步 (代替modelValue) | `object` | -   | ✅  |
 
-[跳到 v3 Props](/v3/single-input#props)
+[跳到 v3 Props](../v3/single-input#props)
 
 ### Function
 
@@ -58,10 +58,10 @@ export default App
 |------------|--------------------|-------------------|----|
 | `onChange` | 当表单值变化时触发，返回新的模型值 (代替update:modelValue) | `(value: object)` | ✅  |
 
-[跳到 v3 Emits](/v3/single-input.html#emits)
+[跳到 v3 Emits](../v3/single-input.html#emits)
 
 ### Ref
 
-[跳到 v3 Expose](/v3/single-input.html#expose)
+[跳到 v3 Expose](../v3/single-input.html#expose)
 
 [//]: # (## Extra Use)

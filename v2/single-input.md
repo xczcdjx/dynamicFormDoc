@@ -45,12 +45,12 @@ hello world
 ## API
 >  (属性及方法参数与vue3版本一致)
 ### Props
-[跳到 v3 Props](/v3/single-input#props)
+[跳到 v3 Props](../v3/single-input#props)
 
 ### Emits
-[跳到 v3 Emits](/v3/single-input.html#emits)
+[跳到 v3 Emits](../v3/single-input.html#emits)
 
 ### Expose
-[跳到 v3 Expose](/v3/single-input.html#expose)
+[跳到 v3 Expose](../v3/single-input.html#expose)
 
 [//]: # (## Extra Use)
