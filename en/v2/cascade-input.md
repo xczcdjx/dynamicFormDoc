@@ -51,15 +51,21 @@ hello world
 ```
 
 
+<script setup>
+import {useData, withBase} from 'vitepress'
+
+const {localeIndex} = useData()
+const langPrefix = () => (localeIndex.value === 'en' ? '/en' : '')
+
+const goUrl = (hash) => withBase(`${langPrefix()}/v3/cascade-input${hash}`)
+</script>
 ## API
->  (属性及方法参数与vue3版本一致)
+>  (Props and exposed methods are the same as the Vue 3 version)
 ### Props
-[跳到 v3 Props](../v3/cascade-input#props)
-
+<a :href="goUrl('#props')">Go to v3 Props</a>
 ### Emits
-[跳到 v3 Emits](../v3/cascade-input.html#emits)
-
+<a :href="goUrl('#emits')">Go to Emits</a>
 ### Expose
-[跳到 v3 Expose](../v3/cascade-input.html#expose)
+<a :href="goUrl('#expose')">Go to Expose</a>
 
 [//]: # (## Extra Use)

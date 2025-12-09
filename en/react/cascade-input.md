@@ -55,18 +55,18 @@ export default App;
 | ----- | ---------------------------------------------------------------------------------------------- | -------- | ------- | -------- |
 | value | The form model value passed from the parent component and kept in sync (replaces `modelValue`) | `object` | -       | ✅        |
 
-[Go to v3 Props](/v3/cascade-input#props)
+[Go to v3 Props](/en/v3/cascade-input#props)
 
 ### Function
 | Name       | Description                                                                                           | Callback Params   | Required |
 | ---------- | ----------------------------------------------------------------------------------------------------- | ----------------- | -------- |
 | `onChange` | Triggered when the form value changes, returns the updated model value (replaces `update:modelValue`) | `(value: object)` | ✅        |
 
-[Go to v3 Emits](/v3/cascade-input.html#emits)
+[Go to v3 Emits](/en/v3/cascade-input.html#emits)
 
 ### Ref
 
-[Go to v3 Expose](/v3/cascade-input.html#expose)
+[Go to v3 Expose](/en/v3/cascade-input.html#expose)
 
 
 [//]: # (## Extra Use)

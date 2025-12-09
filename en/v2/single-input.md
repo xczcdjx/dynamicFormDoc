@@ -41,16 +41,21 @@ hello world
 </template>
 ```
 
+<script setup>
+import {useData, withBase} from 'vitepress'
 
+const {localeIndex} = useData()
+const langPrefix = () => (localeIndex.value === 'en' ? '/en' : '')
+
+const goUrl = (hash) => withBase(`${langPrefix()}/v3/single-input${hash}`)
+</script>
 ## API
 >  (Props and exposed methods are the same as the Vue 3 version)
 ### Props
-[Go to v3 Props](../v3/single-input#props)
-
+<a :href="goUrl('#props')">Go to v3 Props</a>
 ### Emits
-[Go to Emits](../v3/single-input.html#emits)
-
+<a :href="goUrl('#emits')">Go to Emits</a>
 ### Expose
-[Go to v3 Expose](../v3/single-input.html#expose)
+<a :href="goUrl('#expose')">Go to Expose</a>
 
 [//]: # (## Extra Use)
