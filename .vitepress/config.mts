@@ -1,7 +1,7 @@
 import {defineConfig} from 'vitepress'
 const concatPath=(type:string,name:string,lang:string)=>{
     const path=`/${type}/${name}`
-    return lang?`${lang}/${path}`:path
+    return lang?`/${lang}${path}`:path
 }
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -70,18 +70,22 @@ export default defineConfig({
                 },
             }
         },
-        /*en: {
+        en: {
             label: 'English',
             lang: 'en-US',
             // 对应 /en/ 下的内容
             themeConfig: {
                 nav: [
-                    { text: 'Vue3', link: '/en/v3/single-input' },
-                    { text: 'Vue2', link: '/en/v2/single-input' },
-                    { text: 'React', link: '/en/react/single-input' }
+                    { text: 'Vue3', link: '/en/v3/install' },
+                    { text: 'Vue2', link: '/en/v2/install' },
+                    { text: 'React', link: '/en/react/install' }
                 ],
                 sidebar: {
                     '/en/v3/': [
+                        {
+                            text: 'Install - Vue3',
+                            link: concatPath('v3', 'install','en'),
+                        },
                         {
                             text: 'Input Component (Vue3)',
                             items: [
@@ -93,6 +97,10 @@ export default defineConfig({
 
                     '/en/v2/': [
                         {
+                            text: 'Install - Vue2',
+                            link: concatPath('v2', 'install','en'),
+                        },
+                        {
                             text: 'Input Component (Vue2)',
                             items: [
                                 { text: 'Single Component', link: concatPath('v2', 'single-input', 'en') },
@@ -103,6 +111,10 @@ export default defineConfig({
 
                     '/en/react/': [
                         {
+                            text: 'Install - React',
+                            link: concatPath('react', 'install','en'),
+                        },
+                        {
                             text: 'Input Component (React)',
                             items: [
                                 { text: 'Single Component', link: concatPath('react', 'single-input', 'en') },
@@ -112,7 +124,7 @@ export default defineConfig({
                     ],
                 },
             }
-        }*/
+        }
     },
     vite: {
         ssr: {
