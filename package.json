@@ -8,6 +8,7 @@
     "vitepress": "^2.0.0-alpha.15"
   },
   "dependencies": {
-    "dynamicformdjx": "^0.2.0"
+    "dynamicformdjx": "^0.3.2",
+    "naive-ui": "^2.43.2"
   }
 }

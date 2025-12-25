@@ -38,6 +38,20 @@ export default defineConfig({
                                 { text: '级联输入', link: concatPath('v3', 'cascade-input') },
                             ]
                         },
+                        {
+                            text: '表单组件',
+                            items: [
+                                { text: '简单表单', link: concatPath('v3', 'simple-form') },
+                                { text: '自定义表单', link: concatPath('v3', 'custom-form') },
+                            ]
+                        },
+                        {
+                            text: '通用',
+                            items: [
+                                { text: 'Types', link: concatPath('v3', 'types') },
+                                { text: 'Hooks', link: concatPath('v3', 'hooks') },
+                            ]
+                        }
                     ],
 
                     '/v2/': [
