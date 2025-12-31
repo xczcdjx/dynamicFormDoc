@@ -30,7 +30,7 @@ features:
   - title: 动态录入
     details: 目前发布版本提供Vue3,Vue2,React 动态输入
   - title: 动态表单
-    details: 现已适配v3+naive ui
+    details: 现已适配v3+naive ui或v3+element plus
 
 ---
 
