@@ -1,13 +1,12 @@
 <template>
   <div class="demo-block">
-    <!-- 代码区域 -->
-    <div class="demo-code">
-      <slot name="code" />
-    </div>
-
     <!-- 效果区域 -->
     <div class="demo-preview">
       <slot />
+    </div>
+    <!-- 代码区域 -->
+    <div class="demo-code">
+      <slot name="code" />
     </div>
   </div>
 </template>
@@ -30,3 +29,5 @@
   border-top: 1px dashed var(--vp-c-divider);
 }
 </style>
+<script setup lang="ts">
+</script>

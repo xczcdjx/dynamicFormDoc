@@ -1,0 +1,1 @@
+export const alertResult=(data:any)=>window.alert(JSON.stringify(data,null,2))

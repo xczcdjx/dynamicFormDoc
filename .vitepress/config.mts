@@ -41,8 +41,9 @@ export default defineConfig({
                         {
                             text: '表单组件',
                             items: [
-                                { text: '简单表单', link: concatPath('v3', 'simple-form') },
-                                { text: '自定义表单', link: concatPath('v3', 'custom-form') },
+                                { text: '与naive ui配合使用', link: concatPath('v3', 'dy-naiveUi-form') },
+                                { text: '与element plus配合使用', link: concatPath('v3', 'dy-elementPlus-form') },
+                                { text: 'Props', link: concatPath('v3', 'form-props') },
                             ]
                         },
                         {
