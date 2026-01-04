@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import {ref} from "vue";
-import {NButton} from "naive-ui";
+import {ElButton} from "element-plus";
 import {useDyForm, useReactiveForm} from "dynamicformdjx";
-import {type naiDynamicFormRef, NaiDynamicForm, renderInput, renderRadioGroup} from "dynamicformdjx/naiveUi";
+import {type eleDynamicFormRef, renderInput, renderRadioGroup, EleDynamicForm} from "dynamicformdjx/elementPlus";
 import type {PresetType} from "dynamicformdjx/types/index";
 import {alertResult} from "../utils/link";
 
@@ -11,7 +11,7 @@ type FormRow = {
   password: string
   preset: PresetType
 }
-const naiDynamicFormRef = ref<naiDynamicFormRef | null>(null)
+const eleDynamicFormRef = ref<eleDynamicFormRef | null>(null)
 const presetType = ref<PresetType>('fullRow')
 const formItems = useReactiveForm<FormRow>([
   {
@@ -22,7 +22,7 @@ const formItems = useReactiveForm<FormRow>([
     placeholder: '请输入姓名',
     required: true, // 是否必填 (简化rules规则)
     render2: f => renderInput(f.value, {}, f),
-    span: 6
+    span: 8
   },
   {
     key: "password",
@@ -32,10 +32,10 @@ const formItems = useReactiveForm<FormRow>([
     type: 'password',
     required: true,
     placeholder: '请输入密码',
-    render2: f => renderInput(f.value, {showPasswordOn: 'click'}, f),
+    render2: f => renderInput(f.value, {showPassword: true}, f),
     span: 8,
     offset: 2,
-    requiredHint:l=>`${l} is not empty`
+    requiredHint: l => `${l} is not empty`
   },
   {
     key: "preset",
@@ -52,17 +52,17 @@ const formItems = useReactiveForm<FormRow>([
 ])
 const useForm = useDyForm<FormRow>(formItems)
 const getData = () => {
-  const res = naiDynamicFormRef.value?.getResult?.()
+  const res = eleDynamicFormRef.value?.getResult?.()
   alertResult(res)
 }
-const resetData = () => naiDynamicFormRef.value?.reset?.()
+const resetData = () => eleDynamicFormRef.value?.reset?.()
 const setData = () => useForm.setValues({
-    username: 'naive-ui',
-    password: '520'})
-
+  username: 'element-plus',
+  password: '520'
+})
 const validatorData = () => {
   // 校验
-  naiDynamicFormRef.value?.validator().then(data => {
+  eleDynamicFormRef.value?.validator().then(data => {
     alertResult(data)
   }).catch(err => {
     console.log(err)
@@ -71,26 +71,27 @@ const validatorData = () => {
 </script>
 
 <template>
-  <NaiDynamicForm :items="formItems" ref="naiDynamicFormRef" :preset="presetType">
+  <EleDynamicForm :items="formItems" ref="eleDynamicFormRef" :preset="presetType">
     <template #header>
-      <h3>与Naive ui结合简单表单</h3>
+      <h3>与Element plus结合简单表单</h3>
     </template>
     <template #footer>
       <div class="control">
-        <n-button @click="getData" type="success" size="small">get Data</n-button>
-        <n-button @click="setData" type="warning" size="small">set Data</n-button>
-        <n-button @click="validatorData" type="default" size="small">validate Data</n-button>
-        <n-button @click="resetData" type="error" size="small">reset Data</n-button>
+        <el-button @click="getData" type="success" size="small">get Data</el-button>
+        <el-button @click="setData" type="warning" size="small">set Data</el-button>
+        <el-button @click="validatorData" type="default" size="small">validate Data</el-button>
+        <el-button @click="resetData" type="danger" size="small">reset Data</el-button>
       </div>
     </template>
-  </NaiDynamicForm>
+  </EleDynamicForm>
 </template>
 
 <style scoped>
-h3{
+h3 {
   text-align: center;
-  margin:0 0 10px 0;
+  margin: 0 0 10px 0;
 }
+
 .control {
   display: flex;
   gap: 5px;

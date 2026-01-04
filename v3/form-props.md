@@ -1,5 +1,5 @@
 DynamicForm 参数说明
-## Props
+## NaiDynamicForm Props
 
 | 属性名        | 说明                                                            | 类型                    | 默认值                                                                       | 必填 |
 |------------|---------------------------------------------------------------|-----------------------|---------------------------------------------------------------------------|----|
@@ -8,6 +8,16 @@ DynamicForm 参数说明
 | rules      | 额外传入的表单校验规则（会与 items 内置规则合并）                                  | `FormRules`           | `—`                                                                       | 否  |
 | preset     | 渲染布局模式：`fullRow` 为普通纵向表单；`grid` 为栅格布局（配合 `gridConfig`）        | `'fullRow' \| 'grid'` | `'fullRow'`                                                               | 否  |
 | items      | 动态表单项配置数组（每项为一个 `DyFormItem`）                                 | `DyFormItem[]`        | `—`                                                                       | 是  |
+
+## EleDynamicForm Props
+
+| 属性名        | 说明                                                              | 类型                    | 默认值                                                                       | 必填 |
+|------------|-----------------------------------------------------------------|-----------------------|---------------------------------------------------------------------------|----|
+| formConfig | element plus `ElForm` 配置（如 labelPosition / size / labelWidth 等） | `FormProps`           | `{labelPosition: 'left', size: 'default'}`                              | 否  |
+| rowConfig | `preset="grid"` 时使用的 `RowProps` 配置（如 justify / align / gutter 等）   | `RowProps`           | `{gutter: 10, justify: 'start', align: 'top'}` | 否  |
+| rules      | 额外传入的表单校验规则（会与 items 内置规则合并）                                    | `FormRules`           | `—`                                                                       | 否  |
+| preset     | 渲染布局模式：`fullRow` 为普通纵向表单；`grid` 为栅格布局（配合 `gridConfig`）          | `'fullRow' \| 'grid'` | `'fullRow'`                                                               | 否  |
+| items      | 动态表单项配置数组（每项为一个 `DyFormItem`）                                   | `DyFormItem[]`        | `—`                                                                       | 是  |
 
 ::: tip preset 校验
 `preset` 仅允许 `'fullRow'` 或 `'grid'`，否则会在控制台输出错误提示，并返回 `false`。

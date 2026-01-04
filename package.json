@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "dynamicformdjx": "^0.4.1",
+    "element-plus": "^2.13.0",
     "naive-ui": "^2.43.2"
   }
 }

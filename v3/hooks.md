@@ -1,5 +1,7 @@
 # Hooks
+
 提供useReactiveForm与useDyForm,用于快速修改输入值及其表单状态
+
 ## 1. useReactiveForm
 
 用于把 `DyFormItem[]` 统一做 `shallowReactive` 包装
@@ -8,15 +10,15 @@
 
 ```ts
 export function useReactiveForm<T extends Record<string, any>, U = any>(
-  items: DyFormItem<T, U>[],
-  isDecorate: boolean = true
+    items: DyFormItem<T, U>[],
+    isReactive: boolean = true
 ): DyFormItem<T, U>[]
 ```
 
 ### 参数
 
 - `items`：表单项数组（每项是 `DyFormItem`）
-- `isDecorate`：是否包装为 `shallowReactive`（默认 `true`；传 `false` 原样返回）
+- `isReactive`：是否包装为 `shallowReactive`（默认 `true`；传 `false` 原样返回）
 
 ### 示例
 
@@ -24,20 +26,20 @@ export function useReactiveForm<T extends Record<string, any>, U = any>(
 type FormRow = { username: string; password: string }
 
 const formItems = useReactiveForm<FormRow>([
-  {
-    key: "username",
-    label: "姓名",
-    value: ref<string | null>(null),
-    required: true,
-    render2: f => renderInput(f.value, {}, f),
-  },
-  {
-    key: "password",
-    label: "密码",
-    value: ref<string | null>(null),
-    required: true,
-    render2: f => renderInput(f.value, { showPasswordOn: "click" }, f),
-  },
+    {
+        key: "username",
+        label: "姓名",
+        value: ref<string | null>(null),
+        required: true,
+        render2: f => renderInput(f.value, {}, f),
+    },
+    {
+        key: "password",
+        label: "密码",
+        value: ref<string | null>(null),
+        required: true,
+        render2: f => renderInput(f.value, {showPasswordOn: "click"}, f),
+    },
 ])
 ```
 
@@ -53,7 +55,7 @@ const formItems = useReactiveForm<FormRow>([
 
 ```ts
 export function useDyForm<Row extends Record<string, any>>(
-  items: DyFormItem<Row>[] | Ref<DyFormItem<Row>[]>
+    items: DyFormItem<Row>[] | Ref<DyFormItem<Row>[]>
 )
 ```
 
@@ -99,8 +101,8 @@ useForm.setHidden(false, ["username"])    // 显示 username
 useForm.setValue("username", "张三")
 
 useForm.setValues({
-  username: "naive-ui",
-  password: "520",
+    username: "naive-ui",
+    password: "520",
 })
 ```
 
@@ -116,4 +118,75 @@ const part = useForm.getValues(["username"])
 ```ts
 useForm.onReset()     // 全部置 null
 useForm.onReset("")   // 全部置空字符串
+```
+
+## 3. useDecorateForm
+
+简化render2函数，提供渲染类型，遍历去做处理，再`DyFormItem[]` 统一做 `shallowReactive` 包装
+> 请从你选择的ui库中导入，例如 import {useDecorateForm} from "dynamicformdjx/naiveUi";
+
+### 签名
+
+```ts
+// type
+type RenderType =
+    | "renderInput"
+    | "renderSelect"
+    | "renderPopSelect"
+    | "renderTreeSelect"
+    | "renderRadioGroup"
+    | "renderRadioButtonGroup"
+    | "renderCheckboxGroup"
+    | "renderSwitch"
+    | "renderDatePicker"
+    | "renderTimePicker"
+
+type DecorateDyFormItem<Row extends Record<string, any>, RuleT = any> =
+    Omit<DyFormItem<Row, RuleT>, "value"> & {
+    value: DyFormItem<Row, RuleT>["value"] | any | null
+    renderType?: RenderType
+    renderProps?: Record<string, any>
+}
+
+// function
+export function useDecorateForm<Row extends Record<string, any>, RuleT = any>(
+    items: DecorateDyFormItem<Row, RuleT>[],
+    isReactive = true
+): DyFormItem<T, U>[]
+```
+
+### 参数
+
+- `items`：表单项数组（每项是 `DecorateDyFormItem`）
+- `isReactive`：是否包装为 `shallowReactive`（默认 `true`；传 `false` 原样返回）
+
+### DecorateDyFormItem
+
+- `renderType`：渲染类型，renderForm里提供的("renderInput"| "renderSelect"| "renderPopSelect"| "renderTreeSelect"| "
+  renderRadioGroup"| "renderRadioButtonGroup"| "renderCheckboxGroup"| "renderSwitch"| "renderDatePicker"| "
+  renderTimePicker")
+- `renderProps`:渲染参数，传入renderType里支持的props，例如`renderInput`的showPasswordOn:'click'
+
+### 示例
+
+```ts
+type FormRow = { username: string; job: number }
+
+const formItems = useDecorateForm<FormRow>([
+    {
+        key: "username",
+        label: "姓名",
+        value: null,
+        required: true,
+        renderType: 'renderInput'
+    },
+    {
+        key: "job",
+        label: "职位",
+        value: null,
+        required: true,
+        options: ['前端', '后端'].map((label, value) => ({label, value})),
+        renderType: 'renderSelect'
+    },
+])
 ```

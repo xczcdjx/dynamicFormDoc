@@ -9,6 +9,11 @@ import NSimpleDyForm from "./components/naiveui/nSimpleDyForm.vue";
 import NCustomDyForm from "./components/naiveui/nCustomDyForm.vue";
 import NDecorateDyForm from "./components/naiveui/nDecorateDyForm.vue";
 import NDyForm from "./components/naiveui/nDyForm.vue";
+import EleBlock from "./components/EleBlock.vue";
+import ESimpleDyForm from "./components/elementPlus/eSimpleDyForm.vue";
+import ECustomDyForm from "./components/elementPlus/eCustomDyForm.vue";
+import EDecorateDyForm from "./components/elementPlus/eDecorateDyForm.vue";
+import EDyForm from "./components/elementPlus/eDyForm.vue";
 
 export default {
   extends: DefaultTheme,
@@ -21,9 +26,14 @@ export default {
     // ...
     app.component('DemoBlock', BaseBlock)
     app.component('NaiBlock', NaiBlock)
+    app.component('EleBlock', EleBlock)
     app.component('NSimpleDyForm', NSimpleDyForm)
     app.component('NCustomDyForm', NCustomDyForm)
     app.component('NDecorateDyForm', NDecorateDyForm)
     app.component('NDyForm', NDyForm)
+    app.component('ESimpleDyForm', ESimpleDyForm)
+    app.component('ECustomDyForm', ECustomDyForm)
+    app.component('EDecorateDyForm', EDecorateDyForm)
+    app.component('EDyForm', EDyForm)
   }
 } satisfies Theme

@@ -50,6 +50,7 @@ export default defineConfig({
                             text: '通用',
                             items: [
                                 { text: 'Types', link: concatPath('v3', 'types') },
+                                { text: 'Render2', link: concatPath('v3', 'render2') },
                                 { text: 'Hooks', link: concatPath('v3', 'hooks') },
                             ]
                         }
