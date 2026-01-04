@@ -1,6 +1,6 @@
 # Hooks
 
-提供useReactiveForm与useDyForm,用于快速修改输入值及其表单状态
+提供useReactiveForm与useDyForm,useDecorateForm,用于快速修改输入值及其表单状态
 
 ## 1. useReactiveForm
 
@@ -51,7 +51,7 @@ const formItems = useReactiveForm<FormRow>([
 
 [//]: # (支持传数组或 `Ref`。)
 
-### 入口
+### 签名
 
 ```ts
 export function useDyForm<Row extends Record<string, any>>(
