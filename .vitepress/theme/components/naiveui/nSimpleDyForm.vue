@@ -5,18 +5,21 @@ import {useDyForm, useReactiveForm} from "dynamicformdjx";
 import {type naiDynamicFormRef, NaiDynamicForm, renderInput, renderRadioGroup} from "dynamicformdjx/naiveUi";
 import type {PresetType} from "dynamicformdjx/types/index";
 import {alertResult} from "../utils/link";
+import {useI18n} from "vue-i18n";
 
 type FormRow = {
   username: string
   password: string
   preset: PresetType
 }
+const {t}=useI18n()
 const naiDynamicFormRef = ref<naiDynamicFormRef | null>(null)
 const presetType = ref<PresetType>('fullRow')
+console.log(t('name'))
 const formItems = useReactiveForm<FormRow>([
   {
     key: "username",
-    label: "姓名",
+    label: t('name'),
     value: ref<string | null>(null),
     clearable: true,
     placeholder: '请输入姓名',
