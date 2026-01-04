@@ -145,7 +145,7 @@ export default defineConfig({
     vite: {
         ssr: {
             // 这里写你的库名
-            noExternal: ['dynamicformdjx','naive-ui', 'vueuc']
+            noExternal: ['dynamicformdjx','naive-ui','element-plus', 'vueuc']
         }
     },
     base: '/dynamicFormDoc/', // 仓库名
