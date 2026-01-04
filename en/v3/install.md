@@ -1,4 +1,5 @@
 # dynamicformdjx
+
 ## Install
 
 ```bash
@@ -10,12 +11,9 @@ yarn add dynamicformdjx
 pnpm add dynamicformdjx
 ```
 
-### Component Version Notes
-- **v0.2 and above**
-- Form fields are renamed to Input, Element Plus prefix shortened to Ele, Naive UI prefix shortened to Nai
-- Please import components using `DynamicInput`, `DynamicCascadeInput`, `EleDynamicInput`, `NaiDynamicInput`, etc.
+## Component Notes
 
-| Version Range | Import Components                 |
-| ------------- | --------------------------------- |
-| ≥ 0.2         | DynamicInput, DynamicCascadeInput |
-| < 0.2         | DynamicForm, DynamicCascadeForm   |
+- 1.The current version is 0.41. All adapters for forms used with Element Plus or Naive UI have been completed.
+- 2.The simple form, custom form, and decorated form modes are all supported.
+- 3.The documentation is still being improved. You can refer to the components in the source code to see detailed usage
+  examples
