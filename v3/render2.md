@@ -50,6 +50,7 @@ const r = [
 > 其中renderXxx最后一个参数传入当前渲染项f,会组合渲染项的简化内容，例如placeholder,filterable,clearable,disabled等
 ### 与下拉框，单选，复选框相关
 > 其中有 `renderSelect`,`renderPopSelect`,`renderTreeSelect`,`renderRadioGroup`,`renderRadioButtonGroup`,`renderCheckboxGroup`,都包含options,皆为renderXxx第二个参数传递
+
 ```ts
 const opts = Array.from({length: 5}).map((_, i) => `job_${i + 1}`)
 const r = [
@@ -68,3 +69,5 @@ const r = [
 > 1.其中options 你在 item项含options的可传入，renderXxx第二个参数也可传入，第三个optionProps也可传入
 
 > 2.优先级，函数传参 < item的options < optionProps
+
+**更多简化render函数等待后续更新**
