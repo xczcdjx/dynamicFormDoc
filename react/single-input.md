@@ -4,7 +4,7 @@ outline: deep
 
 # DynamicInput
 
-hello world
+动态录入
 
 ## 基本使用
 
@@ -54,8 +54,8 @@ export default App
 
 ### Function
 
-| 事件名        | 说明                 | 回调参数              | 必填 |
-|------------|--------------------|-------------------|----|
+| 事件名        | 说明                                      | 回调参数              | 必填 |
+|------------|-----------------------------------------|-------------------|----|
 | `onChange` | 当表单值变化时触发，返回新的模型值 (代替update:modelValue) | `(value: object)` | ✅  |
 
 [跳到 v3 Emits](../v3/single-input.html#emits)

@@ -3,7 +3,7 @@ outline: deep
 ---
 
 # DynamicInput
-hello world
+动态录入
 
 ## 基本使用
 
