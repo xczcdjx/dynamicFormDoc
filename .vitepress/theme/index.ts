@@ -16,6 +16,7 @@ import EDecorateDyForm from "./components/elementPlus/eDecorateDyForm.vue";
 import EDyForm from "./components/elementPlus/eDyForm.vue";
 import Layout from "./Layout.vue";
 import {i18n} from "./i18n";
+import PreviewBlock from "./components/PreviewBlock.vue";
 
 export default {
     extends: DefaultTheme,
@@ -27,6 +28,7 @@ export default {
         app.component('DemoBlock', BaseBlock)
         app.component('NaiBlock', NaiBlock)
         app.component('EleBlock', EleBlock)
+        app.component('PreviewBlock', PreviewBlock)
         app.component('NSimpleDyForm', NSimpleDyForm)
         app.component('NCustomDyForm', NCustomDyForm)
         app.component('NDecorateDyForm', NDecorateDyForm)
