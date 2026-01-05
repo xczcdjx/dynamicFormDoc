@@ -4,7 +4,7 @@ outline: deep
 
 # DynamicInput
 
-hello world
+Dynamic Input
 
 ## Basic Usage
 
@@ -38,6 +38,11 @@ function App() {
 export default App
 ```
 
+## Preview Demo
+<ClientOnly>
+<PreviewBlock url="https://5trqc7-6003.csb.app/"/>
+</ClientOnly>
+
 ## API
 
 > Prop definitions and exposed methods are consistent with the Vue 3 version
@@ -47,14 +52,15 @@ export default App
 ### Props
 
 | Name  | Description                                                                                    | Type     | Default | Required |
-| ----- | ---------------------------------------------------------------------------------------------- | -------- | ------- | -------- |
+|-------|------------------------------------------------------------------------------------------------|----------|---------|----------|
 | value | The form model value passed from the parent component and kept in sync (replaces `modelValue`) | `object` | -       | ✅        |
 
 [Go to v3 Props](/en/v3/single-input#props)
 
 ### Function
+
 | Name       | Description                                                                                           | Callback Params   | Required |
-| ---------- | ----------------------------------------------------------------------------------------------------- | ----------------- | -------- |
+|------------|-------------------------------------------------------------------------------------------------------|-------------------|----------|
 | `onChange` | Triggered when the form value changes, returns the updated model value (replaces `update:modelValue`) | `(value: object)` | ✅        |
 
 [Go to v3 Emits](/en/v3/single-input.html#emits)

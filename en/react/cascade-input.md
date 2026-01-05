@@ -3,7 +3,7 @@ outline: deep
 ---
 
 # DynamicCascadeInput
-hello world
+Dynamic Cascade input
 
 
 ## Basic Usage
@@ -42,6 +42,11 @@ const App=()=>{
 }
 export default App;
 ```
+## Preview Demo
+
+<ClientOnly>
+<PreviewBlock url="https://5trqc7-6003.csb.app/input-cascade"/>
+</ClientOnly>
 
 ## API
 
