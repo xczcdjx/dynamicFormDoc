@@ -3,20 +3,22 @@ outline: deep
 ---
 
 # DynamicInput
-hello world
+
+Dynamic input
 
 ## Basic Usage
 
 ```vue [JavaScript]
+
 <script>
   import {DynamicInput} from "dynamicformdjx-vue2";
 
   export default {
     name: 'App',
     components: {DynamicInput},
-    data(){
+    data() {
       return {
-        dyRef:null,
+        dyRef: null,
         obj: {
           a: 'Hello world',
           b: 1314,
@@ -25,7 +27,7 @@ hello world
       }
     },
     methods: {
-      setData(){
+      setData() {
         this.$refs.dyRef.onSet({test: "helloWorld"})
       }
     }
@@ -41,6 +43,12 @@ hello world
 </template>
 ```
 
+## Preview Demo
+
+<ClientOnly>
+<PreviewBlock url="https://5trqc7-6004.csb.app/#/"/>
+</ClientOnly>
+
 <script setup>
 import {useData, withBase} from 'vitepress'
 
@@ -49,13 +57,21 @@ const langPrefix = () => (localeIndex.value === 'en' ? '/en' : '')
 
 const goUrl = (hash) => withBase(`${langPrefix()}/v3/single-input${hash}`)
 </script>
+
 ## API
->  (Props and exposed methods are the same as the Vue 3 version)
+
+> (Props and exposed methods are the same as the Vue 3 version)
+
 ### Props
+
 <a :href="goUrl('#props')">Go to v3 Props</a>
+
 ### Emits
+
 <a :href="goUrl('#emits')">Go to Emits</a>
+
 ### Expose
+
 <a :href="goUrl('#expose')">Go to Expose</a>
 
 [//]: # (## Extra Use)

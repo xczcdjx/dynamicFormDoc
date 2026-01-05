@@ -3,21 +3,22 @@ outline: deep
 ---
 
 # DynamicCascadeInput
-hello world
 
+Dynamic cascade input
 
 ## Basic Usage
 
 ```vue [JavaScript]
+
 <script>
   import {DynamicCascadeInput} from "dynamicformdjx-vue2";
 
   export default {
     name: "App",
     components: {DynamicCascadeInput},
-    data(){
+    data() {
       return {
-        dyRef:null,
+        dyRef: null,
         obj: {
           a: {
             b: {
@@ -34,7 +35,7 @@ hello world
       }
     },
     methods: {
-      setData(){
+      setData() {
         this.$refs.dyRef.onSet({test: "helloWorld"})
       }
     }
@@ -50,6 +51,10 @@ hello world
 </template>
 ```
 
+## Preview Demo
+<ClientOnly>
+<PreviewBlock url="https://5trqc7-6004.csb.app/#/input-cascade"/>
+</ClientOnly>
 
 <script setup>
 import {useData, withBase} from 'vitepress'
@@ -59,13 +64,21 @@ const langPrefix = () => (localeIndex.value === 'en' ? '/en' : '')
 
 const goUrl = (hash) => withBase(`${langPrefix()}/v3/cascade-input${hash}`)
 </script>
+
 ## API
->  (Props and exposed methods are the same as the Vue 3 version)
+
+> (Props and exposed methods are the same as the Vue 3 version)
+
 ### Props
+
 <a :href="goUrl('#props')">Go to v3 Props</a>
+
 ### Emits
+
 <a :href="goUrl('#emits')">Go to Emits</a>
+
 ### Expose
+
 <a :href="goUrl('#expose')">Go to Expose</a>
 
 [//]: # (## Extra Use)
