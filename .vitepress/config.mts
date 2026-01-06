@@ -12,7 +12,11 @@ export default defineConfig({
     themeConfig: {
         socialLinks: [
             {icon: 'github', link: 'https://github.com/xczcdjx/dynamicForm'}
-        ]
+        ],
+        footer: {
+            message: 'Built with <a href="https://vitepress.dev/" target="_blank">VitePress</a>',
+            copyright: 'Copyright © 2026 <a href="https://github.com/xczcdjx" target="_blank">xczcdjx</a>'
+        }
     },
     // 多语言路由
     locales: {

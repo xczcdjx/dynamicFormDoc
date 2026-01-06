@@ -137,3 +137,58 @@
   --docsearch-primary-color: var(--vp-c-brand-1) !important;
 }
 
+/* 左上角：Logo + 标题整体 */
+.VPNavBarTitle {
+  gap: 10px;               /* 图标和文字间距 */
+}
+
+/* 左上角 Logo 图片 */
+.VPNavBarTitle .logo {
+  height: 28px;            /* 控制大小 */
+  width: 28px;
+  border-radius: 8px;      /* 圆角 */
+  /* 如果你想圆形：border-radius: 999px; */
+  box-shadow: 0 2px 10px rgba(0,0,0,.12);
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+
+/* hover 动效 */
+.VPNavBarTitle:hover .logo {
+  transform: translateY(-1px) scale(1.04);
+  box-shadow: 0 6px 18px rgba(0,0,0,.18);
+}
+
+/* 左上角标题文字 */
+.VPNavBarTitle .title {
+  font-weight: 700;
+  letter-spacing: .2px;
+  font-size: 16px;
+}
+
+/* 渐变标题 + 左右流动动画 */
+.VPNavBarTitle .title {
+  background: linear-gradient(90deg, #7c3aed, #06b6d4, #7c3aed);
+  background-size: 200% 100%;
+  background-position: 0% 50%;
+
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+
+  animation: vp-gradient-shift 3s ease-in-out infinite;
+}
+
+@keyframes vp-gradient-shift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* 尊重“减少动态效果” */
+@media (prefers-reduced-motion: reduce) {
+  .VPNavBarTitle .title {
+    animation: none !important;
+  }
+}
+
+
