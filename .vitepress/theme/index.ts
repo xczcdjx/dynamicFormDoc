@@ -17,6 +17,8 @@ import EDyForm from "./components/elementPlus/eDyForm.vue";
 import Layout from "./Layout.vue";
 import {i18n} from "./i18n";
 import PreviewBlock from "./components/PreviewBlock.vue";
+import SimpleInput from "./components/input/simpleInput.vue";
+import SimpleSlotInput from "./components/input/simpleSlotInput.vue";
 
 export default {
     extends: DefaultTheme,
@@ -37,5 +39,7 @@ export default {
         app.component('ECustomDyForm', ECustomDyForm)
         app.component('EDecorateDyForm', EDecorateDyForm)
         app.component('EDyForm', EDyForm)
+        app.component('SimpleInput', SimpleInput)
+        app.component('SimpleSlotInput', SimpleSlotInput)
     }
 } satisfies Theme

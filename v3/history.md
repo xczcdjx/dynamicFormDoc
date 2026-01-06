@@ -9,4 +9,4 @@ outline: deep
 ## 0.4.2
 1. `BaseDyFormItem`中label改为非必传 
 2. `elementPlus` 版本`renderForm`中类型调整
-3. 动态录入`DyConfig`中新增`hideArrayBtn`,`hideNumberBtn`,可隐藏表单项的强制类型按钮
+3. 动态录入`DyConfig`中新增`hideArrayBtn`,`hideNumberBtn`,新增`newBtn`,`resetBtn`等文本插槽

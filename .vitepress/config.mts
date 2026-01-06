@@ -129,7 +129,11 @@ export default defineConfig({
                                 {text: 'Render2', link: concatPath('v3', 'render2', 'en')},
                                 {text: 'Hooks', link: concatPath('v3', 'hooks', 'en')},
                             ]
-                        }
+                        },
+                        {
+                            text: 'Version History',
+                            link: concatPath('v3', 'history'),
+                        },
                     ],
 
                     '/en/v2/': [
