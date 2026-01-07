@@ -1,7 +1,7 @@
 <script setup>
 import { computed, onMounted, ref, watch } from 'vue'
 import { useData } from 'vitepress'
-import { darkTheme,NConfigProvider } from 'naive-ui'
+import { darkTheme,NConfigProvider,NMessageProvider } from 'naive-ui'
 
 const { isDark } = useData()
 // 跟随 VitePress 的暗黑/明亮
@@ -50,6 +50,7 @@ onMounted(() => {
 </script>
 <template>
   <n-config-provider :theme="naiveTheme" :theme-overrides="themeOverrides">
+    <n-message-provider>
   <div class="demo-block">
     <!-- 效果区域 -->
     <div class="demo-preview">
@@ -60,6 +61,7 @@ onMounted(() => {
       <slot name="code" />
     </div>
   </div>
+    </n-message-provider>
   </n-config-provider>
 </template>
 

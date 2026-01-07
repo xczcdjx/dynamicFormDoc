@@ -19,6 +19,8 @@ import {i18n} from "./i18n";
 import PreviewBlock from "./components/PreviewBlock.vue";
 import SimpleInput from "./components/input/simpleInput.vue";
 import SimpleSlotInput from "./components/input/simpleSlotInput.vue";
+import NCommonZeal from "./components/naiveui/nCommonZeal.vue";
+import ECommonZeal from "./components/elementPlus/eCommonZeal.vue";
 
 export default {
     extends: DefaultTheme,
@@ -41,5 +43,7 @@ export default {
         app.component('EDyForm', EDyForm)
         app.component('SimpleInput', SimpleInput)
         app.component('SimpleSlotInput', SimpleSlotInput)
+        app.component('NCommonZeal', NCommonZeal)
+        app.component('ECommonZeal', ECommonZeal)
     }
 } satisfies Theme

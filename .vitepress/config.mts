@@ -52,6 +52,12 @@ export default defineConfig({
                             ]
                         },
                         {
+                            text: '综合使用',
+                            items: [
+                                {text: '简单使用', link: concatPath('v3', 'optimize/zeal')},
+                            ]
+                        },
+                        {
                             text: '通用',
                             items: [
                                 {text: 'Types', link: concatPath('v3', 'types')},
@@ -124,6 +130,12 @@ export default defineConfig({
                                 {text: 'With naive ui', link: concatPath('v3', 'dy-naiveUi-form', 'en')},
                                 {text: 'With element plus', link: concatPath('v3', 'dy-elementPlus-form', 'en')},
                                 {text: 'Props', link: concatPath('v3', 'form-props', 'en')},
+                            ]
+                        },
+                        {
+                            text: 'Comprehensive',
+                            items: [
+                                {text: 'Simplify', link: concatPath('v3', 'optimize/zeal','en')},
                             ]
                         },
                         {
