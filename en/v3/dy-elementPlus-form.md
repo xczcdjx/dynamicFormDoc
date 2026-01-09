@@ -380,10 +380,10 @@ Dynamic form
 ```vue [JavaScript]
 
 <script setup>
-  import { h, ref } from "vue"
-  import { ElButton, ElInput } from "element-plus"
-  import { useDyForm, useReactiveForm } from "dynamicformdjx"
-  import { EleDynamicForm, EleDynamicInput } from "dynamicformdjx/elementPlus"
+  import {h, ref} from "vue"
+  import {ElButton, ElInput} from "element-plus"
+  import {useDyForm, useReactiveForm} from "dynamicformdjx"
+  import {EleDynamicForm, EleDynamicInput} from "dynamicformdjx/elementPlus"
   import EInputTest from "./eInputTest.vue"
 
   const eleDynamicFormRef = ref(null)
@@ -398,7 +398,7 @@ Dynamic form
       placeholder: "请输入姓名",
       required: true,
       render2: (f) => {
-        const { value, ...restF } = f
+        const {value, ...restF} = f
         return h(ElInput, {
           ...restF,
           modelValue: f.value.value,
@@ -477,7 +477,7 @@ Dynamic form
 </script>
 
 <template>
-  <EleDynamicForm :items="formItems" ref="eleDynamicFormRef" />
+  <EleDynamicForm :items="formItems" ref="eleDynamicFormRef"/>
   <div class="control">
     <el-button @click="getData" type="success" size="small">get Data</el-button>
     <el-button @click="setData" type="warning" size="small">set Data</el-button>
@@ -503,6 +503,7 @@ Dynamic form
 </EleBlock>
 
 ## 3.Decorated form
+
 > (You can omit render2)
 
 <EleBlock>
@@ -511,6 +512,7 @@ Dynamic form
 ::: code-group
 
 ```vue [TypeScript]
+
 <script setup lang="ts">
   import {ref} from "vue";
   import {ElButton} from "element-plus";
@@ -597,11 +599,12 @@ Dynamic form
 ```
 
 ```vue [JavaScript]
+
 <script setup>
-  import { ref } from "vue"
-  import { ElButton } from "element-plus"
-  import { useDyForm } from "dynamicformdjx"
-  import { EleDynamicForm, useDecorateForm, renderDatePicker } from "dynamicformdjx/elementPlus"
+  import {ref} from "vue"
+  import {ElButton} from "element-plus"
+  import {useDyForm} from "dynamicformdjx"
+  import {EleDynamicForm, useDecorateForm, renderDatePicker} from "dynamicformdjx/elementPlus"
 
   const eleDynamicFormRef = ref(null)
 
@@ -624,14 +627,14 @@ Dynamic form
       label: "职位",
       value: null,
       clearable: true,
-      options: ["前端", "后端"].map((label, value) => ({ label, value })),
+      options: ["前端", "后端"].map((label, value) => ({label, value})),
       renderType: "renderSelect",
     },
     {
       key: "birthday",
       label: "生日",
       value: null,
-      render2: (f) => renderDatePicker(f.value, { type: "datetime" }, f),
+      render2: (f) => renderDatePicker(f.value, {type: "datetime"}, f),
     },
   ])
 
@@ -657,7 +660,7 @@ Dynamic form
 </script>
 
 <template>
-  <EleDynamicForm :items="formItems" ref="eleDynamicFormRef" />
+  <EleDynamicForm :items="formItems" ref="eleDynamicFormRef"/>
   <div class="control">
     <el-button @click="getData" type="success" size="small">get Data</el-button>
     <el-button @click="setData" type="warning" size="small">set Data</el-button>
@@ -683,6 +686,7 @@ Dynamic form
 </EleBlock>
 
 ## 4.Full form
+
 > All render2 functions are imported from "dynamicformdjx/naiveUi"
 
 <NaiBlock>
@@ -694,13 +698,15 @@ Dynamic form
 
 <script setup lang="ts">
   import {ref} from "vue";
-  import {ElButton} from "element-plus";
   import {useDyForm, useReactiveForm} from "dynamicformdjx";
   import {
     type eleDynamicFormRef, EleDynamicForm, renderInput, renderCheckboxGroup, renderDatePicker,
     renderPopSelect,
-    renderRadioButtonGroup, renderRadioGroup,
-    renderSelect, renderSwitch, renderTimePicker, renderTreeSelect
+    renderRadioGroup,
+    renderSelect, renderSwitch, renderTimePicker, renderTreeSelect, renderInputNumber,
+    renderDynamicTags,
+    renderCheckbox,
+    renderSlider
   } from "dynamicformdjx/elementPlus";
   import type {FormItemRule, FormRules} from "element-plus";
 
@@ -719,6 +725,10 @@ Dynamic form
     job: number
     job2: number
     job3: number
+    future: any[]
+    slider: number
+    checkbox: boolean
+    inputNumber: number
   }
   const rules: FormRules<FormRow> = {
     username: {
@@ -841,6 +851,49 @@ Dynamic form
       value: ref<Date>(new Date()),
       render2: f => renderTimePicker(f.value, {}, f),
     },
+    {
+      key: "future",
+      label: "未来",
+      labelField: 'label',
+      valueField: 'value',
+      value: ref([
+        {label: '你没见过不等于没有', value: 'hello world 1'},
+        {
+          label: '不要给自己设限',
+          value: 'hello world 2'
+        },
+        {
+          label: '不要说连升两级',
+          value: 'hello world 3'
+        },
+        {
+          label: '直接升到 CEO 都是有可能的',
+          value: 'hello world 4'
+        }
+      ]),
+      render2: f => {
+        const {value, ...restF} = f as any
+        return renderDynamicTags(f.value, {tagType: 'primary'}, restF)
+      }
+    },
+    {
+      key: "checkbox",
+      label: "复选",
+      value: ref<boolean | null>(null),
+      render2: f => renderCheckbox(f.value, {}, f),
+    },
+    {
+      key: "slider",
+      label: "滑块",
+      value: ref<number | number[]>(0),
+      render2: f => renderSlider(f.value, {}, f),
+    },
+    {
+      key: "inputNumber",
+      label: "滑块",
+      value: ref<number | null>(0),
+      render2: f => renderInputNumber(f.value, {}, f),
+    },
   ])
   const useForm = useDyForm<FormRow>(formItems)
   const getData = () => {
@@ -884,67 +937,217 @@ Dynamic form
 ```
 
 ```vue [JavaScript]
+
 <script setup>
-  import { ref } from "vue"
-  import { ElButton } from "element-plus"
-  import { useDyForm } from "dynamicformdjx"
-  import { EleDynamicForm, useDecorateForm, renderDatePicker } from "dynamicformdjx/elementPlus"
+  import {ref} from "vue";
+  import {useDyForm, useReactiveForm} from "dynamicformdjx";
+  import {
+    EleDynamicForm,
+    renderInput,
+    renderCheckboxGroup,
+    renderDatePicker,
+    renderPopSelect,
+    renderRadioGroup,
+    renderSelect,
+    renderSwitch,
+    renderTimePicker,
+    renderTreeSelect,
+    renderInputNumber,
+    renderDynamicTags,
+    renderCheckbox,
+    renderSlider
+  } from "dynamicformdjx/elementPlus";
 
+  const rules = {
+    username: {
+      required: true,
+      message: '请输入',
+      trigger: 'blur'
+    },
+  }
   const eleDynamicFormRef = ref(null)
-
-  const formItems = useDecorateForm([
+  const formItems = useReactiveForm([
+    {
+      key: "username",
+      label: "姓名",
+      value: ref(null),
+      clearable: true,
+      placeholder: '请输入姓名',
+      rule: {
+        required: true,
+      },
+      render2: f => renderInput(f.value, {}, f),
+    },
     {
       key: "password",
       label: "密码",
-      value: null,
+      value: ref(null),
       clearable: true,
-      placeholder: "请输入密码",
-      required: true,
-      type: "password",
-      renderType: "renderInput",
-      renderProps: {
-        showPassword: "click",
-      },
+      type: 'password',
+      placeholder: '请输入密码',
+      render2: f => renderInput(f.value, {showPassword: true,}, f),
+    },
+    {
+      key: "desc",
+      label: "介绍",
+      placeholder: "请输入介绍",
+      value: ref(null),
+      type: 'textarea',
+      rows: 3,
+      render2: f => renderInput(f.value, {}, f),
+    },
+    {
+      key: "sex",
+      label: "性别",
+      labelField: 'label1',
+      valueField: 'value1',
+      value: ref(null),
+      render2: f => renderRadioGroup(f.value, [
+        {label1: '男', value1: 0},
+        {label1: '女', value1: 1},
+      ], {}, f),
+    },
+    {
+      key: "favorite",
+      label: "爱好",
+      labelField: 'fl',
+      valueField: 'fv',
+      sort: 1,
+      options: [
+        {fl: '吃饭', fv: 0},
+        {fl: '睡觉', fv: 1},
+        {fl: '打豆豆', fv: 2},
+      ],
+      value: ref([]),
+      render2: f => renderCheckboxGroup(f.value, [], {}, f),
     },
     {
       key: "job",
       label: "职位",
-      value: null,
+      value: ref(null),
       clearable: true,
-      options: ["前端", "后端"].map((label, value) => ({ label, value })),
-      renderType: "renderSelect",
+      render2: f => renderSelect(f.value, ['前端', '后端'].map((label, value) => ({label, value})), {}, f),
+    },
+    {
+      key: "job2",
+      label: "职位2",
+      value: ref(null),
+      labelField: 'l',
+      valueField: 'v',
+      render2: f => renderPopSelect(f.value, ['Drive My Car', 'Norwegian Wood'].map((label, index) => ({
+        l: label,
+        v: label
+      })), {trigger: 'click'}, f),
+    },
+    {
+      key: "job3",
+      label: "职位3",
+      value: ref(null),
+      valueField: 'key',
+      render2: f => renderTreeSelect(f.value, [
+        {
+          label: 'Rubber Soul',
+          key: '1',
+          children: [
+            {
+              label: 'Everybody\'s Got Something to Hide Except Me and My Monkey',
+              key: '1-1'
+            },
+            {
+              label: 'Drive My Car',
+              key: '1-2',
+              disabled: true
+            },]
+        }
+      ], {}, f),
+    },
+    {
+      key: "admin",
+      label: "管理员？",
+      value: ref(null),
+      render2: f => renderSwitch(f.value, {}, f),
     },
     {
       key: "birthday",
       label: "生日",
-      value: null,
-      render2: (f) => renderDatePicker(f.value, { type: "datetime" }, f),
+      value: ref(new Date()),
+      render2: f => renderDatePicker(f.value, {type: 'datetime'}, f),
+    },
+    {
+      key: "birthdayT",
+      label: "时间",
+      value: ref(new Date()),
+      render2: f => renderTimePicker(f.value, {}, f),
+    },
+    {
+      key: "future",
+      label: "未来",
+      labelField: 'label',
+      valueField: 'value',
+      value: ref([
+        {label: '你没见过不等于没有', value: 'hello world 1'},
+        {
+          label: '不要给自己设限',
+          value: 'hello world 2'
+        },
+        {
+          label: '不要说连升两级',
+          value: 'hello world 3'
+        },
+        {
+          label: '直接升到 CEO 都是有可能的',
+          value: 'hello world 4'
+        }
+      ]),
+      render2: f => {
+        const {value, ...restF} = f
+        return renderDynamicTags(f.value, {tagType: 'primary'}, restF)
+      }
+    },
+    {
+      key: "checkbox",
+      label: "复选",
+      value: ref(null),
+      render2: f => renderCheckbox(f.value, {}, f),
+    },
+    {
+      key: "slider",
+      label: "滑块",
+      value: ref(0),
+      render2: f => renderSlider(f.value, {}, f),
+    },
+    {
+      key: "inputNumber",
+      label: "滑块",
+      value: ref(0),
+      render2: f => renderInputNumber(f.value, {}, f),
     },
   ])
-
   const useForm = useDyForm(formItems)
-
   const getData = () => {
-    const res = eleDynamicFormRef.value?.getResult?.()
-    console.log(res)
+    console.log(useForm.getValues())
   }
-
-  const resetData = () => eleDynamicFormRef.value?.reset?.()
-
-  const setData = () =>
-      useForm.setValues({
-        password: "element-plus",
-        job: 0,
-        birthday: new Date(),
-      })
-
+  const resetData = () => {
+    useForm.onReset()
+  }
+  const setData = () => {
+    useForm.setValues({
+      username: '1111',
+      password: '321321123'
+    })
+  }
   const validatorData = () => {
-    eleDynamicFormRef.value?.validator().then(console.log).catch(console.log)
+    // 校验
+    eleDynamicFormRef.value?.validator().then(data => {
+      console.log(data)
+    }).catch(err => {
+      console.log(err)
+    })
   }
 </script>
 
 <template>
-  <EleDynamicForm :items="formItems" ref="eleDynamicFormRef" />
+  <EleDynamicForm :items="formItems" ref="eleDynamicFormRef" :rules="rules"/>
   <div class="control">
     <el-button @click="getData" type="success" size="small">get Data</el-button>
     <el-button @click="setData" type="warning" size="small">set Data</el-button>
