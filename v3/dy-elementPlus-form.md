@@ -260,7 +260,7 @@
 <script setup lang="ts">
   import {h, ref} from "vue";
   import {ElButton, ElInput} from "element-plus";
-  import {useDyForm, useReactiveForm} from "dynamicformdjx";
+  import {useDyForm, useReactiveForm,OmitValue} from "dynamicformdjx";
   import {
     type eleDynamicFormRef,
     type eleDynamicInputRef,
@@ -285,15 +285,12 @@
       clearable: true,
       placeholder: '请输入姓名',
       required: true,
-      render2: f => {
-        const {value, ...restF} = f
-        return h(ElInput, {
-          ...restF,
-          modelValue: f.value.value, "onUpdate:modelValue"(v) {
-            f.value.value = v
-          }
-        })
-      },
+      render2: f => h(ElInput, {
+        ...OmitValue(f),
+        modelValue: f.value.value, "onUpdate:modelValue"(v) {
+          f.value.value = v
+        }
+      })
     },
     {
       key: "desc",
@@ -304,8 +301,8 @@
       required: true,
       type: 'textarea',
       render2: f => h(EInputTest, {
-        ...f,
-        value: f.value.value, "onUpdate:value"(v) {
+        ...OmitValue(f),
+        modelValue: f.value.value, "onUpdate:modelValue"(v) {
           f.value.value = v
         }
       }),
@@ -382,7 +379,7 @@
 <script setup>
   import { h, ref } from "vue"
   import { ElButton, ElInput } from "element-plus"
-  import { useDyForm, useReactiveForm } from "dynamicformdjx"
+  import { useDyForm, useReactiveForm,OmitValue } from "dynamicformdjx"
   import { EleDynamicForm, EleDynamicInput } from "dynamicformdjx/elementPlus"
   import EInputTest from "./eInputTest.vue"
 
@@ -396,17 +393,13 @@
       value: null,
       clearable: true,
       placeholder: "请输入姓名",
-      required: true,
-      render2: (f) => {
-        const { value, ...restF } = f
-        return h(ElInput, {
-          ...restF,
-          modelValue: f.value.value,
-          "onUpdate:modelValue"(v) {
-            f.value.value = v
-          },
-        })
-      },
+      required: true, 
+      render2: f => h(ElInput, {
+        ...OmitValue(f),
+        modelValue: f.value.value, "onUpdate:modelValue"(v) {
+          f.value.value = v
+        }
+      })
     },
     {
       key: "desc",
@@ -416,14 +409,12 @@
       placeholder: "请输入描述",
       required: true,
       type: "textarea",
-      render2: (f) =>
-          h(EInputTest, {
-            ...f,
-            value: f.value.value,
-            "onUpdate:value"(v) {
-              f.value.value = v
-            },
-          }),
+      render2: f => h(EInputTest, {
+        ...OmitValue(f),
+        modelValue: f.value.value, "onUpdate:modelValue"(v) {
+          f.value.value = v
+        }
+      }),
     },
     {
       key: "json",

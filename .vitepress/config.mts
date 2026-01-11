@@ -63,6 +63,7 @@ export default defineConfig({
                                 {text: 'Types', link: concatPath('v3', 'types')},
                                 {text: 'Render2', link: concatPath('v3', 'render2')},
                                 {text: 'Hooks', link: concatPath('v3', 'hooks')},
+                                {text: 'Function', link: concatPath('v3', 'function')},
                             ]
                         },
                         {
@@ -144,6 +145,7 @@ export default defineConfig({
                                 {text: 'Types', link: concatPath('v3', 'types', 'en')},
                                 {text: 'Render2', link: concatPath('v3', 'render2', 'en')},
                                 {text: 'Hooks', link: concatPath('v3', 'hooks', 'en')},
+                                {text: 'Function', link: concatPath('v3', 'function', 'en')},
                             ]
                         },
                         {

@@ -21,6 +21,8 @@ import SimpleInput from "./components/input/simpleInput.vue";
 import SimpleSlotInput from "./components/input/simpleSlotInput.vue";
 import NCommonZeal from "./components/naiveui/nCommonZeal.vue";
 import ECommonZeal from "./components/elementPlus/eCommonZeal.vue";
+import CascadeInput from "./components/input/cascadeInput.vue";
+import CascadeSlotInput from "./components/input/cascadeSlotInput.vue";
 
 export default {
     extends: DefaultTheme,
@@ -45,5 +47,7 @@ export default {
         app.component('SimpleSlotInput', SimpleSlotInput)
         app.component('NCommonZeal', NCommonZeal)
         app.component('ECommonZeal', ECommonZeal)
+        app.component('CascadeInput', CascadeInput)
+        app.component('CascadeSlotInput', CascadeSlotInput)
     }
 } satisfies Theme

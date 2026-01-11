@@ -1,8 +1,13 @@
 <script setup lang="ts">
 import {h, ref} from "vue";
 import {ElButton, ElInput} from "element-plus";
-import {useDyForm, useReactiveForm} from "dynamicformdjx";
-import {type eleDynamicFormRef, type eleDynamicInputRef, EleDynamicForm, EleDynamicInput} from "dynamicformdjx/elementPlus";
+import {OmitValue, useDyForm, useReactiveForm} from "dynamicformdjx";
+import {
+  type eleDynamicFormRef,
+  type eleDynamicInputRef,
+  EleDynamicForm,
+  EleDynamicInput
+} from "dynamicformdjx/elementPlus";
 import type {FormItemRule, FormRules} from "element-plus";
 import EInputTest from "../subside/eInputTest.vue";
 import {alertResult} from "../utils/link";
@@ -22,15 +27,12 @@ const formItems = useReactiveForm<FormRow, FormRules | FormItemRule>([
     clearable: true,
     placeholder: '请输入姓名',
     required: true,
-    render2: f => {
-      const {value, ...restF} = f
-      return h(ElInput, {
-        ...restF,
-        modelValue: f.value.value, "onUpdate:modelValue"(v) {
-          f.value.value = v
-        }
-      })
-    },
+    render2: f => h(ElInput, {
+      ...OmitValue(f),
+      modelValue: f.value.value, "onUpdate:modelValue"(v) {
+        f.value.value = v
+      }
+    })
   },
   {
     key: "desc",
@@ -41,8 +43,8 @@ const formItems = useReactiveForm<FormRow, FormRules | FormItemRule>([
     required: true,
     type: 'textarea',
     render2: f => h(EInputTest, {
-      ...f,
-      value: f.value.value, "onUpdate:value"(v) {
+      ...OmitValue(f),
+      modelValue: f.value.value, "onUpdate:modelValue"(v) {
         f.value.value = v
       }
     }),
