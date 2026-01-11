@@ -131,6 +131,9 @@ Cascade Dynamic Input
       <button @click="addItem" :disabled="!isLast">+</button>
       <button @click="removeItem">-</button>
     </template>
+    <template #newChild="{addChild,row}">
+      <button @click="addChild">+{{ row.key }}+</button>
+    </template>
   </DynamicInput>
 </template>
 <style scoped>
