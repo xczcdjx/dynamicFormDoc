@@ -40,6 +40,14 @@ const formItems = useReactiveForm<FormRow>([
         required: true,
         render2: f => renderInput(f.value, {showPasswordOn: "click"}, f),
     },
+    {
+        key: "sex",
+        label: "性别",
+        value: ref<number | null>(null),
+        render2: f => renderRadioGroup(f.value, [
+            {label: '男', value: 0}, {label: '女', value: 1},
+        ], {}, f),
+    },
 ])
 ```
 
@@ -65,9 +73,12 @@ export function useDyForm<Row extends Record<string, any>>(
 - `setHidden(hidden, keys?)`：批量隐藏/显示（不传 keys 则全量）
 - `setValue(key, value)`：设置单个字段值
 - `setValues(patch)`：批量设置字段值
-- `getValue(key)`：获取某个字段对应的 `DyFormItem` 本体
+- `getValue(key)`：获取字段对应值
 - `getValues(keys?)`：获取表单值（不传 keys 返回全部；传 keys 返回指定字段）
-- `onReset(value=null)`：把所有字段值重置为同一个值（默认 `null`）
+- `getItem(key)`：获取某个字段对应的 `DyFormItem` 本体
+- `setItem(key,{})`：设置指定字段不含value的其他值
+- `setItems([[key,{}]])`：批量设置指定字段不含value的其他值
+- `updateKeys([['username','name']])`：替换key
 
 ---
 
@@ -111,6 +122,7 @@ useForm.setValues({
 ```ts
 const all = useForm.getValues()
 const part = useForm.getValues(["username"])
+const part2 = useForm.getValue('username')
 ```
 
 #### 5. 重置
@@ -118,6 +130,24 @@ const part = useForm.getValues(["username"])
 ```ts
 useForm.onReset()     // 全部置 null
 useForm.onReset("")   // 全部置空字符串
+```
+
+#### 6. 修改其他值
+
+```ts
+useForm.setItem('username', {placeholder: '请输入username'}) // 修改placeholder
+useForm.setItems([
+    ['username', {placeholder: '请输入username'}],
+    ['password', {hidden: true}],
+]) // 修改`DyFormItem`除value其他值
+```
+
+#### 7. 修改key
+
+> 此方法直接修改key,容易混乱，谨慎使用
+
+```ts
+useForm.updateKeys([['sex', 'gender']])
 ```
 
 ## 3. useDecorateForm
@@ -140,6 +170,10 @@ type RenderType =
     | "renderSwitch"
     | "renderDatePicker"
     | "renderTimePicker"
+    | "renderCheckbox"
+    | "renderDynamicTags"
+    | "renderSlider"
+    | "renderInputNumber"
 
 type DecorateDyFormItem<Row extends Record<string, any>, RuleT = any> =
     Omit<DyFormItem<Row, RuleT>, "value"> & {
@@ -164,7 +198,7 @@ export function useDecorateForm<Row extends Record<string, any>, RuleT = any>(
 
 - `renderType`：渲染类型，renderForm里提供的("renderInput"| "renderSelect"| "renderPopSelect"| "renderTreeSelect"| "
   renderRadioGroup"| "renderRadioButtonGroup"| "renderCheckboxGroup"| "renderSwitch"| "renderDatePicker"| "
-  renderTimePicker")
+  renderTimePicker"| "renderCheckbox"| "renderDynamicTags"| "renderSlider"| "renderInputNumber")
 - `renderProps`:渲染参数，传入renderType里支持的props，例如`renderInput`的showPasswordOn:'click'
 
 ### 示例

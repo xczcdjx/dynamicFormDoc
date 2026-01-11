@@ -40,6 +40,14 @@ const formItems = useReactiveForm<FormRow>([
         required: true,
         render2: f => renderInput(f.value, {showPasswordOn: "click"}, f),
     },
+    {
+        key: "sex",
+        label: "Sex",
+        value: ref<number | null>(null),
+        render2: f => renderRadioGroup(f.value, [
+            {label: 'male', value: 0}, {label: 'female', value: 1},
+        ], {}, f),
+    },
 ])
 ```
 
@@ -68,6 +76,10 @@ export function useDyForm<Row extends Record<string, any>>(
 - `getValue(key)`：get the `DyFormItem` object for a given field
 - `getValues(keys?)`：get form values (if keys is omitted, returns all; otherwise returns specified fields)
 - `onReset(value=null)`：reset all field values to the same value (default `null`)
+- `getItem(key)`: Get the `DyFormItem` instance for the specified field.
+- `setItem(key, {})`: Set non-`value` properties for the specified field.
+- `setItems([[key, {}]])`: Batch set non-`value` properties for specified fields.
+- `updateKeys([['username', 'name']])`: Replace keys.
 
 ---
 
@@ -111,6 +123,7 @@ useForm.setValues({
 ```ts
 const all = useForm.getValues()
 const part = useForm.getValues(["username"])
+const part2 = useForm.getValue('username')
 ```
 
 #### 5. Reset
@@ -120,9 +133,28 @@ useForm.onReset()     // set all to null
 useForm.onReset("")   // set all to empty string
 ```
 
+#### 6. Modify other values
+
+```ts
+useForm.setItem('username', {placeholder: 'please input username'}) // modify placeholder
+useForm.setItems([
+    ['username', {placeholder: 'please input username'}],
+    ['password', {hidden: true}],
+]) // Modify all properties of `DyFormItem` except `value`.
+```
+
+#### 7. Modify key
+
+> This method modifies keys directly, which can easily cause confusion. Use with caution.
+
+```ts
+useForm.updateKeys([['sex', 'gender']])
+```
+
 ## 3. useDecorateForm
 
-Simplifies the render2 function by providing render types. It iterates and processes items, then wraps the `DyFormItem[]` with `shallowReactive` in a unified way.
+Simplifies the render2 function by providing render types. It iterates and processes items, then wraps the
+`DyFormItem[]` with `shallowReactive` in a unified way.
 > Import from the UI adapter you choose, for example: import { useDecorateForm } from "dynamicformdjx/naiveUi";
 
 ### Signature
@@ -162,7 +194,8 @@ export function useDecorateForm<Row extends Record<string, any>, RuleT = any>(
 
 ### DecorateDyFormItem
 
-- `renderType`：render type (from helpers provided in renderForm, e.g.("renderInput"| "renderSelect"| "renderPopSelect"| "renderTreeSelect"| "
+- `renderType`：render type (from helpers provided in renderForm, e.g.("renderInput"| "renderSelect"| "
+  renderPopSelect"| "renderTreeSelect"| "
   renderRadioGroup"| "renderRadioButtonGroup"| "renderCheckboxGroup"| "renderSwitch"| "renderDatePicker"| "
   renderTimePicker")
 - `renderProps`:render props passed to the selected renderType, e.g. showPasswordOn: "click" for `renderInput`

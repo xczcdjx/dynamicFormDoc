@@ -29,7 +29,7 @@ const r = [
 ## 使用renderForm提供的`renderXxx`
 > 目前提供有 "renderInput"| "renderSelect"| "renderPopSelect"| "renderTreeSelect"| "
 renderRadioGroup"| "renderRadioButtonGroup"| "renderCheckboxGroup"| "renderSwitch"| "renderDatePicker"| "
-renderTimePicker"
+renderTimePicker"| "renderCheckbox"| "renderDynamicTags"| "renderSlider"| "renderInputNumber"
 ```ts
 const r = [
     {

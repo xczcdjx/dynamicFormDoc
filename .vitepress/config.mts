@@ -135,7 +135,7 @@ export default defineConfig({
                         {
                             text: 'Comprehensive',
                             items: [
-                                {text: 'Simplify', link: concatPath('v3', 'optimize/zeal','en')},
+                                {text: 'Simplify', link: concatPath('v3', 'optimize/zeal', 'en')},
                             ]
                         },
                         {
@@ -148,7 +148,7 @@ export default defineConfig({
                         },
                         {
                             text: 'Version History',
-                            link: concatPath('v3', 'history'),
+                            link: concatPath('v3', 'history', 'en'),
                         },
                     ],
 
@@ -186,7 +186,7 @@ export default defineConfig({
     vite: {
         ssr: {
             // 这里写你的库名
-            noExternal: ['dynamicformdjx', 'naive-ui', 'element-plus', 'vueuc','vue-i18n']
+            noExternal: ['dynamicformdjx', 'naive-ui', 'element-plus', 'vueuc', 'vue-i18n']
         }
     },
     base: '/dynamicFormDoc/', // 仓库名
