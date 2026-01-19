@@ -1,9 +1,9 @@
 <script setup>
-import { computed, onMounted, ref, watch } from 'vue'
-import { useData } from 'vitepress'
-import { darkTheme,NConfigProvider,NMessageProvider } from 'naive-ui'
+import {computed, onMounted, ref, watch} from 'vue'
+import {useData} from 'vitepress'
+import {darkTheme, NConfigProvider, NMessageProvider} from 'naive-ui'
 
-const { isDark } = useData()
+const {isDark} = useData()
 // 跟随 VitePress 的暗黑/明亮
 const naiveTheme = computed(() => (isDark.value ? darkTheme : null))
 console.log(isDark.value)
@@ -40,6 +40,7 @@ function syncFromVitepressCssVars() {
     // Typography: { textColor: text1 }
   }
 }
+
 /*const alertResult = (data) => {
   window.alert(JSON.stringify(data,null,2))
 }*/
@@ -51,16 +52,18 @@ onMounted(() => {
 <template>
   <n-config-provider :theme="naiveTheme" :theme-overrides="themeOverrides">
     <n-message-provider>
-  <div class="demo-block">
-    <!-- 效果区域 -->
-    <div class="demo-preview">
-      <slot />
-    </div>
-    <!-- 代码区域 -->
-    <div class="demo-code">
-      <slot name="code" />
-    </div>
-  </div>
+      <n-modal-provider>
+        <div class="demo-block">
+          <!-- 效果区域 -->
+          <div class="demo-preview">
+            <slot/>
+          </div>
+          <!-- 代码区域 -->
+          <div class="demo-code">
+            <slot name="code"/>
+          </div>
+        </div>
+      </n-modal-provider>
     </n-message-provider>
   </n-config-provider>
 </template>

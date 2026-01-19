@@ -23,6 +23,8 @@ import NCommonZeal from "./components/naiveui/nCommonZeal.vue";
 import ECommonZeal from "./components/elementPlus/eCommonZeal.vue";
 import CascadeInput from "./components/input/cascadeInput.vue";
 import CascadeSlotInput from "./components/input/cascadeSlotInput.vue";
+import NZealTemplate from "./components/naiveui/nZealTemplate.vue";
+import EZealTemplate from "./components/elementPlus/eZealTemplate.vue";
 
 export default {
     extends: DefaultTheme,
@@ -49,5 +51,7 @@ export default {
         app.component('ECommonZeal', ECommonZeal)
         app.component('CascadeInput', CascadeInput)
         app.component('CascadeSlotInput', CascadeSlotInput)
+        app.component('NZealTemplate', NZealTemplate)
+        app.component('EZealTemplate', EZealTemplate)
     }
 } satisfies Theme

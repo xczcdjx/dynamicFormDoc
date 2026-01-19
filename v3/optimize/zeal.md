@@ -4,11 +4,16 @@ aside: false
 ---
 
 # 综合使用
+
 举例在CURD列表里简化使用操作
 > 此版本代码可能较多，包含类型，样式和分页处理，可按实际需求来
+
 ## 与naive ui table使用
+
 <NaiBlock>
 <template #code>
+<details>
+<summary>code</summary>
 
 ::: code-group
 
@@ -657,13 +662,17 @@ aside: false
 
 :::
 
+</details>
   </template>
 <NCommonZeal/>
 </NaiBlock>
 
 ## 与element plus table使用
+
 <EleBlock>
 <template #code>
+<details>
+<summary>code</summary>
 
 ::: code-group
 
@@ -938,10 +947,12 @@ aside: false
   .search {
     margin: 10px 0;
   }
-  .tableScroll{
+
+  .tableScroll {
     width: 100%;
     overflow-x: auto;
   }
+
   .pagination {
     display: flex;
     justify-content: center;
@@ -1261,6 +1272,7 @@ aside: false
 
 :::
 
+</details>
   </template>
 <ECommonZeal/>
 </EleBlock>

@@ -55,6 +55,7 @@ export default defineConfig({
                             text: '综合使用',
                             items: [
                                 {text: '简单使用', link: concatPath('v3', 'optimize/zeal')},
+                                {text: 'zeal template', link: concatPath('v3', 'optimize/zealTemplate')},
                             ]
                         },
                         {

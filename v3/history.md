@@ -4,9 +4,18 @@ outline: deep
 
 # 历史版本
 
-**当前版本 0.4.4**
+**当前版本 0.5.0**
 
 只展示历代版本更新内容，从0.4.1开始
+
+## 0.5.0
+
+1. `naive ui`,`elementPlus`新增`popupModal`模态框,通用布局`zealCard`界面
+2. 新增`ZealTablePaginationControl`和`ZealTableSearch`组件
+3. 新增`usePagination` hooks
+4. `elementPlus`新增`EleZealTable`表格封装，类似naive ui的data-table
+5. 提供通用curd模版
+6. 部分类型调整
 
 ## 0.4.4
 
