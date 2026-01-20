@@ -4,11 +4,17 @@ aside: false
 ---
 
 # Comprehensive Usage
+
 Example: simplify operations in a CRUD list.
-> This version may contain more code, including types, styles, and pagination handling. Adjust as needed in real projects.
+> This version may contain more code, including types, styles, and pagination handling. Adjust as needed in real
+> projects.
+
 ## With naive ui table
+
 <NaiBlock>
 <template #code>
+<details>
+<summary>code</summary>
 
 ::: code-group
 
@@ -657,13 +663,17 @@ Example: simplify operations in a CRUD list.
 
 :::
 
+</details>
   </template>
 <NCommonZeal/>
 </NaiBlock>
 
 ## With element plus table
+
 <EleBlock>
 <template #code>
+<details>
+<summary>code</summary>
 
 ::: code-group
 
@@ -938,10 +948,12 @@ Example: simplify operations in a CRUD list.
   .search {
     margin: 10px 0;
   }
-  .tableScroll{
+
+  .tableScroll {
     width: 100%;
     overflow-x: auto;
   }
+
   .pagination {
     display: flex;
     justify-content: center;
@@ -1261,10 +1273,12 @@ Example: simplify operations in a CRUD list.
 
 :::
 
+</details>
   </template>
 <ECommonZeal/>
 </EleBlock>
 
 ::: tip
-The example above shows how to use it in a simple create/read/update/delete workflow. A reusable fixed-layout UI component will be provided later to further simplify the template code, moving the data-driven logic into setup
+The example above shows how to use it in a simple create/read/update/delete workflow. A reusable fixed-layout UI
+component will be provided later to further simplify the template code, moving the data-driven logic into setup
 :::

@@ -4,9 +4,19 @@ outline: deep
 
 # Version History
 
-**Current version: 0.4.4**
+**Current version: 0.5.0**
 
 Only the changelog of all released versions is listed here, starting from 0.4.1.
+
+## 0.5.0
+
+1. Added a `popupModal` modal (dialog) component to both `naive-ui` and `Element Plus`, plus a common layout `zealCard`
+   view.
+2. Added `ZealTablePaginationControl` and `ZealTableSearch` components.
+3. Added the `usePagination` hook.
+4. Added `EleZealTable`, an `Element Plus` table wrapper similar to `naive-ui`’s `data-table`.
+5. Provided a reusable CRUD template.
+6. Adjusted (refined) some TypeScript types.
 
 ## 0.4.4
 

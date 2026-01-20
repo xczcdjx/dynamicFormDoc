@@ -191,4 +191,27 @@
   }
 }
 
+.vp-doc .n-data-table table {
+  display: table;
+  width: 100%;
+  margin: 0;
+}
 
+.vp-doc .n-data-table {
+  width: 100%;
+}
+
+.vp-doc .el-table table,
+.vp-doc .el-table :is(.el-table__header, .el-table__body) {
+  /*display: table;*/
+  width: 100%;
+  margin: 0;
+}
+
+.vp-doc .el-pagination .el-pager{
+  padding: 0;
+  margin: 0;
+}
+.vp-doc .el-pagination .el-pager li{
+  margin: 0;
+}

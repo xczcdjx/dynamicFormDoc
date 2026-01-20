@@ -82,7 +82,6 @@ onMounted(() => {
 
 .demo-preview {
   padding: 12px;
-  overflow: auto;
   border-top: 1px dashed var(--vp-c-divider);
 }
 </style>

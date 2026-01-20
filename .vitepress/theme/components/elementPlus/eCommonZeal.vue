@@ -45,8 +45,8 @@
 
         <el-table-column label="Action" width="180" fixed="right">
           <template #default="{ row }">
-              <el-button size="small" @click="upItem(row)">update</el-button>
-              <el-button size="small" type="danger" @click="delItem(row)">delete</el-button>
+            <el-button size="small" @click="upItem(row)">update</el-button>
+            <el-button size="small" type="danger" @click="delItem(row)">delete</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -81,7 +81,7 @@
 
 <script setup lang="ts">
 import {computed, nextTick, onMounted, reactive, ref} from 'vue'
-import {ElMessage,ElDialog,ElPagination,ElButton,ElTable,ElTableColumn,ElCard,ElTag} from 'element-plus'
+import {ElMessage, ElDialog, ElPagination, ElButton, ElTable, ElTableColumn, ElCard, ElTag} from 'element-plus'
 import {
   EleDynamicForm,
   type eleDynamicFormRef,
@@ -265,13 +265,12 @@ onMounted(fetchData)
 .search {
   margin: 10px 0;
 }
-.tableScroll{
+
+.tableScroll {
   width: 100%;
   overflow-x: auto;
 }
-.el-table:deep(table){
-  margin: 0;
-}
+
 .pagination {
   display: flex;
   justify-content: center;
