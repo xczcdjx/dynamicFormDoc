@@ -72,7 +72,7 @@
 | `onChange`         | `() => void` | 页码变化回调                              |
 | `onPageSizeChange` | `() => void` | 每页数量变化回调                            |
 
-## ZealColumn<T>
+## ZealColumn`<T>`
 
 EleZealTable 的列配置类型，用于描述每一列如何展示、对齐、宽度、排序、以及自定义渲染。
 

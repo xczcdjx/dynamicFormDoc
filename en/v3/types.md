@@ -54,6 +54,51 @@
 | multiple     | Whether multiple selection is enabled (commonly used for select-like components)                    | `boolean`                            | `false`                   | No       |
 
 ::: tip about RuleT
-`DyFormItem` uses the generic `RuleT` for its `rule` field to avoid binding the shared type definitions to a specific UI framework.
+`DyFormItem` uses the generic `RuleT` for its `rule` field to avoid binding the shared type definitions to a specific UI
+framework.
 For example, in the Naive UI module, you can bind `RuleT` to `FormItemRule \| FormItemRule[]`.
 :::
+
+
+---
+
+## ZealPagination
+
+Pagination hook parameters.
+
+| Field Name         | Type         | Description                                                          |
+|--------------------|--------------|----------------------------------------------------------------------|
+| `pageNo`           | `number`     | Current page number                                                  |
+| `pageSize`         | `number`     | Number of items per page                                             |
+| `total`            | `number`     | Total item count (mapped to `itemCount`)                             |
+| `pageSizes`        | `number[]`   | Available page size options                                          |
+| `pageSlot`         | `number`     | Number of page buttons to display (passed to `NPagination.pageSlot`) |
+| `showSizePicker`   | `boolean`    | Whether to display the page-size picker                              |
+| `onChange`         | `() => void` | Callback triggered when the page number changes                      |
+| `onPageSizeChange` | `() => void` | Callback triggered when the page size changes                        |
+
+---
+
+## ZealColumn `<T>`
+
+Column configuration type for **EleZealTable**, describing how each column is displayed, aligned, sized, sorted, and
+custom-rendered.
+
+| Field Name            | Description                                                      | Type                                              | Default     | Required |
+|-----------------------|------------------------------------------------------------------|---------------------------------------------------|-------------|----------|
+| `label`               | Column header text                                               | `string`                                          | `-`         | No       |
+| `prop`                | Row data field name (used for default rendering via `row[prop]`) | `keyof T`                                         | `-`         | No       |
+| `key`                 | Unique column key (generated from `prop` / `label` if omitted)   | `string`                                          | `-`         | No       |
+| `width`               | Column width                                                     | `string \| number`                                | `-`         | No       |
+| `minWidth`            | Minimum column width                                             | `string \| number`                                | `-`         | No       |
+| `type`                | Special column type (selection / index / expand)                 | `'default' \| 'selection' \| 'index' \| 'expand'` | `'default'` | No       |
+| `align`               | Column content alignment                                         | `'left' \| 'center' \| 'right'`                   | `-`         | No       |
+| `fixed`               | Fixed column                                                     | `boolean \| 'left' \| 'right'`                    | `-`         | No       |
+| `sortable`            | Whether the column is sortable (`'custom'` for custom sorting)   | `boolean \| 'custom'`                             | `-`         | No       |
+| `showOverflowTooltip` | Show tooltip when content overflows                              | `boolean`                                         | `-`         | No       |
+| `resizable`           | Whether the column width is resizable via drag                   | `boolean`                                         | `-`         | No       |
+| `render2`             | Custom cell renderer (highest priority)                          | `(row: T, $index: number) => VNode`               | `-`         | No       |
+| `slot`                | Named cell slot key (used to match component slots)              | `string`                                          | `-`         | No       |
+
+---
+
