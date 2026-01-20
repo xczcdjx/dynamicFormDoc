@@ -56,3 +56,39 @@
 `DyFormItem` 的 `rule` 使用泛型 `RuleT` 以避免在通用类型文件中绑定某个 UI 框架。  
 例如在 Naive UI 模块中可以把 `RuleT` 绑定为 `FormItemRule \| FormItemRule[]`。
 :::
+
+## ZealPagination
+
+分页hooks参数
+
+| 字段                 | 类型           | 说明                                  |
+|--------------------|--------------|-------------------------------------|
+| `pageNo`           | `number`     | 当前页码                                |
+| `pageSize`         | `number`     | 每页数量                                |
+| `total`            | `number`     | 总条数（映射到 `itemCount`）                |
+| `pageSizes`        | `number[]`   | 可选每页条数                              |
+| `pageSlot`         | `number`     | 页码按钮展示数量（传给 `NPagination.pageSlot`） |
+| `showSizePicker`   | `boolean`    | 是否显示 size picker                    |
+| `onChange`         | `() => void` | 页码变化回调                              |
+| `onPageSizeChange` | `() => void` | 每页数量变化回调                            |
+
+## ZealColumn<T>
+
+EleZealTable 的列配置类型，用于描述每一列如何展示、对齐、宽度、排序、以及自定义渲染。
+
+| 字段                    | 说明                            | 类型                                                | 默认值         | 必填 |
+|-----------------------|-------------------------------|---------------------------------------------------|-------------|----|
+| `label`               | 列标题                           | `string`                                          | `-`         | 否  |
+| `prop`                | 行数据字段名（用于默认显示 `row[prop]`）    | `keyof T`                                         | `-`         | 否  |
+| `key`                 | 列唯一 key（不传会用 `prop/label` 生成） | `string`                                          | `-`         | 否  |
+| `width`               | 列宽                            | `string \| number`                                | `-`         | 否  |
+| `minWidth`            | 最小列宽                          | `string \| number`                                | `-`         | 否  |
+| `type`                | 特殊列类型（选择/序号/展开）               | `'default' \| 'selection' \| 'index' \| 'expand'` | `'default'` | 否  |
+| `align`               | 列内容对齐                         | `'left' \| 'center' \| 'right'`                   | `-`         | 否  |
+| `fixed`               | 固定列                           | `boolean \| 'left' \| 'right'`                    | `-`         | 否  |
+| `sortable`            | 是否排序（`'custom'` 为自定义排序）       | `boolean \| 'custom'`                             | `-`         | 否  |
+| `showOverflowTooltip` | 内容溢出时显示 tooltip               | `boolean`                                         | `-`         | 否  |
+| `resizable`           | 列宽可拖拽调整                       | `boolean`                                         | `-`         | 否  |
+| `render2`             | 自定义单元格渲染（优先级最高）               | `(row: T, $index: number) => VNode`               | `-`         | 否  |
+| `slot`                | 指定具名单元格插槽 key（用于匹配组件 slots）   | `string`                                          | `-`         | 否  |
+

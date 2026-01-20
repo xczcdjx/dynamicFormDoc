@@ -25,6 +25,12 @@ import CascadeInput from "./components/input/cascadeInput.vue";
 import CascadeSlotInput from "./components/input/cascadeSlotInput.vue";
 import NZealTemplate from "./components/naiveui/nZealTemplate.vue";
 import EZealTemplate from "./components/elementPlus/eZealTemplate.vue";
+import {ElLoading} from "element-plus";
+import PopupModal from "./components/toolTest/popupModal.vue";
+import ZealCard from "./components/toolTest/zealCard.vue";
+import ZealTableSearch from "./components/toolTest/zealTableSearch.vue";
+import ZealPagination from "./components/toolTest/zealPagination.vue";
+import EleZealTableTest from "./components/toolTest/eleZealTableTest.vue";
 
 export default {
     extends: DefaultTheme,
@@ -32,6 +38,7 @@ export default {
     enhanceApp({app, router, siteData}) {
         // i18n
         app.use(i18n)
+        app.directive('loading',ElLoading.directive)
         // ...
         app.component('DemoBlock', BaseBlock)
         app.component('NaiBlock', NaiBlock)
@@ -53,5 +60,10 @@ export default {
         app.component('CascadeSlotInput', CascadeSlotInput)
         app.component('NZealTemplate', NZealTemplate)
         app.component('EZealTemplate', EZealTemplate)
+        app.component('PopupModal', PopupModal)
+        app.component('ZealCard', ZealCard)
+        app.component('ZealTableSearch', ZealTableSearch)
+        app.component('ZealPagination', ZealPagination)
+        app.component('EleZealTableTest', EleZealTableTest)
     }
 } satisfies Theme

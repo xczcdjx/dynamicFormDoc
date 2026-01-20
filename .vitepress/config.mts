@@ -56,6 +56,7 @@ export default defineConfig({
                             items: [
                                 {text: '简单使用', link: concatPath('v3', 'optimize/zeal')},
                                 {text: 'Zeal 模版', link: concatPath('v3', 'optimize/zealTemplate')},
+                                {text: 'Zeal 组件', link: concatPath('v3', 'optimize/zealComponents')},
                             ]
                         },
                         {
@@ -139,6 +140,7 @@ export default defineConfig({
                             items: [
                                 {text: 'Simplify', link: concatPath('v3', 'optimize/zeal', 'en')},
                                 {text: 'Zeal template', link: concatPath('v3', 'optimize/zealTemplate', 'en')},
+                                {text: 'Zeal components', link: concatPath('v3', 'optimize/zealComponents', 'en')},
                             ]
                         },
                         {
