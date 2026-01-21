@@ -1,16 +1,17 @@
+---
+outline: deep
+---
 # Function
 
 > 全局导出函数
 
-````md
-## 工具函数说明（中文）
 
 本模块提供一组通用工具方法：用于把对象转换成可编辑的行数据、将行数据还原为对象、解析/格式化数字输入（支持数组形式）、根据层级深度生成稳定颜色、确保值为
 Vue `Ref`、以及从 `DyFormItem` 中剔除 `value`（并可额外剔除指定字段）。
 
 ---
 
-### `tranArr(obj, arrayFun, splitSymbol)`
+## `tranArr(obj, arrayFun, splitSymbol)`
 
 将普通对象转换为 `DyCFormItem[]`（适合渲染为“可编辑键值对列表”）。
 
@@ -36,9 +37,9 @@ Vue `Ref`、以及从 `DyFormItem` 中剔除 `value`（并可额外剔除指定�
 **示例**
 
 ```ts
-const obj = { a: 1, b: [1, 2, 3], c: ["x", "y"] }
+const obj = {a: 1, b: [1, 2, 3], c: ["x", "y"]}
 const rows = tranArr(obj, (i) => `id-${i}`, ",")
-````
+```
 
 ---
 
@@ -277,6 +278,124 @@ const b = OmitValue(item, ["required"] as const)
 
 ---
 
+## Debounce(func, delay?)
+
+创建一个防抖函数：在连续触发时不断重置计时器，只有停止触发并等待 `delay` 毫秒后才会执行 `func`（**尾触发**）。
+
+* 每次调用都会清除上一次的定时器并重新计时。
+* `delay` 默认 `500ms`。
+* 只保留最后一次调用的参数。
+* 注意：该实现不会保留 `this` 上下文（内部直接 `func(...args)` 调用）。
+
+### 函数签名
+
+* `Debounce<T extends (...args: any[]) => void>(func: T, delay: number = 500): (...args: Parameters<T>) => void`
+
+### 参数
+
+* `func`：需要防抖执行的函数。
+* `delay`：延迟时间（毫秒），默认 `500`。
+
+### 返回值
+
+* 一个新的函数；调用它会触发防抖逻辑，最终在延迟结束后执行 `func`。
+
+### 示例
+
+```ts
+const onResize = Debounce(() => {
+    console.log("resize done");
+}, 300);
+
+window.addEventListener("resize", onResize);
+```
+
+```ts
+const save = (id: string) => console.log("save", id);
+const saveDebounced = Debounce(save); // 默认 500ms
+
+saveDebounced("a");
+saveDebounced("b"); // 最终只会输出：save b
+```
+
+---
+
+## getPadY(el)
+
+获取元素的**垂直方向 padding 总和**（`padding-top + padding-bottom`），单位为像素数值。
+
+* `el` 为 `null` 时返回 `0`。
+* 通过 `getComputedStyle` 读取样式并 `parseFloat` 转成数字。
+
+### 函数签名
+
+* `getPadY(el: HTMLElement | null): number`
+
+### 参数
+
+* `el`：目标元素（允许为 `null`）。
+
+### 返回值
+
+* `number`：`paddingTop + paddingBottom` 的数值和（px）。
+
+### 示例
+
+```ts
+const el = document.querySelector<HTMLElement>(".panel");
+const padY = getPadY(el);
+console.log(padY); // 例如：24
+```
+
+```ts
+console.log(getPadY(null)); // 0
+```
+
+---
+
+## unwrapObj(obj)
+
+将对象中每个属性值执行一次 `unref`，把 Vue 的 `ref/computed` 等“可解包值”转换为其内部值，返回一个新的普通对象（**浅层解包
+**）。
+
+* 仅对第一层属性做 `unref`，不会深度递归。
+* 使用 `Object.entries`：只处理可枚举的字符串键；会丢失原型/方法（返回的是普通对象）。
+
+### 函数签名
+
+* `unwrapObj<T extends Record<string, any>>(obj: T): { [K in keyof T]: T[K] extends { value: infer V } ? V : T[K] }`
+
+### 参数
+
+* `obj`：任意对象；属性值可以是普通值或 Vue `ref/computed` 等。
+
+### 返回值
+
+* 一个新对象：键不变，值为 `unref` 后的结果。
+
+### 示例
+
+```ts
+import {ref, computed} from "vue";
+
+const state = {
+    a: ref(1),
+    b: "x",
+    c: computed(() => 42),
+};
+
+const plain = unwrapObj(state);
+// plain: { a: 1, b: "x", c: 42 }
+```
+
+```ts
+import {ref} from "vue";
+
+const nested = {x: ref({y: ref(2)})};
+const plain = unwrapObj(nested);
+// plain.x 是 { y: Ref<number> }（只解包一层，不会把 y 也解包）
+```
+
 ## 导出列表
 
 * `tranArr`
@@ -287,3 +406,6 @@ const b = OmitValue(item, ["required"] as const)
 * `saferRepairColor`
 * `ensureRef`
 * `OmitValue`
+* `Debounce`
+* `getPadY`
+* `unwrapObj`

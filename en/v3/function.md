@@ -1,9 +1,10 @@
-# Function
+---
+outline: deep
+---
 
+# Function
 > global export function
 
-````md
-## Utility Functions
 
 This module provides a set of helpers for transforming form-like objects into editable row data, restoring them back to
 plain objects, parsing/formatting numeric input (including array values), generating safe colors for nested depth UI,
@@ -11,7 +12,7 @@ normalizing values into Vue refs, and omitting `value` (and additional keys) fro
 
 ---
 
-### `tranArr(obj, arrayFun, splitSymbol)`
+## `tranArr(obj, arrayFun, splitSymbol)`
 
 Transform a plain object into an array of `DyCFormItem` rows.
 
@@ -36,14 +37,14 @@ Transform a plain object into an array of `DyCFormItem` rows.
 **Example**
 
 ```ts
-const obj = { a: 1, b: [1, 2, 3], c: ["x", "y"] }
+const obj = {a: 1, b: [1, 2, 3], c: ["x", "y"]}
 const rows = tranArr(obj, (i) => `id-${i}`, ",")
 // rows: [
 //   { rId:'id-0', key:'a', value:1, isNumber:true },
 //   { rId:'id-1', key:'b', value:'1,2,3', isArray:true, isNumber:true },
 //   { rId:'id-2', key:'c', value:'x,y', isArray:true }
 // ]
-````
+```
 
 ---
 
@@ -278,6 +279,126 @@ const b = OmitValue(item, ["required"] as const)
 // { key:"age", label:"Age" }
 ```
 
+## Debounce(func, delay?)
+
+Creates a debounced function: when called repeatedly, it keeps resetting a timer and only runs `func` after no calls
+occur for `delay` milliseconds (**trailing edge**).
+
+* Each call clears the previous timer and starts a new one.
+* `delay` defaults to `500ms`.
+* Only the arguments from the last call are used.
+* Note: this implementation does **not** preserve `this` context (it calls `func(...args)` directly).
+
+### Signature
+
+* `Debounce<T extends (...args: any[]) => void>(func: T, delay: number = 500): (...args: Parameters<T>) => void`
+
+### Parameters
+
+* `func`: The function to debounce.
+* `delay`: Delay in milliseconds, default `500`.
+
+### Returns
+
+* A new function. Calling it triggers the debounce logic and eventually executes `func`.
+
+### Examples
+
+```ts
+const onResize = Debounce(() => {
+    console.log("resize done");
+}, 300);
+
+window.addEventListener("resize", onResize);
+```
+
+```ts
+const save = (id: string) => console.log("save", id);
+const saveDebounced = Debounce(save); // default 500ms
+
+saveDebounced("a");
+saveDebounced("b"); // eventually prints: save b
+```
+
+---
+
+## getPadY(el)
+
+Gets the element’s **vertical padding total** (`padding-top + padding-bottom`) as a number (in px).
+
+* Returns `0` if `el` is `null`.
+* Uses `getComputedStyle` and `parseFloat` to convert to numbers.
+
+### Signature
+
+* `getPadY(el: HTMLElement | null): number`
+
+### Parameters
+
+* `el`: Target element (can be `null`).
+
+### Returns
+
+* `number`: `paddingTop + paddingBottom` (px).
+
+### Examples
+
+```ts
+const el = document.querySelector<HTMLElement>(".panel");
+const padY = getPadY(el);
+console.log(padY); // e.g. 24
+```
+
+```ts
+console.log(getPadY(null)); // 0
+```
+
+---
+
+## unwrapObj(obj)
+
+Runs `unref` on each property value of an object, converting Vue `ref/computed` (and other “unwrap-able” values) into
+their inner values, and returns a new plain object (**shallow unwrap**).
+
+* Only unwraps the first level; it does not recurse deeply.
+* Uses `Object.entries`, so it processes enumerable string keys and returns a plain object (prototype/methods are not
+  preserved).
+
+### Signature
+
+* `unwrapObj<T extends Record<string, any>>(obj: T): { [K in keyof T]: T[K] extends { value: infer V } ? V : T[K] }`
+
+### Parameters
+
+* `obj`: Any object; values can be plain values or Vue `ref/computed`, etc.
+
+### Returns
+
+* A new object with the same keys and values after `unref`.
+
+### Examples
+
+```ts
+import {ref, computed} from "vue";
+
+const state = {
+    a: ref(1),
+    b: "x",
+    c: computed(() => 42),
+};
+
+const plain = unwrapObj(state);
+// plain: { a: 1, b: "x", c: 42 }
+```
+
+```ts
+import {ref} from "vue";
+
+const nested = {x: ref({y: ref(2)})};
+const plain = unwrapObj(nested);
+// plain.x is { y: Ref<number> } (only shallow unwrapping; y remains a Ref)
+```
+
 ---
 
 ## Exports
@@ -290,6 +411,6 @@ const b = OmitValue(item, ["required"] as const)
 * `saferRepairColor`
 * `ensureRef`
 * `OmitValue`
-
-```
-```
+* `Debounce`
+* `getPadY`
+* `unwrapObj`
