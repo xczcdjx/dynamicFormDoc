@@ -1,3 +1,7 @@
+---
+outline: deep
+---
+
 # Hooks
 
 Provides `useReactiveForm` and `useDyForm` and `useDecorateForm` to quickly update input values and manage form state.
@@ -67,7 +71,7 @@ export function useDyForm<Row extends Record<string, any>>(
 )
 ```
 
-### 返回方法一览
+### Return Functions
 
 - `setDisabled(disabled, keys?)`：batch disable/enable (if keys is omitted, applies to all)
 - `setHidden(hidden, keys?)`：batch hide/show (if keys is omitted, applies to all)
@@ -223,3 +227,149 @@ const formItems = useDecorateForm<FormRow>([
     },
 ])
 ```
+
+---
+
+## 4. usePagination
+
+Pagination hook that provides basic pagination configuration.
+
+### Signature
+
+```ts
+export type PageModal = {
+    pageSize: number
+    pageNo: number
+    total: number
+}
+
+export type ZealPagination = {
+    showSizePicker: boolean
+    pageCount?: number
+    pageSizes: number[]
+    pageSlot?: number
+    onChange: () => void
+    onPageSizeChange: () => void
+    setTotalSize: (totalSize: number) => void
+    layout?: string
+} & PageModal
+
+export function usePagination(
+    cb?: () => void,
+    options?: Partial<ZealPagination>
+): ZealPagination
+```
+
+### Parameters
+
+* `cb`: Request callback. It will be triggered when the internal page number or page size changes.
+* `options`: Initial pagination configuration. The passed options will be merged with the default values.
+
+### Example
+
+```ts
+const pagination = usePagination(fetchData)
+
+function fetchData() {
+    const {pageNo, pageSize} = pagination
+    // ...
+}
+```
+
+---
+
+## 5. useWindowSize
+
+Listens to window size changes and provides the updated width and height.
+
+### Signature
+
+```ts
+type SizeObjType = {
+    isMobile: boolean
+    width: number
+    height: number
+}
+
+export function useWindowSize(
+    mobileWidth: number,
+    delay: number
+): SizeObjType
+```
+
+### Parameters
+
+* `mobileWidth`: Maximum width for mobile devices. When `width` is smaller than this value, `isMobile` will be `true`.
+  Default is `756`.
+* `delay`: Delay time in milliseconds. When the window size changes, the new value will be returned after this delay.
+  Default is `500`.
+
+### Example
+
+```ts
+const {isMobile, width, height} = useWindowSize()
+```
+
+---
+
+## 6. useObserverSize
+
+Calculates the remaining height inside the content area.
+
+### Signature
+
+```ts
+export function useObserverSize<T extends VueComponentCtor>(ct: T): {
+    wrapRef,
+    cardRef,
+    restRef,
+    tableHeight
+}
+```
+
+### Parameters
+
+* `ct`: Component constructor. Internally, it only checks
+  `ct.name === 'ElCard' ? 'el' : 'n'`
+  to calculate the remaining content height.
+
+### Example
+
+> Using **ElCard** as an example
+
+```vue
+
+<script setup lang="ts">
+  import {useObserverSize} from "dynamicformdjx";
+  import {ElCard} from "element-plus";
+
+  const {wrapRef, cardRef, restRef, tableHeight} = useObserverSize(ElCard);
+</script>
+
+<template>
+  <div class="container" ref="wrapRef">
+    <el-card ref="cardRef">
+      <template #header>
+        useObserverSize Test
+      </template>
+      <div
+          class="content"
+          :style="{
+          height: tableHeight + 'px'
+        }"
+      >
+        <p>tableHeight {{ tableHeight }}</p>
+      </div>
+    </el-card>
+    <div class="rest" ref="restRef"></div>
+  </div>
+</template>
+
+<style scoped>
+  .container {
+    height: calc(100vh - 40px);
+  }
+</style>
+```
+
+---

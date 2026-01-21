@@ -1,3 +1,7 @@
+---
+outline: deep
+---
+
 # Hooks
 
 提供useReactiveForm与useDyForm,useDecorateForm,用于快速修改输入值及其表单状态
@@ -223,4 +227,125 @@ const formItems = useDecorateForm<FormRow>([
         renderType: 'renderSelect'
     },
 ])
+```
+
+## 4. usePagination
+
+分页hooks，提供基本分页配置
+
+### 签名
+
+```ts
+export type PageModal = {
+    pageSize: number
+    pageNo: number
+    total: number
+}
+export type ZealPagination = {
+    showSizePicker: boolean
+    pageCount?: number
+    pageSizes: number[]
+    pageSlot?: number
+    onChange: () => void
+    onPageSizeChange: () => void
+    setTotalSize: (totalSize: number) => void
+    layout?: string
+} & PageModal
+
+export function usePagination(
+    cb?: () => void, options?: Partial<ZealPagination>
+): ZealPagination
+```
+
+### 参数
+
+- `cb`：请求回调，当内部页码和页数改变会触发
+- `options`：初始化分页项数据,(传入会合并)
+
+### 示例
+
+```ts
+const pagination = usePagination(fetchData)
+
+function fetchData() {
+    const {pageNo, pageSize} = paginaton
+    // ...
+}
+```
+
+## 5. useWindowSize
+
+监听窗口大小，提供更改后的宽高
+
+### 签名
+
+```ts
+type SizeObjType = { isMobile: boolean, width: number, height: number };
+
+export function useWindowSize(
+    mobileWidth: number, delay: number
+): SizeObjType
+```
+
+### 参数
+
+- `mobileWidth`：移动端宽度最大值，当width小于这个值时isMobile为true，默认为756
+- `delay`：延迟毫秒数，当窗口宽高改变时，延迟该时长后返回新值，默认为500
+
+### 示例
+
+```ts
+const {isMobile, width, height} = useWindowSize()
+```
+
+## 6. useObserverSize
+
+计算剩余content内部高度
+
+### 签名
+
+```ts
+export function useObserverSize<T extends VueComponentCtor>(ct: T): {
+    wrapRef, cardRef, restRef, tableHeight
+}
+```
+
+### 参数
+
+- `ct`：组件，内部仅只判断`ct.name==='ElCard'?'el':'n'`后计算content剩余高度
+
+### 示例
+
+> 以ElCard 示例
+
+```vue
+
+<script setup lang="ts">
+  import {useObserverSize} from "dynamicformdjx";
+  import {ElCard} from "element-plus";
+
+  const {wrapRef, cardRef, restRef, tableHeight} = useObserverSize(ElCard)
+</script>
+
+<template>
+  <div class="container" ref="wrapRef">
+    <el-card ref="cardRef">
+      <template #header>
+        useObserverSize Test
+      </template>
+      <div class="content" :style="{
+        height:tableHeight+'px'
+      }">
+        <p>tableHeight {{ tableHeight }} </p>
+      </div>
+    </el-card>
+    <div class="rest" ref="restRef"></div>
+  </div>
+</template>
+
+<style scoped>
+  .container {
+    height: calc(100vh - 40px);
+  }
+</style>
 ```
