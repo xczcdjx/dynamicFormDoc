@@ -48,8 +48,154 @@ export default App;
 ## 运行 Demo
 
 <ClientOnly>
-<PreviewBlock url="https://5trqc7-6003.csb.app/input-cascade"/>
+<PreviewBlock url="https://5trqc7-4173.csb.app/input-cascade"/>
 </ClientOnly>
+
+## 插槽使用
+
+::: code-group
+
+```tsx
+import {type CSSProperties, useRef, useState} from "react";
+import {DynamicCascadeInput, type dynamicCascadeInputRef} from "dynamicformdjx-react";
+
+const ActBtnCls: Record<string, CSSProperties> = {
+    array: {
+        color: 'red'
+    },
+    number: {
+        color: 'blue'
+    }
+}
+const App = () => {
+    const [obj, setObj] = useState<Record<string, any>>({
+        a: {
+            b: {
+                c: {
+                    d: {
+                        e: "hello world"
+                    }
+                }
+            }
+        },
+        aa: [5, 2, 0],
+        aaa: 1314
+    });
+    const dynamicInputRef = useRef<dynamicCascadeInputRef>(null)
+    return (<div>
+        <DynamicCascadeInput ref={dynamicInputRef}
+            // isController
+                             configs={
+                                 {
+                                     showBorder: false,
+                                     showPad: false
+                                 }
+                             }
+                             value={obj} onChange={(e) => setObj(e)}
+                             newBtn={({newItem}) => <button onClick={newItem}>新</button>}
+                             resetBtn={({reset}) => <button onClick={reset}>重</button>}
+                             mergeBtn={({merge}) => <button onClick={merge}>合</button>}
+                             typeTools={({toggleArray, toggleNumber, row}) => <>
+                                 <button onClick={toggleArray} style={row.isArray ? ActBtnCls.array : undefined}>array
+                                 </button>
+                                 <button onClick={toggleNumber}
+                                         style={row.isNumber ? ActBtnCls.number : undefined}>number
+                                 </button>
+                             </>}
+                             rowActions={({isLast, addItem, removeItem}) => <>
+                                 <button onClick={addItem} disabled={!isLast}>+</button>
+                                 <button onClick={removeItem} disabled={!isLast}>-</button>
+                             </>}
+                             newChild={({addChild, row}) => <button onClick={addChild}>+{row.value}+</button>}
+
+        />
+        <pre>
+            {JSON.stringify(obj, null, 2)}
+        </pre>
+        <div>
+            <button onClick={() => {
+                dynamicInputRef.current?.onSet?.({
+                    test: 'hello world'
+                })
+            }}>setData
+            </button>
+        </div>
+    </div>)
+}
+export default App;
+```
+
+```jsx
+import {useRef, useState} from "react";
+import {DynamicCascadeInput} from "dynamicformdjx-react";
+
+const ActBtnCls= {
+    array: {
+        color: 'red'
+    },
+    number: {
+        color: 'blue'
+    }
+}
+const App = () => {
+    const [obj, setObj] = useState({
+        a: {
+            b: {
+                c: {
+                    d: {
+                        e: "hello world"
+                    }
+                }
+            }
+        },
+        aa: [5, 2, 0],
+        aaa: 1314
+    });
+    const dynamicInputRef = useRef(null)
+    return (<div>
+        <DynamicCascadeInput ref={dynamicInputRef}
+            // isController
+                             configs={
+                                 {
+                                     showBorder: false,
+                                     showPad: false
+                                 }
+                             }
+                             value={obj} onChange={(e) => setObj(e)}
+                             newBtn={({newItem}) => <button onClick={newItem}>新</button>}
+                             resetBtn={({reset}) => <button onClick={reset}>重</button>}
+                             mergeBtn={({merge}) => <button onClick={merge}>合</button>}
+                             typeTools={({toggleArray, toggleNumber, row}) => <>
+                                 <button onClick={toggleArray} style={row.isArray ? ActBtnCls.array : undefined}>array
+                                 </button>
+                                 <button onClick={toggleNumber}
+                                         style={row.isNumber ? ActBtnCls.number : undefined}>number
+                                 </button>
+                             </>}
+                             rowActions={({isLast, addItem, removeItem}) => <>
+                                 <button onClick={addItem} disabled={!isLast}>+</button>
+                                 <button onClick={removeItem} disabled={!isLast}>-</button>
+                             </>}
+                             newChild={({addChild, row}) => <button onClick={addChild}>+{row.value}+</button>}
+
+        />
+        <pre>
+            {JSON.stringify(obj, null, 2)}
+        </pre>
+        <div>
+            <button onClick={() => {
+                dynamicInputRef.current?.onSet?.({
+                    test: 'hello world'
+                })
+            }}>setData
+            </button>
+        </div>
+    </div>)
+}
+export default App;
+```
+
+:::
 
 ## API
 
@@ -71,11 +217,23 @@ export default App;
 |------------|-----------------------------------------|-------------------|----|
 | `onChange` | 当表单值变化时触发，返回新的模型值 (代替update:modelValue) | `(value: object)` | ✅  |
 
-[跳到 v3 Emits](../v3/single-input.html#emits)
+[跳到 v3 Emits](../v3/cascade-input.html#emits)
 
 ### Ref
 
-[跳到 v3 Expose](../v3/single-input.html#expose)
+[跳到 v3 Expose](../v3/cascade-input.html#expose)
 
 
 [//]: # (## Extra Use)
+
+### Slots (Function)
+
+- 回调方法，类似vue插槽。
+
+#### 类型
+
+[跳到 v3 Slots 类型](../v3/cascade-input.html#类型)
+
+#### 插槽列表
+
+[跳到 v3 Slots 插槽列表](../v3/cascade-input.html#插槽列表)

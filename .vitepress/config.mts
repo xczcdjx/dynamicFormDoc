@@ -100,6 +100,13 @@ export default defineConfig({
                                 {text: '级联输入', link: concatPath('react', 'cascade-input')},
                             ]
                         },
+                        {
+                            text: '表单组件',
+                            items: [
+                                {text: '与antd配合使用', link: concatPath('react', 'dy-naiveUi-form')},
+                                {text: 'Props', link: concatPath('react', 'form-props')},
+                            ]
+                        },
                     ],
                 },
             }

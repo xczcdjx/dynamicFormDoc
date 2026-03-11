@@ -159,7 +159,7 @@ outline: deep
 
 ### Slots
 
-- 所有插槽均为 具名插槽，在 TSX 中通过 `v-slots` 传入。
+- 所有插槽均为 作用域插槽，在 TSX 中通过 `v-slots` 传入。
 - 插槽函数返回 `VNode[]`。
 
 #### 类型
@@ -177,8 +177,8 @@ type ScopeType = {
     isLast: boolean
     addItem: () => void
     removeItem: () => void
-    toggleArray: () => boolean
-    toggleNumber: () => boolean
+    toggleArray: () => void
+    toggleNumber: () => void
 }
 ```
 
