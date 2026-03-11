@@ -7,7 +7,7 @@
 
 ## 1.简单使用
 
-<BlockOther linkUrl="https://5trqc7-4173.csb.app/form?hideMenu=true">
+<BlockOther linkUrl="https://5trqc7-4173.csb.app/form">
 <template #default="{dl}">
 <PreviewBlock v-bind="dl"/>
 </template>
@@ -271,7 +271,7 @@ export default SimpleForm;
 
 > (所有render2函数使用自定义)
 
-<BlockOther linkUrl="https://5trqc7-4173.csb.app/form/customForm?hideMenu=true">
+<BlockOther linkUrl="https://5trqc7-4173.csb.app/form/customForm">
 <template #default="{dl}">
 <PreviewBlock v-bind="dl"/>
 </template>
@@ -586,7 +586,7 @@ export default CustomForm;
 
 > (可省略render2函数)
 
-<BlockOther linkUrl="https://5trqc7-4173.csb.app/form/decorateForm?hideMenu=true">
+<BlockOther linkUrl="https://5trqc7-4173.csb.app/form/decorateForm">
 <template #default="{dl}">
 <PreviewBlock v-bind="dl" mh="360px"/>
 </template>
@@ -846,7 +846,7 @@ export default DecorateForm;
 
 > 所有render2函数从"dynamicformdjx/antd"中导入
 
-<BlockOther linkUrl="https://5trqc7-4173.csb.app/form/allForm?hideMenu=true">
+<BlockOther linkUrl="https://5trqc7-4173.csb.app/form/allForm">
 <template #default="{dl}">
 <PreviewBlock v-bind="dl" mh="600px"/>
 </template>
