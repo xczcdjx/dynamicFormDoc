@@ -31,6 +31,7 @@ import ZealCard from "./components/toolTest/zealCard.vue";
 import ZealTableSearch from "./components/toolTest/zealTableSearch.vue";
 import ZealPagination from "./components/toolTest/zealPagination.vue";
 import EleZealTableTest from "./components/toolTest/eleZealTableTest.vue";
+import BlockOther from "./components/BlockOther.vue";
 
 export default {
     extends: DefaultTheme,
@@ -41,6 +42,7 @@ export default {
         app.directive('loading',ElLoading.directive)
         // ...
         app.component('DemoBlock', BaseBlock)
+        app.component('BlockOther', BlockOther)
         app.component('NaiBlock', NaiBlock)
         app.component('EleBlock', EleBlock)
         app.component('PreviewBlock', PreviewBlock)

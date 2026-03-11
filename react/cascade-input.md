@@ -8,9 +8,17 @@ outline: deep
 
 ## 基本使用
 
+<BlockOther linkUrl="https://5trqc7-4173.csb.app/input-cascade?hideMenu=true" isLocal>
+<template #default="{dl}">
+<PreviewBlock v-bind="dl" mh="520px"/>
+</template>
+<template #code>
+
+::: code-group
+
 ```tsx
 import {useState} from "react";
-import {DynamicCascadeInput, dynamicCascadeInputRef} from "dynamicformdjx-react";
+import {DynamicCascadeInput, type dynamicCascadeInputRef} from "dynamicformdjx-react";
 
 const App = () => {
     const [obj, setObj] = useState<Record<string, any>>({
@@ -45,11 +53,47 @@ const App = () => {
 export default App;
 ```
 
-## 运行 Demo
+```jsx
+import {useState} from "react";
+import {DynamicCascadeInput} from "dynamicformdjx-react";
 
-<ClientOnly>
-<PreviewBlock url="https://5trqc7-4173.csb.app/input-cascade"/>
-</ClientOnly>
+const App = () => {
+    const [obj, setObj] = useState({
+        a: {
+            b: {
+                c: {
+                    d: {
+                        e: "hello world"
+                    }
+                }
+            }
+        },
+        aa: [5, 2, 0],
+        aaa: 1314
+    });
+    const dynamicInputRef = useRef(null)
+    return (<div>
+        <DynamicCascadeInput ref={dynamicInputRef} isController value={obj} onChange={(e) => setObj(e)}/>
+        <pre>
+            {JSON.stringify(obj, null, 2)}
+        </pre>
+        <div>
+            <button onClick={() => {
+                dynamicInputRef.current?.onSet?.({
+                    test: 'hello world'
+                })
+            }}>setData
+            </button>
+        </div>
+    </div>)
+}
+export default App;
+```
+
+:::
+
+</template>
+</BlockOther>
 
 ## 插槽使用
 
@@ -84,7 +128,7 @@ const App = () => {
     const dynamicInputRef = useRef<dynamicCascadeInputRef>(null)
     return (<div>
         <DynamicCascadeInput ref={dynamicInputRef}
-            // isController
+                             isController
                              configs={
                                  {
                                      showBorder: false,
@@ -129,7 +173,7 @@ export default App;
 import {useRef, useState} from "react";
 import {DynamicCascadeInput} from "dynamicformdjx-react";
 
-const ActBtnCls= {
+const ActBtnCls = {
     array: {
         color: 'red'
     },
@@ -154,7 +198,7 @@ const App = () => {
     const dynamicInputRef = useRef(null)
     return (<div>
         <DynamicCascadeInput ref={dynamicInputRef}
-            // isController
+                             isController
                              configs={
                                  {
                                      showBorder: false,

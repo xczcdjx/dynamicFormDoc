@@ -103,8 +103,8 @@ export default defineConfig({
                         {
                             text: '表单组件',
                             items: [
-                                {text: '与antd配合使用', link: concatPath('react', 'dy-naiveUi-form')},
-                                {text: 'Props', link: concatPath('react', 'form-props')},
+                                {text: '与antd配合使用', link: concatPath('react', 'dy-antd-form')},
+                                // {text: 'Props', link: concatPath('react', 'form-props')},
                             ]
                         },
                     ],

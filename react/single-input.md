@@ -7,6 +7,11 @@ outline: deep
 动态录入
 
 ## 基本使用
+<BlockOther linkUrl="https://5trqc7-4173.csb.app/?hideMenu=true" isLocal>
+<template #default="{dl}">
+<PreviewBlock v-bind="dl" mh="420px"/>
+</template>
+<template #code>
 
 ::: code-group
 
@@ -72,12 +77,9 @@ export default App;
 
 :::
 
-## 运行 Demo
+</template>
+</BlockOther>
 
-<ClientOnly>
-
-<PreviewBlock url="https://5trqc7-4173.csb.app/"/>
-</ClientOnly>
 
 ## 插槽使用
 

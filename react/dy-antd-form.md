@@ -1,723 +1,874 @@
-# NaiDynamicForm
+# AdDynamicForm
 
 动态表单
-> 请确保已经安装naive-ui,下方所有表单是在原有基础做的一个简化封装
+
+1. 请确保已经安装antd,下方所有表单是在原有基础做的一个简化封装
+2. antd版本需要大于或等于5
 
 ## 1.简单使用
-<NaiBlock>
+
+<BlockOther linkUrl="https://5trqc7-4173.csb.app/form?hideMenu=true" isLocal>
+<template #default="{dl}">
+<PreviewBlock v-bind="dl"/>
+</template>
 <template #code>
 
 ::: code-group
 
-```vue [TypeScript]
+```tsx
+import {useRef, useState} from "react";
+import {Button, Input, Radio} from "antd";
+import {AdDynamicForm, type adDynamicFormRef, renderInput} from "dynamicformdjx-react/antd";
+import {omitFormCommonKey, OmitValue, useDyForm, useReactiveForm} from "dynamicformdjx-react";
+import type {PresetType} from "dynamicformdjx-react/types";
+import type {Rule} from "antd/es/form";
 
-<script setup lang="ts">
-  import {ref} from "vue";
-  import {NButton} from "naive-ui";
-  import {useDyForm, useReactiveForm} from "dynamicformdjx";
-  import {type naiDynamicFormRef, NaiDynamicForm, renderInput, renderRadioGroup} from "dynamicformdjx/naiveUi";
-  import type {PresetType} from "dynamicformdjx/types/index";
-
-  type FormRow = {
+type RowProps = {
     username: string
     password: string
-    preset: PresetType
-  }
-  const naiDynamicFormRef = ref<naiDynamicFormRef | null>(null)
-  const presetType = ref<PresetType>('fullRow')
-  const formItems = useReactiveForm<FormRow>([
-    {
-      key: "username",
-      label: "姓名",
-      value: ref<string | null>(null),
-      clearable: true,
-      placeholder: '请输入姓名',
-      required: true, // 是否必填 (简化rules规则)
-      render2: f => renderInput(f.value, {}, f),
-      span: 6
-    },
-    {
-      key: "password",
-      label: "密码",
-      value: ref<string | null>(null),
-      clearable: true,
-      type: 'password',
-      required: true,
-      placeholder: '请输入密码',
-      render2: f => renderInput(f.value, {showPasswordOn: 'click'}, f),
-      span: 8,
-      offset: 2,
-      requiredHint: l => `${l} is not empty`
-    },
-    {
-      key: "preset",
-      label: "表格预设",
-      value: ref<PresetType | null>(presetType.value),
-      render2: f => renderRadioGroup(f.value, [
-        {label: '整行', value: 'fullRow'},
-        {label: '表格', value: 'grid'},
-      ], {name: 'preset'}, f),
-      onChange: (v) => {
-        presetType.value = v
-      }
-    },
-  ])
-  const useForm = useDyForm<FormRow>(formItems)
-  const getData = () => {
-    // const res=useForm.getValues() // 或
-    const res = naiDynamicFormRef.value?.getResult?.()
-    console.log(res)
-  }
-  const resetData = () => {
-    // useForm.onReset() // 或
-    naiDynamicFormRef.value?.reset?.()
-  }
-  const setData = () => {
-    // 隐藏username
-    // useForm.setHidden(true, ['username'])
-    // 设置username 为不可输入
-    // useForm.setDisabled(true, ['username'])
-    //  直接修改
-    useForm.setValues({
-      username: 'naive-ui',
-      password: '520'
-    })
-  }
-  const validatorData = () => {
-    // 校验
-    naiDynamicFormRef.value?.validator().then(data => {
-      console.log(data)
-    }).catch(err => {
-      console.log(err)
-    })
-  }
-</script>
+    desc: string
+    preset: string
+}
+const SimpleForm = () => {
+    const [presetType, setPresetType] = useState<PresetType>('fullRow')
+    const [formItems, setFormItems] = useReactiveForm<RowProps, Rule | Rule[]>([
+        {
+            key: "username",
+            label: "用户名",
+            value: "",
+            allowClear: true,
+            rule: [{required: true, message: 'Please input your username!', validateTrigger: 'onBlur'}],
+            render2: f => renderInput({}, f),
+            span: 12
+        },
+        {
+            key: "password",
+            label: "密码",
+            required: true,
+            value: "",
+            render2: (f) => <Input.Password placeholder="请输入密码" {...OmitValue(f, omitFormCommonKey)}/>,
+            span: 8,
+            offset: 2,
+            sort: 0
+        },
+        {
+            key: "preset",
+            label: "表格预设",
+            value: "fullRow",
+            render2: (f) => <Radio.Group
+                value={f.value}
+                options={[
+                    {value: 'fullRow', label: 'row'},
+                    {value: 'grid', label: 'grid'},
+                ]}
+                onChange={(v) => {
+                    setPresetType(v.target.value)
+                }}
+            />,
+        }
+    ])
+    const useForm = useDyForm([formItems, setFormItems])
+    const antdFormRef = useRef<adDynamicFormRef>(null)
+    const rules: Partial<Record<keyof RowProps, Rule | Rule[]>> = {
+        desc: [{required: true, message: '请输入详情'}]
+    }
+    return (
+        <div className='dynamicFormTest'>
+            <AdDynamicForm ref={antdFormRef} rules={rules} validateTrigger={null} items={formItems}
+                           preset={presetType}/>
+            <div className="footer" style={{
+                display: 'flex',
+                gap: '5px'
+            }}>
+                <Button color={'green'} variant={'outlined'} onClick={() => {
+                    // const res=antdFormRef.current?.getResult?.()
+                    const res = useForm.getValues()
+                    console.log(res)
+                }}>getData</Button>
+                <Button color={'orange'} variant={'outlined'} onClick={() => {
+                    useForm.setValues({
+                        username: 'antd',
+                        password: 'I love you'
+                    })
+                }}>setData</Button>
+                <Button color={'blue'} variant={'outlined'} onClick={() => {
+                    antdFormRef.current?.validator().then(v => {
+                        console.log(v)
+                    }).catch(r => {
+                        console.log(r)
+                    })
+                }}>validator</Button>
+                <Button color={'red'} variant={'outlined'} onClick={() => {
+                    useForm.onReset()
+                }}>reset</Button>
+                <Button variant={'outlined'} onClick={() => {
+                    useForm.setDisabled(true)
+                }}>setDisabled</Button>
+            </div>
+        </div>
+    );
+};
 
-<template>
-  <NaiDynamicForm :items="formItems" ref="naiDynamicFormRef" :preset="presetType">
-    <template #header>
-      <h3>与Naive ui结合简单表单</h3>
-    </template>
-    <template #footer>
-      <div class="control">
-        <n-button @click="getData" type="success" size="small">get Data</n-button>
-        <n-button @click="setData" type="warning" size="small">set Data</n-button>
-        <n-button @click="validatorData" type="default" size="small">validate Data</n-button>
-        <n-button @click="resetData" type="error" size="small">reset Data</n-button>
-      </div>
-    </template>
-  </NaiDynamicForm>
-</template>
+export default SimpleForm;
 
-<style scoped>
-  h3 {
-    text-align: center;
-    margin: 0 0 10px 0;
-  }
-
-  .control {
-    display: flex;
-    gap: 5px;
-  }
-</style>
 ```
 
-```vue [JavaScript]
+```jsx
+import {useRef, useState} from "react";
+import {Button, Input, Radio} from "antd";
+import {AdDynamicForm, renderInput} from "dynamicformdjx-react/antd";
+import {omitFormCommonKey, OmitValue, useDyForm, useReactiveForm} from "dynamicformdjx-react";
 
-<script setup>
-  import {ref} from "vue"
-  import {NButton} from "naive-ui"
-  import {useDyForm, useReactiveForm} from "dynamicformdjx"
-  import {NaiDynamicForm, renderInput, renderRadioGroup} from "dynamicformdjx/naiveUi"
+const SimpleForm = () => {
+    const [presetType, setPresetType] = useState("fullRow");
 
-  const naiDynamicFormRef = ref(null)
-  const presetType = ref("fullRow")
-  const formItems = useReactiveForm([
-    {
-      key: "username",
-      label: "姓名",
-      value: ref(null),
-      clearable: true,
-      placeholder: "请输入姓名",
-      required: true,
-      render2: (f) => renderInput(f.value, {}, f),
-      span: 6,
-    },
-    {
-      key: "password",
-      label: "密码",
-      value: ref(null),
-      clearable: true,
-      type: "password",
-      required: true,
-      placeholder: "请输入密码",
-      render2: (f) => renderInput(f.value, {showPasswordOn: "click"}, f),
-      span: 8,
-      offset: 2,
-      requiredHint: (l) => `${l} is not empty`,
-    },
-    {
-      key: "preset",
-      label: "表格预设",
-      value: ref(presetType.value),
-      render2: (f) =>
-          renderRadioGroup(
-              f.value,
-              [
-                {label: "整行", value: "fullRow"},
-                {label: "表格", value: "grid"},
-              ],
-              {name: "preset"},
-              f
-          ),
-      onChange: (v) => {
-        presetType.value = v
-      },
-    },
-  ])
-  const useForm = useDyForm(formItems)
+    const [formItems, setFormItems] = useReactiveForm([
+        {
+            key: "username",
+            label: "用户名",
+            value: "",
+            allowClear: true,
+            rule: [
+                {
+                    required: true,
+                    message: "Please input your username!",
+                    validateTrigger: "onBlur",
+                },
+            ],
+            render2: (f) => renderInput({}, f),
+            span: 12,
+        },
+        {
+            key: "password",
+            label: "密码",
+            required: true,
+            value: "",
+            render2: (f) => (
+                <Input.Password
+                    placeholder="请输入密码"
+                    {...OmitValue(f, omitFormCommonKey)}
+                />
+            ),
+            span: 8,
+            offset: 2,
+            sort: 0,
+        },
+        {
+            key: "preset",
+            label: "表格预设",
+            value: "fullRow",
+            render2: (f) => (
+                <Radio.Group
+                    value={f.value}
+                    options={[
+                        {value: "fullRow", label: "row"},
+                        {value: "grid", label: "grid"},
+                    ]}
+                    onChange={(v) => {
+                        setPresetType(v.target.value);
+                    }}
+                />
+            ),
+        },
+    ]);
 
-  const getData = () => {
-    // const res = useForm.getValues() // 或
-    const res = naiDynamicFormRef.value?.getResult?.()
-    console.log(res)
-  }
+    const useForm = useDyForm([formItems, setFormItems]);
+    const antdFormRef = useRef(null);
 
-  const resetData = () => {
-    // useForm.onReset() // 或
-    naiDynamicFormRef.value?.reset?.()
-  }
+    const rules = {
+        desc: [{required: true, message: "请输入详情"}],
+    };
 
-  const setData = () => {
-    useForm.setValues({
-      username: "naive-ui",
-      password: "520",
-    })
-  }
+    return (
+        <div className="dynamicFormTest">
+            <AdDynamicForm
+                ref={antdFormRef}
+                rules={rules}
+                validateTrigger={null}
+                items={formItems}
+                preset={presetType}
+            />
+            <div
+                className="footer"
+                style={{
+                    display: "flex",
+                    gap: "5px",
+                }}
+            >
+                <Button
+                    color={"green"}
+                    variant={"outlined"}
+                    onClick={() => {
+                        const res = useForm.getValues();
+                        console.log(res);
+                    }}
+                >
+                    getData
+                </Button>
 
-  const validatorData = () => {
-    naiDynamicFormRef.value
-        ?.validator()
-        .then((data) => {
-          console.log(data)
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-  }
-</script>
+                <Button
+                    color={"orange"}
+                    variant={"outlined"}
+                    onClick={() => {
+                        useForm.setValues({
+                            username: "antd",
+                            password: "I love you",
+                        });
+                    }}
+                >
+                    setData
+                </Button>
 
-<template>
-  <NaiDynamicForm :items="formItems" ref="naiDynamicFormRef" :preset="presetType">
-    <template #header>
-      <h3>与Naive ui结合简单表单</h3>
-    </template>
+                <Button
+                    color={"blue"}
+                    variant={"outlined"}
+                    onClick={() => {
+                        antdFormRef.current
+                            ?.validator()
+                            .then((v) => {
+                                console.log(v);
+                            })
+                            .catch((r) => {
+                                console.log(r);
+                            });
+                    }}
+                >
+                    validator
+                </Button>
 
-    <template #footer>
-      <div class="control">
-        <n-button @click="getData" type="success" size="small">get Data</n-button>
-        <n-button @click="setData" type="warning" size="small">set Data</n-button>
-        <n-button @click="validatorData" type="default" size="small">validate Data</n-button>
-        <n-button @click="resetData" type="error" size="small">reset Data</n-button>
-      </div>
-    </template>
-  </NaiDynamicForm>
-</template>
+                <Button
+                    color={"red"}
+                    variant={"outlined"}
+                    onClick={() => {
+                        useForm.onReset();
+                    }}
+                >
+                    reset
+                </Button>
 
-<style scoped>
-  h3 {
-    text-align: center;
-    margin: 0 0 10px 0;
-  }
+                <Button
+                    variant={"outlined"}
+                    onClick={() => {
+                        useForm.setDisabled(true);
+                    }}
+                >
+                    setDisabled
+                </Button>
+            </div>
+        </div>
+    );
+};
 
-  .control {
-    display: flex;
-    gap: 5px;
-  }
-</style>
+export default SimpleForm;
 ```
 
 :::
 
-  </template>
-<NSimpleDyForm/>
-</NaiBlock>
+</template>
+</BlockOther>
 
 ## 2.自定义使用
+
 > (所有render2函数使用自定义)
-### InputTest.vue
-```vue [Typescript]
-<script setup lang="ts">
-import {NInput} from "naive-ui";
-import {useAttrs} from "vue";
-const fv=defineModel()
-const attrs=useAttrs()
-</script>
 
-<template>
-<n-input v-model="fv" v-bind="attrs"/>
+<BlockOther linkUrl="https://5trqc7-4173.csb.app/form/customForm?hideMenu=true" isLocal>
+<template #default="{dl}">
+<PreviewBlock v-bind="dl"/>
 </template>
-
-<style scoped>
-
-</style>
-```
-### Render.vue
-<NaiBlock>
 <template #code>
 
 ::: code-group
 
-```vue [TypeScript]
-<script setup lang="ts">
-  import {h, ref} from "vue";
-  import {NButton, NInput} from "naive-ui";
-  import {useDyForm, useReactiveForm} from "dynamicformdjx";
-  import {type naiDynamicFormRef, NaiDynamicForm, NaiDynamicInput, type naiDynamicInputRef} from "dynamicformdjx/naiveUi";
-  import type {FormItemRule, FormRules} from "naive-ui/es/form/src/interface";
-  import InputTest from "./InputTest.vue";
+```tsx
+import {useRef} from "react";
+import {Button, Input, Select} from "antd";
+import {
+    DynamicInput,
+    type dynamicInputRef,
+    omitFormCommonKey,
+    OmitValue,
+    useDyForm,
+    useReactiveForm
+} from "dynamicformdjx-react";
+import {AdDynamicForm, type adDynamicFormRef} from "dynamicformdjx-react/antd";
+import type {Rule} from "antd/es/form";
 
-  type FormRow = {
-    name: string
-    desc: string
+type RowProps = {
+    username: string
+    job: string
     json: object
-  }
-  const naiDynamicFormRef = ref<naiDynamicFormRef | null>(null)
-  const naiDynamicInputRef = ref<naiDynamicInputRef | null>(null)
-  const formItems = useReactiveForm<FormRow, FormRules | FormItemRule>([
-    {
-      key: "name",
-      label: "姓名",
-      value: ref<string | null>(null),
-      clearable: true,
-      placeholder: '请输入姓名',
-      required: true,
-      // @ts-ignore
-      render2: f => h(NInput, {
-        ...f,
-        value: f.value.value, "onUpdate:value"(v) {
-          f.value.value = v
-        }
-      }),
-    },
-    {
-      key: "desc",
-      label: "描述",
-      value: ref<string | null>(null),
-      clearable: true,
-      placeholder: '请输入描述',
-      required: true,
-      type: 'textarea',
-      render2: f => h(InputTest, {
-        ...f,
-        value: f.value.value, "onUpdate:value"(v) {
-          f.value.value = v
-        }
-      }),
-    },
-    {
-      key: "json",
-      label: "Json",
-      value: ref<object>({}),
-      rule: {
-        required: true,
-        validator(_: FormItemRule, value: object) {
-          return Object.keys(value).length > 0
+}
+const CustomForm = () => {
+    const [formItems, setFormItems] = useReactiveForm<RowProps, Rule | Rule[]>([
+        {
+            key: "username",
+            label: "用户名",
+            value: "",
+            allowClear: true,
+            render2: (f) => <Input placeholder="请输入姓名" {...OmitValue(f, omitFormCommonKey)}/>,
+            rule: [
+                {
+                    required: true,
+                    message: 'Please confirm your username!',
+                },
+                {
+                    validator: async (_, value) => {
+                        if (!value) return; // 交给 required 处理
+                        if (value.length < 3) {
+                            throw new Error('至少 3 个字符');
+                        }
+                    },
+                }
+            ],
         },
-        trigger: ['blur', 'change'],
-        message: 'json 不能为空'
-      },
-      render2: f => h(NaiDynamicInput, {
-        modelValue: f.value.value, "onUpdate:modelValue"(v) {
-          f.value.value = v
+        {
+            key: "job",
+            label: "职位",
+            value: "",
+            required: true,
+            render2: (f) => <Select
+                style={{
+                    width: '100%'
+                }}
+                options={[
+                    {value: 'jack', label: 'Jack'},
+                    {value: 'lucy', label: 'Lucy'},
+                    {value: 'Yiminghe', label: 'yiminghe'},
+                    {value: 'disabled', label: 'Disabled', disabled: true},
+                ]}
+            />,
         },
-        isController: true,
-        ref: naiDynamicInputRef
-      }),
-    },
-  ])
-  const useForm = useDyForm<FormRow>(formItems)
-  const getData = () => {
-    console.log(useForm.getValues())
-  }
-  const resetData = () => {
-    useForm.onReset()
-    naiDynamicInputRef.value?.onSet?.({})
-  }
-  const setData = () => {
-    useForm.setValues({
-      name: 'naive-ui',
-      desc:`A Vue 3 Component Library Fairly Complete, Theme Customizable, Uses TypeScript, Fast Kinda Interesting`
-    })
-    naiDynamicInputRef.value?.onSet?.({
-      question: 'how are you?',
-      answer: "I'm fine,Thank you"
-    })
-  }
-  const validatorData = () => {
-    // 校验
-    naiDynamicFormRef.value?.validator().then(data => {
-      console.log(data)
-    }).catch(err => {
-      console.log(err)
-    })
-  }
-</script>
+        {
+            key: "json",
+            label: "Json",
+            value: {},
+            isCustom: true,
+            rule: [
+                {
+                    required: true,
+                    message: 'json 不能为空'
+                },
+                {
+                    validator: async (_, value) => {
+                        if (!value || Object.keys(value).length === 0) {
+                            throw new Error('json 不能为空');
+                        }
+                    },
+                }
+            ],
+            render2: f => {
+                return <DynamicInput ref={dynamicInputRef} value={f.value} onChange={(v: object) => {
+                    f.value = v
+                }} isController/>
+            },
+        },
+    ])
+    const useForm = useDyForm([formItems, setFormItems])
+    const antdFormRef = useRef<adDynamicFormRef>(null)
+    const dynamicInputRef = useRef<dynamicInputRef>(null)
+    return (
+        <div className='dynamicFormTest'>
+            <AdDynamicForm ref={antdFormRef} items={formItems}/>
+            <div className="footer" style={{
+                display: 'flex',
+                gap: '5px'
+            }}>
+                <Button color={'green'} variant={'outlined'} onClick={() => {
+                    // const res=antdFormRef.current?.getResult?.()
+                    const res = useForm.getValues()
+                    console.log(res)
+                }}>getData</Button>
+                <Button color={'orange'} variant={'outlined'} onClick={() => {
+                    useForm.setValues({
+                        username: 'antd',
+                        job: 'jack'
+                    })
+                    dynamicInputRef.current?.onSet?.({
+                        a: 'Hello world',
+                        b: 1314,
+                        c: [5, 2, 0]
+                    })
+                }}>setData</Button>
+                <Button color={'blue'} variant={'outlined'} onClick={() => {
+                    antdFormRef.current?.validator().then(v => {
+                        console.log(v)
+                    }).catch(r => {
+                        console.error(r)
+                    })
+                }}>validator</Button>
+                <Button color={'red'} variant={'outlined'} onClick={() => {
+                    useForm.onReset()
+                    dynamicInputRef.current?.onSet?.({})
+                }}>reset</Button>
+            </div>
+        </div>
+    );
+};
 
-<template>
-  <NaiDynamicForm :items="formItems" ref="naiDynamicFormRef"/>
-  <div class="control">
-    <n-button @click="getData" type="success" size="small">get Data</n-button>
-    <n-button @click="setData" type="warning" size="small">set Data</n-button>
-    <n-button @click="validatorData" type="default" size="small">validate Data</n-button>
-    <n-button @click="resetData" type="error" size="small">reset Data</n-button>
-  </div>
-</template>
+export default CustomForm;
 
-<style scoped>
-  .control {
-    display: flex;
-    gap: 5px;
-  }
-</style>
 ```
 
-```vue [JavaScript]
-<script setup>
-  import { h, ref } from "vue"
-  import { NButton, NInput } from "naive-ui"
-  import { useDyForm, useReactiveForm } from "dynamicformdjx"
-  import { NaiDynamicForm, NaiDynamicInput } from "dynamicformdjx/naiveUi"
-  import InputTest from "./InputTest.vue"
+```jsx
+import {useRef} from "react";
+import {Button, Input, Select} from "antd";
+import {
+    DynamicInput,
+    omitFormCommonKey,
+    OmitValue,
+    useDyForm,
+    useReactiveForm,
+} from "dynamicformdjx-react";
+import {AdDynamicForm} from "dynamicformdjx-react/antd";
 
-  const naiDynamicFormRef = ref(null)
-  const naiDynamicInputRef = ref(null)
+const CustomForm = () => {
+    const dynamicInputRef = useRef(null);
+    const antdFormRef = useRef(null);
 
-  const formItems = useReactiveForm([
-    {
-      key: "name",
-      label: "姓名",
-      value: ref(null),
-      clearable: true,
-      placeholder: "请输入姓名",
-      required: true,
-      render2: (f) =>
-          h(NInput, {
-            ...f,
-            value: f.value.value,
-            "onUpdate:value"(v) {
-              f.value.value = v
-            },
-          }),
-    },
-    {
-      key: "desc",
-      label: "描述",
-      value: ref(null),
-      clearable: true,
-      placeholder: "请输入描述",
-      required: true,
-      type: "textarea",
-      render2: (f) =>
-          h(InputTest, {
-            ...f,
-            value: f.value.value,
-            "onUpdate:value"(v) {
-              f.value.value = v
-            },
-          }),
-    },
-    {
-      key: "json",
-      label: "Json",
-      value: ref({}),
-      rule: {
-        required: true,
-        validator(_, value) {
-          return Object.keys(value).length > 0
+    const [formItems, setFormItems] = useReactiveForm([
+        {
+            key: "username",
+            label: "用户名",
+            value: "",
+            allowClear: true,
+            render2: (f) => (
+                <Input placeholder="请输入姓名" {...OmitValue(f, omitFormCommonKey)} />
+            ),
+            rule: [
+                {
+                    required: true,
+                    message: "Please confirm your username!",
+                },
+                {
+                    validator: async (_, value) => {
+                        if (!value) return;
+                        if (value.length < 3) {
+                            throw new Error("至少 3 个字符");
+                        }
+                    },
+                },
+            ],
         },
-        trigger: ["blur", "change"],
-        message: "json 不能为空",
-      },
-      render2: (f) =>
-          h(NaiDynamicInput, {
-            modelValue: f.value.value,
-            "onUpdate:modelValue"(v) {
-              f.value.value = v
+        {
+            key: "job",
+            label: "职位",
+            value: "",
+            required: true,
+            render2: () => (
+                <Select
+                    style={{
+                        width: "100%",
+                    }}
+                    options={[
+                        {value: "jack", label: "Jack"},
+                        {value: "lucy", label: "Lucy"},
+                        {value: "Yiminghe", label: "yiminghe"},
+                        {value: "disabled", label: "Disabled", disabled: true},
+                    ]}
+                />
+            ),
+        },
+        {
+            key: "json",
+            label: "Json",
+            value: {},
+            isCustom: true,
+            rule: [
+                {
+                    required: true,
+                    message: "json 不能为空",
+                },
+                {
+                    validator: async (_, value) => {
+                        if (!value || Object.keys(value).length === 0) {
+                            throw new Error("json 不能为空");
+                        }
+                    },
+                },
+            ],
+            render2: (f) => {
+                return (
+                    <DynamicInput
+                        ref={dynamicInputRef}
+                        value={f.value}
+                        onChange={(v) => {
+                            f.value = v;
+                        }}
+                        isController
+                    />
+                );
             },
-            isController: true,
-            ref: naiDynamicInputRef,
-          }),
-    },
-  ])
+        },
+    ]);
 
-  const useForm = useDyForm(formItems)
+    const useForm = useDyForm([formItems, setFormItems]);
 
-  const getData = () => {
-    console.log(useForm.getValues())
-  }
+    return (
+        <div className="dynamicFormTest">
+            <AdDynamicForm ref={antdFormRef} items={formItems}/>
+            <div
+                className="footer"
+                style={{
+                    display: "flex",
+                    gap: "5px",
+                }}
+            >
+                <Button
+                    color={"green"}
+                    variant={"outlined"}
+                    onClick={() => {
+                        const res = useForm.getValues();
+                        console.log(res);
+                    }}
+                >
+                    getData
+                </Button>
 
-  const resetData = () => {
-    useForm.onReset()
-    naiDynamicInputRef.value?.onSet?.({})
-  }
+                <Button
+                    color={"orange"}
+                    variant={"outlined"}
+                    onClick={() => {
+                        useForm.setValues({
+                            username: "antd",
+                            job: "jack",
+                        });
+                        dynamicInputRef.current?.onSet?.({
+                            a: "Hello world",
+                            b: 1314,
+                            c: [5, 2, 0],
+                        });
+                    }}
+                >
+                    setData
+                </Button>
 
-  const setData = () => {
-    useForm.setValues({
-      name: "naive-ui",
-      desc: `A Vue 3 Component Library Fairly Complete, Theme Customizable, Uses TypeScript, Fast Kinda Interesting`,
-    })
-    naiDynamicInputRef.value?.onSet?.({
-      question: "how are you?",
-      answer: "I'm fine,Thank you",
-    })
-  }
+                <Button
+                    color={"blue"}
+                    variant={"outlined"}
+                    onClick={() => {
+                        antdFormRef.current
+                            ?.validator()
+                            .then((v) => {
+                                console.log(v);
+                            })
+                            .catch((r) => {
+                                console.error(r);
+                            });
+                    }}
+                >
+                    validator
+                </Button>
 
-  const validatorData = () => {
-    naiDynamicFormRef.value?.validator().then(console.log).catch(console.log)
-  }
-</script>
+                <Button
+                    color={"red"}
+                    variant={"outlined"}
+                    onClick={() => {
+                        useForm.onReset();
+                        dynamicInputRef.current?.onSet?.({});
+                    }}
+                >
+                    reset
+                </Button>
+            </div>
+        </div>
+    );
+};
 
-<template>
-  <NaiDynamicForm :items="formItems" ref="naiDynamicFormRef" />
-  <div class="control">
-    <n-button @click="getData" type="success" size="small">get Data</n-button>
-    <n-button @click="setData" type="warning" size="small">set Data</n-button>
-    <n-button @click="validatorData" type="default" size="small">validate Data</n-button>
-    <n-button @click="resetData" type="error" size="small">reset Data</n-button>
-  </div>
-</template>
-
-<style scoped>
-  .control {
-    display: flex;
-    gap: 5px;
-  }
-</style>
-
+export default CustomForm;
 ```
 
 :::
 
-  </template>
-<NCustomDyForm/>
-</NaiBlock>
+</template>
+</BlockOther>
 
 ## 3.装饰表单
+
 > (可省略render2函数)
 
-<NaiBlock>
+<BlockOther linkUrl="https://5trqc7-4173.csb.app/form/decorateForm?hideMenu=true" isLocal>
+<template #default="{dl}">
+<PreviewBlock v-bind="dl" mh="360px"/>
+</template>
 <template #code>
 
 ::: code-group
 
-```vue [TypeScript]
-<script setup lang="ts">
-  import { ref} from "vue";
-  import {NButton} from "naive-ui";
-  import {useDyForm} from "dynamicformdjx";
-  import {
-    type naiDynamicFormRef,
-    NaiDynamicForm,
-    useDecorateForm,
-    renderDatePicker
-  } from "dynamicformdjx/naiveUi";
+```tsx
+import {DATETIME_FORMAT, TIME_FORMAT, useDyForm} from "dynamicformdjx-react";
+import type {Rule} from "antd/es/form";
+import {
+    AdDynamicForm,
+    type adDynamicFormRef, useDecorateForm,
+    datePickerFormat, renderDatePicker
+} from "dynamicformdjx-react/antd";
+import {useRef} from "react";
+import {Button} from "antd";
 
-
-  type FormRow = {
+type FormRow = {
     password: string
     job: number
-    birthday: number
-  }
-  const naiDynamicFormRef = ref<naiDynamicFormRef | null>(null)
-  const formItems = useDecorateForm<FormRow>([
-    {
-      key: "password",
-      label: "密码",
-      value: null,
-      clearable: true,
-      placeholder: '请输入密码',
-      required: true,
-      type:'password',
-      renderType: 'renderInput',
-      renderProps:{
-        showPasswordOn:'click'
-      }
-    },
-    {
-      key: "job",
-      label: "职位",
-      value: null,
-      clearable: true,
-      options: ['前端', '后端'].map((label, value) => ({label, value})),
-      renderType: 'renderSelect',
-    },
-    {
-      key: "birthday",
-      label: "生日",
-      value: null,
-      render2: f => renderDatePicker(f.value, {type: 'datetime'}, f),
-    },
-  ])
-  const useForm = useDyForm<FormRow>(formItems)
-  const getData = () => {
-    const res = naiDynamicFormRef.value?.getResult?.()
-    console.log(res)
-  }
-  const resetData = () => {
-    naiDynamicFormRef.value?.reset?.()
-  }
-  const setData = () => {
-    useForm.setValues({
-      password: 'naive-ui',
-      job: 0,
-      birthday: Date.now(),
-    })
-  }
-  const validatorData = () => {
-    naiDynamicFormRef.value?.validator().then(data => {
-      console.log(data)
-    }).catch(err => {
-      console.log(err)
-    })
-  }
-</script>
-
-<template>
-  <NaiDynamicForm :items="formItems" ref="naiDynamicFormRef"/>
-  <div class="control">
-    <n-button @click="getData" type="success" size="small">get Data</n-button>
-    <n-button @click="setData" type="warning" size="small">set Data</n-button>
-    <n-button @click="validatorData" type="default" size="small">validate Data</n-button>
-    <n-button @click="resetData" type="error" size="small">reset Data</n-button>
-  </div>
-</template>
-
-<style scoped>
-  .control {
-    display: flex;
-    gap: 5px;
-  }
-</style>
+    birthday: string
+    time: string
+}
+const DecorateForm = () => {
+    const [formItems, setFormItems] = useDecorateForm<FormRow, Rule | Rule[]>([
+        {
+            key: "password",
+            label: "密码",
+            value: null,
+            allowClear: true,
+            placeholder: '请输入密码',
+            required: true,
+            type: 'password',
+            renderType: 'renderInput'
+        },
+        {
+            key: "job",
+            label: "职位",
+            value: null,
+            allowClear: true,
+            options: ['前端', '后端'].map((label, value) => ({label, value})),
+            renderType: 'renderSelect',
+        },
+        {
+            key: "birthday",
+            label: "生日",
+            value: null,
+            // render2: f => renderDatePicker({type: 'datetime', showTime: true}, f),
+            renderType: 'renderDatePicker',
+            renderProps: {
+                type: 'datetime', showTime: true, isRange: true
+            },
+            formItemProps: {
+                ...datePickerFormat({formatStr: DATETIME_FORMAT})
+            }
+        },
+        {
+            key: "time",
+            label: "时间",
+            value: ['00:00:00', '23:59:00'],
+            renderType: 'renderDatePicker',
+            renderProps: {
+                isRange: true,
+            },
+            formItemProps: {
+                ...datePickerFormat({formatStr: TIME_FORMAT})
+            }
+        }
+    ])
+    const useForm = useDyForm([formItems, setFormItems])
+    const antdFormRef = useRef<adDynamicFormRef>(null)
+    return (
+        <div className='dynamicFormTest'>
+            <AdDynamicForm ref={antdFormRef} items={formItems}/>
+            <div className="footer" style={{
+                display: 'flex',
+                gap: '5px'
+            }}>
+                <Button color={'green'} variant={'outlined'} onClick={() => {
+                    // const res=antdFormRef.current?.getResult?.()
+                    const res = useForm.getValues()
+                    console.log(res)
+                }}>getData</Button>
+                <Button color={'orange'} variant={'outlined'} onClick={() => {
+                    useForm.setValues({
+                        password: 'Antd',
+                        job: 0,
+                        birthday: '2026-02-11'
+                    })
+                }}>setData</Button>
+                <Button color={'blue'} variant={'outlined'} onClick={() => {
+                    antdFormRef.current?.validator().then(v => {
+                        console.log(v)
+                    }).catch(r => {
+                        console.log(r)
+                    })
+                }}>validator</Button>
+                <Button color={'red'} variant={'outlined'} onClick={() => {
+                    useForm.onReset()
+                }}>reset</Button>
+                <Button variant={'outlined'} onClick={() => {
+                    useForm.setDisabled(true)
+                }}>setDisabled</Button>
+            </div>
+        </div>
+    );
+}
+export default DecorateForm;
 ```
 
-```vue [JavaScript]
-<script setup>
-  import { ref } from "vue"
-  import { NButton } from "naive-ui"
-  import { useDyForm } from "dynamicformdjx"
-  import { NaiDynamicForm, useDecorateForm, renderDatePicker } from "dynamicformdjx/naiveUi"
+```jsx
+import {DATETIME_FORMAT, TIME_FORMAT, useDyForm} from "dynamicformdjx-react";
+import {
+    AdDynamicForm,
+    useDecorateForm,
+    datePickerFormat,
+} from "dynamicformdjx-react/antd";
+import {useRef} from "react";
+import {Button} from "antd";
 
-  const naiDynamicFormRef = ref(null)
-  const formItems = useDecorateForm([
-    {
-      key: "password",
-      label: "密码",
-      value: null,
-      clearable: true,
-      placeholder: "请输入密码",
-      required: true,
-      type: "password",
-      renderType: "renderInput",
-      renderProps: {
-        showPasswordOn: "click",
-      },
-    },
-    {
-      key: "job",
-      label: "职位",
-      value: null,
-      clearable: true,
-      options: ["前端", "后端"].map((label, value) => ({ label, value })),
-      renderType: "renderSelect",
-    },
-    {
-      key: "birthday",
-      label: "生日",
-      value: null,
-      render2: (f) => renderDatePicker(f.value, { type: "datetime" }, f),
-    },
-  ])
+const DecorateForm = () => {
+    const [formItems, setFormItems] = useDecorateForm([
+        {
+            key: "password",
+            label: "密码",
+            value: null,
+            allowClear: true,
+            placeholder: "请输入密码",
+            required: true,
+            type: "password",
+            renderType: "renderInput",
+        },
+        {
+            key: "job",
+            label: "职位",
+            value: null,
+            allowClear: true,
+            options: ["前端", "后端"].map((label, value) => ({label, value})),
+            renderType: "renderSelect",
+        },
+        {
+            key: "birthday",
+            label: "生日",
+            value: null,
+            renderType: "renderDatePicker",
+            renderProps: {
+                type: "datetime",
+                showTime: true,
+                isRange: true,
+            },
+            formItemProps: {
+                ...datePickerFormat({formatStr: DATETIME_FORMAT}),
+            },
+        },
+        {
+            key: "time",
+            label: "时间",
+            value: ["00:00:00", "23:59:00"],
+            renderType: "renderDatePicker",
+            renderProps: {
+                isRange: true,
+            },
+            formItemProps: {
+                ...datePickerFormat({formatStr: TIME_FORMAT}),
+            },
+        },
+    ]);
 
-  const useForm = useDyForm(formItems)
+    const useForm = useDyForm([formItems, setFormItems]);
+    const antdFormRef = useRef(null);
 
-  const getData = () => {
-    const res = naiDynamicFormRef.value?.getResult?.()
-    console.log(res)
-  }
+    return (
+        <div className="dynamicFormTest">
+            <AdDynamicForm ref={antdFormRef} items={formItems}/>
+            <div
+                className="footer"
+                style={{
+                    display: "flex",
+                    gap: "5px",
+                }}
+            >
+                <Button
+                    color={"green"}
+                    variant={"outlined"}
+                    onClick={() => {
+                        const res = useForm.getValues();
+                        console.log(res);
+                    }}
+                >
+                    getData
+                </Button>
 
-  const resetData = () => {
-    naiDynamicFormRef.value?.reset?.()
-  }
+                <Button
+                    color={"orange"}
+                    variant={"outlined"}
+                    onClick={() => {
+                        useForm.setValues({
+                            password: "Antd",
+                            job: 0,
+                            birthday: "2026-02-11",
+                        });
+                    }}
+                >
+                    setData
+                </Button>
 
-  const setData = () => {
-    useForm.setValues({
-      password: "naive-ui",
-      job: 0,
-      birthday: Date.now(),
-    })
-  }
+                <Button
+                    color={"blue"}
+                    variant={"outlined"}
+                    onClick={() => {
+                        antdFormRef.current
+                            ?.validator()
+                            .then((v) => {
+                                console.log(v);
+                            })
+                            .catch((r) => {
+                                console.log(r);
+                            });
+                    }}
+                >
+                    validator
+                </Button>
 
-  const validatorData = () => {
-    naiDynamicFormRef.value?.validator().then(console.log).catch(console.log)
-  }
-</script>
+                <Button
+                    color={"red"}
+                    variant={"outlined"}
+                    onClick={() => {
+                        useForm.onReset();
+                    }}
+                >
+                    reset
+                </Button>
 
-<template>
-  <NaiDynamicForm :items="formItems" ref="naiDynamicFormRef" />
-  <div class="control">
-    <n-button @click="getData" type="success" size="small">get Data</n-button>
-    <n-button @click="setData" type="warning" size="small">set Data</n-button>
-    <n-button @click="validatorData" type="default" size="small">validate Data</n-button>
-    <n-button @click="resetData" type="error" size="small">reset Data</n-button>
-  </div>
-</template>
+                <Button
+                    variant={"outlined"}
+                    onClick={() => {
+                        useForm.setDisabled(true);
+                    }}
+                >
+                    setDisabled
+                </Button>
+            </div>
+        </div>
+    );
+};
 
-<style scoped>
-  .control {
-    display: flex;
-    gap: 5px;
-  }
-</style>
-
+export default DecorateForm;
 ```
 
 :::
 
 </template>
-<NDecorateDyForm/>
-</NaiBlock>
+</BlockOther>
 
 ## 4.总表单
-> 所有render2函数从"dynamicformdjx/naiveUi"中导入
 
-<NaiBlock>
+> 所有render2函数从"dynamicformdjx/antd"中导入
+
+<BlockOther linkUrl="https://5trqc7-4173.csb.app/form/allForm?hideMenu=true" isLocal>
+<template #default="{dl}">
+<PreviewBlock v-bind="dl" mh="600px"/>
+</template>
 <template #code>
 
 ::: code-group
 
-```vue [TypeScript]
-<script setup lang="ts">
-  import {ref} from "vue";
-  import {NButton} from "naive-ui";
-  import {FormRules, FormItemRule} from "naive-ui/es/form/src/interface";
+```tsx
+import {useRef, useState} from "react";
+import {Button, Input, Radio} from "antd";
+import {
+    AdDynamicForm,
+    type adDynamicFormRef, renderCheckbox, renderCheckboxGroup, renderDatePicker, renderDynamicTags,
+    renderInput, renderInputNumber,
+    renderPopSelect, renderRadioButtonGroup, renderRadioGroup,
+    renderSelect, renderSlider, renderSwitch, renderTimePicker,
+    renderTreeSelect
+} from "dynamicformdjx-react/antd";
+import {useDyForm, useReactiveForm} from "dynamicformdjx-react";
+import type {Rule} from "antd/es/form";
 
-  import {
-    naiDynamicFormRef,
-    NaiDynamicForm,
-    renderCheckboxGroup, renderDatePicker,
-    renderInput, renderPopSelect,
-    renderRadioButtonGroup, renderRadioGroup,
-    renderSelect, renderSwitch, renderTimePicker, renderTreeSelect,
-    renderInputNumber,
-    renderDynamicTags,
-    renderCheckbox,
-    renderSlider
-  } from "dynamicformdjx/naiveUi";
-
-  import {useDyForm, useReactiveForm} from "dynamicformdjx";
-
-  type FormRow = {
+type RowProps = {
     username: string
     password: string
     gender: number
@@ -732,450 +883,485 @@ const attrs=useAttrs()
     job: number
     job2: number
     job3: number
-    future:any[]
-    slider:number
-    checkbox:boolean
-    inputNumber:number
-  }
-  const rules: FormRules = {
-    username: {
-      required: true,
-      message: '请输入',
-      trigger: ['blur']
-    },
-  }
-  const naiDynamicFormRef = ref<naiDynamicFormRef>(null)
-  const formItems = useReactiveForm<FormRow, FormRules | FormItemRule | FormItemRule[]>(
-      [
+    checkbox: boolean
+    future: string[]
+    slider: number
+    inputNumber: number
+}
+const AllForm = () => {
+    const [formItems, setFormItems] = useReactiveForm<RowProps, Rule | Rule[]>([
         {
-          key: "username",
-          label: "姓名",
-          value: ref<string | null>(null),
-          clearable: true,
-          placeholder: '请输入姓名',
-          rule: {
+            key: "username",
+            label: "用户名",
+            value: "",
+            allowClear: true,
+            render2: f => renderInput({}, f),
+        },
+        {
+            key: "password",
+            label: "密码",
             required: true,
-          },
-          render2: f => renderInput(f.value, {}, f),
+            value: "",
+            render2: (f) => renderInput({}, {...f, type: 'password'}),
         },
         {
-          key: "password",
-          label: "密码",
-          value: ref<string | null>(null),
-          clearable: true,
-          type: 'password',
-          placeholder: '请输入密码',
-          render2: f => renderInput(f.value, {showPasswordOn: 'click',}, f),
+            key: "gender",
+            label: "性别",
+            value: null,
+            placeholder: '请选择性别',
+            labelField: 'f',
+            valueField: 'v',
+            showSearch: true,
+            allowClear: true,
+            searchOnLabel: true,
+            options: [
+                {f: <b>男</b>, v: 0},
+                {f: '女', v: 1}
+            ],
+            render2: (f) => renderSelect([], {}, f)
         },
         {
-          key: "desc",
-          label: "介绍",
-          placeholder: "请输入介绍",
-          value: ref<string | null>(null),
-          type: 'textarea',
-          rows: 3,
-          render2: f => renderInput(f.value, {}, f),
-        },
-        {
-          key: "sex",
-          label: "性别",
-          labelField: 'label1',
-          valueField: 'value1',
-          value: ref<number | null>(null),
-          render2: f => renderRadioGroup(f.value, [
-            // @ts-ignore
-            {label1: '男', value1: 0}, {label1: '女', value1: 1},
-          ], {}, f),
-        },
-        {
-          key: "favorite",
-          label: "爱好",
-          labelField: 'fl',
-          valueField: 'fv',
-          sort: 1,
-          options: [
-            {fl: '吃饭', fv: 0},
-            {fl: '睡觉', fv: 1},
-            {fl: '打豆豆', fv: 2},
-          ],
-          value: ref<number[]>([]),
-          render2: f => renderCheckboxGroup(f.value, [], {}, f),
-        },
-        {
-          key: "job",
-          label: "职位",
-          value: ref<number | null>(null),
-          clearable: true,
-          render2: f => renderSelect(f.value, ['前端', '后端'].map((label, value) => ({label, value})), {}, f),
-        },
-        {
-          key: "job2",
-          label: "职位2",
-          value: ref<number | null>(null),
-          labelField: 'l',
-          valueField: 'v',
-          render2: f => renderPopSelect(f.value, ['Drive My Car', 'Norwegian Wood'].map((label, index) => ({
-            l: label,
-            v: label
-          })), {trigger: 'click'}, f),
-        },
-        {
-          key: "job3",
-          label: "职位3",
-          value: ref<number | null>(null),
-          valueField: 'key',
-          render2: f => renderTreeSelect(f.value, [
-            {
-              label: 'Rubber Soul',
-              key: '1',
-              children: [
+            key: "job",
+            label: "职业",
+            value: null,
+            placeholder: '请选择职业',
+            labelField: 'f',
+            valueField: 'v',
+            showSearch: true,
+            allowClear: true,
+            searchOnLabel: true,
+            childField: 'childOptions',
+            options: [
                 {
-                  label: 'Everybody\'s Got Something to Hide Except Me and My Monkey',
-                  key: '1-1'
+                    f: '前端', v: '1', childOptions: [
+                        {f: '网页开发', v: '1-1'},
+                        {f: '小程序开发', v: '1-2'},
+                    ]
                 },
                 {
-                  label: 'Drive My Car',
-                  key: '1-2',
-                  disabled: true
-                },]
+                    f: '后端', v: '2', childOptions: [
+                        {f: '后台开发', v: '2-1'},
+                        {f: '运维', v: '2-2'},
+                    ]
+                }
+            ],
+            render2: (f) => renderTreeSelect([], {
+                treeDefaultExpandAll: true
+            }, f),
+        },
+        {
+            key: "job2",
+            label: "职位2",
+            value: null,
+            labelField: 'l',
+            valueField: 'v',
+            options: ['Drive My Car', 'Norwegian Wood'].map((label, index) => ({
+                l: label,
+                v: label,
+                children: [
+                    {l: 'aaa' + index, v: 'aaa' + index},
+                    {l: 'bbb' + index, v: 'bbb' + index},
+                ]
+            })),
+            // mode: 'multiple',
+            render2: f => renderPopSelect([], {}, f),
+        },
+        {
+            key: "sex",
+            label: "性别",
+            labelField: 'label1',
+            valueField: 'value1',
+            value: null,
+            options: [
+                {label1: '男', value1: 0}, {label1: '女', value1: 1},
+            ],
+            render2: f => renderRadioGroup([], {}, f),
+        },
+        {
+            key: "favorite",
+            label: "爱好",
+            labelField: 'fl',
+            valueField: 'fv',
+            sort: 1,
+            options: [
+                {fl: '吃饭', fv: 0},
+                {fl: '睡觉', fv: 1},
+                {fl: '打豆豆', fv: 2},
+            ],
+            value: [],
+            render2: f => renderCheckboxGroup([], {}, f),
+        },
+        {
+            key: "admin",
+            label: "管理员？",
+            value: null,
+            render2: f => renderSwitch({}, f),
+        },
+        {
+            key: "birthday",
+            label: "生日",
+            value: null,
+            render2: f => renderDatePicker({showTime: true}, f),
+        },
+        {
+            key: "birthdayT",
+            label: "时间",
+            value: null,
+            render2: f => renderTimePicker({}, f),
+        },
+        {
+            key: "future",
+            label: "未来",
+            value: [
+                {label: '你没见过不等于没有', value: 'hello world 1'},
+                {
+                    label: '不要给自己设限',
+                    value: 'hello world 2'
+                },
+                {
+                    label: '不要说连升两级',
+                    value: 'hello world 3'
+                },
+                {
+                    label: '直接升到 CEO 都是有可能的',
+                    value: 'hello world 4'
+                }
+            ],
+            render2: f => renderDynamicTags(f.value, {}, f),
+        },
+        {
+            key: "checkbox",
+            label: "复选",
+            value: true,
+            render2: f => renderCheckbox({}, f),
+            formItemProps: {
+                valuePropName: 'checked',
             }
-          ], {}, f),
         },
         {
-          key: "admin",
-          label: "管理员？",
-          value: ref<number | null>(null),
-          render2: f => renderSwitch(f.value, {}, f),
+            key: "slider",
+            label: "滑块",
+            value: 0,
+            render2: f => renderSlider({}, f),
         },
         {
-          key: "birthday",
-          label: "生日",
-          value: ref<number | null>(null),
-          render2: f => renderDatePicker(f.value, {type: 'datetime'}, f),
+            key: "inputNumber",
+            label: "数字输入",
+            value: 20,
+            render2: f => renderInputNumber({}, f),
         },
-        {
-          key: "birthdayT",
-          label: "时间",
-          value: ref<number | null>(null),
-          render2: f => renderTimePicker(f.value, {}, f),
-        },
-        {
-          key: "future",
-          label: "未来",
-          labelField:'label',
-          valueField: 'value',
-          value: ref([
-            {label: '你没见过不等于没有', value: 'hello world 1'},
-            {
-              label: '不要给自己设限',
-              value: 'hello world 2'
-            },
-            {
-              label: '不要说连升两级',
-              value: 'hello world 3'
-            },
-            {
-              label: '直接升到 CEO 都是有可能的',
-              value: 'hello world 4'
-            }
-          ]),
-          render2: f => {
-            const {value,...restF} = f as any
-            return renderDynamicTags(f.value, {tagType:'primary'}, restF)
-          }
-        },
-        {
-          key: "checkbox",
-          label: "复选",
-          value: ref<boolean | null>(null),
-          render2: f => renderCheckbox(f.value, {}, f),
-        },
-        {
-          key: "slider",
-          label: "滑块",
-          value: ref<number | number[]>(0),
-          render2: f => renderSlider(f.value, {}, f),
-        },
-        {
-          key: "inputNumber",
-          label: "滑块",
-          value: ref<number | null>(0),
-          render2: f => renderInputNumber(f.value, {}, f),
-        },
-      ])
-  const useForm = useDyForm<FormRow>(formItems)
-  const getData = () => {
-    console.log(useForm.getValues())
-  }
-  const setData = () => {
-    useForm.setValues({
-      username: '1111',
-      password: '321321123'
-    })
-  }
-  const validatorData = () => {
-    // 校验
-    naiDynamicFormRef.value?.validator().then(data => {
-      console.log(data)
-    }).catch(err => {
-      console.log(err)
-    })
-  }
-  const resetData = () => {
-    useForm.onReset()
-  }
-</script>
+    ])
+    const useForm = useDyForm([formItems, setFormItems])
+    const antdFormRef = useRef<adDynamicFormRef>(null)
+    const rules: Partial<Record<keyof RowProps, Rule | Rule[]>> = {
+        desc: [{required: true, message: '请输入详情'}]
+    }
+    return (
+        <div className='dynamicFormTest'>
+            <AdDynamicForm ref={antdFormRef} rules={rules} items={formItems}/>
+            <div className="footer" style={{
+                display: 'flex',
+                gap: '5px'
+            }}>
+                <Button color={'green'} variant={'outlined'} onClick={() => {
+                    // const res=antdFormRef.current?.getResult?.()
+                    const res = useForm.getValues()
+                    console.log(res)
+                }}>getData</Button>
+                <Button color={'orange'} variant={'outlined'} onClick={() => {
+                    useForm.setValues({
+                        username: 'antd',
+                        password: 'I love you'
+                    })
+                }}>setData</Button>
+                <Button color={'blue'} variant={'outlined'} onClick={() => {
+                    antdFormRef.current?.validator().then(v => {
+                        console.log(v)
+                    }).catch(r => {
+                        console.log(r)
+                    })
+                }}>validator</Button>
+                <Button color={'red'} variant={'outlined'} onClick={() => {
+                    useForm.onReset()
+                }}>reset</Button>
+                <Button variant={'outlined'} onClick={() => {
+                    useForm.setDisabled(true)
+                }}>setDisabled</Button>
+            </div>
+        </div>
+    );
+};
 
-<template>
-  <NaiDynamicForm :items="formItems" ref="naiDynamicFormRef"/>
-  <div class="controls">
-    <n-button @click="getData" type="success" size="small">get Data</n-button>
-    <n-button @click="setData" type="warning" size="small">set Data</n-button>
-    <n-button @click="validatorData" type="info" size="small">validate Data</n-button>
-    <n-button @click="resetData" type="error" size="small">reset Data</n-button>
-  </div>
-</template>
+export default AllForm;
 
-<style scoped>
-  .controls {
-    display: flex;
-    gap: 5px;
-  }
-</style>
 ```
+```jsx
+import { useRef, useState } from "react";
+import { Button, Input, Radio } from "antd";
+import {
+    AdDynamicForm,
+    renderCheckbox, renderCheckboxGroup, renderDatePicker, renderDynamicTags,
+    renderInput, renderInputNumber,
+    renderPopSelect, renderRadioButtonGroup, renderRadioGroup,
+    renderSelect, renderSlider, renderSwitch, renderTimePicker,
+    renderTreeSelect
+} from "dynamicformdjx-react/antd";
+import { useDyForm, useReactiveForm } from "dynamicformdjx-react";
 
-```vue [JavaScript]
-<script setup>
-  import {ref} from "vue";
-  import {NButton} from "naive-ui";
-  import {useDyForm, useReactiveForm} from "dynamicformdjx";
-  import {
-    NaiDynamicForm,
-    renderInput,
-    renderCheckboxGroup,
-    renderDatePicker,
-    renderPopSelect,
-    renderRadioGroup,
-    renderSelect,
-    renderSwitch,
-    renderTimePicker,
-    renderTreeSelect,
-    renderInputNumber,
-    renderDynamicTags,
-    renderCheckbox,
-    renderSlider
-  } from "dynamicformdjx/naiveUi";
-
-  const rules = {
-    username: {
-      required: true,
-      message: '请输入',
-      trigger: 'blur'
-    },
-  }
-  const naiDynamicFormRef = ref(null)
-  const formItems = useReactiveForm([
+const AllForm = () => {
+  const [formItems, setFormItems] = useReactiveForm([
     {
       key: "username",
-      label: "姓名",
-      value: ref(null),
-      clearable: true,
-      placeholder: '请输入姓名',
-      rule: {
-        required: true,
-      },
-      render2: f => renderInput(f.value, {}, f),
+      label: "用户名",
+      value: "",
+      allowClear: true,
+      render2: (f) => renderInput({}, f),
     },
     {
       key: "password",
       label: "密码",
-      value: ref(null),
-      clearable: true,
-      type: 'password',
-      placeholder: '请输入密码',
-      render2: f => renderInput(f.value, {showPassword: true,}, f),
+      required: true,
+      value: "",
+      render2: (f) => renderInput({}, { ...f, type: "password" }),
     },
     {
-      key: "desc",
-      label: "介绍",
-      placeholder: "请输入介绍",
-      value: ref(null),
-      type: 'textarea',
-      rows: 3,
-      render2: f => renderInput(f.value, {}, f),
-    },
-    {
-      key: "sex",
+      key: "gender",
       label: "性别",
-      labelField: 'label1',
-      valueField: 'value1',
-      value: ref(null),
-      render2: f => renderRadioGroup(f.value, [
-        {label1: '男', value1: 0},
-        {label1: '女', value1: 1},
-      ], {}, f),
-    },
-    {
-      key: "favorite",
-      label: "爱好",
-      labelField: 'fl',
-      valueField: 'fv',
-      sort: 1,
+      value: null,
+      placeholder: "请选择性别",
+      labelField: "f",
+      valueField: "v",
+      showSearch: true,
+      allowClear: true,
+      searchOnLabel: true,
       options: [
-        {fl: '吃饭', fv: 0},
-        {fl: '睡觉', fv: 1},
-        {fl: '打豆豆', fv: 2},
+        { f: <b>男</b>, v: 0 },
+        { f: "女", v: 1 },
       ],
-      value: ref([]),
-      render2: f => renderCheckboxGroup(f.value, [], {}, f),
+      render2: (f) => renderSelect([], {}, f),
     },
     {
       key: "job",
-      label: "职位",
-      value: ref(null),
-      clearable: true,
-      render2: f => renderSelect(f.value, ['前端', '后端'].map((label, value) => ({label, value})), {}, f),
+      label: "职业",
+      value: null,
+      placeholder: "请选择职业",
+      labelField: "f",
+      valueField: "v",
+      showSearch: true,
+      allowClear: true,
+      searchOnLabel: true,
+      childField: "childOptions",
+      options: [
+        {
+          f: "前端",
+          v: "1",
+          childOptions: [
+            { f: "网页开发", v: "1-1" },
+            { f: "小程序开发", v: "1-2" },
+          ],
+        },
+        {
+          f: "后端",
+          v: "2",
+          childOptions: [
+            { f: "后台开发", v: "2-1" },
+            { f: "运维", v: "2-2" },
+          ],
+        },
+      ],
+      render2: (f) =>
+        renderTreeSelect(
+          [],
+          {
+            treeDefaultExpandAll: true,
+          },
+          f
+        ),
     },
     {
       key: "job2",
       label: "职位2",
-      value: ref(null),
-      labelField: 'l',
-      valueField: 'v',
-      render2: f => renderPopSelect(f.value, ['Drive My Car', 'Norwegian Wood'].map((label, index) => ({
+      value: null,
+      labelField: "l",
+      valueField: "v",
+      options: ["Drive My Car", "Norwegian Wood"].map((label, index) => ({
         l: label,
-        v: label
-      })), {trigger: 'click'}, f),
+        v: label,
+        children: [
+          { l: "aaa" + index, v: "aaa" + index },
+          { l: "bbb" + index, v: "bbb" + index },
+        ],
+      })),
+      render2: (f) => renderPopSelect([], {}, f),
     },
     {
-      key: "job3",
-      label: "职位3",
-      value: ref(null),
-      valueField: 'key',
-      render2: f => renderTreeSelect(f.value, [
-        {
-          label: 'Rubber Soul',
-          key: '1',
-          children: [
-            {
-              label: 'Everybody\'s Got Something to Hide Except Me and My Monkey',
-              key: '1-1'
-            },
-            {
-              label: 'Drive My Car',
-              key: '1-2',
-              disabled: true
-            },]
-        }
-      ], {}, f),
+      key: "sex",
+      label: "性别",
+      labelField: "label1",
+      valueField: "value1",
+      value: null,
+      options: [
+        { label1: "男", value1: 0 },
+        { label1: "女", value1: 1 },
+      ],
+      render2: (f) => renderRadioGroup([], {}, f),
+    },
+    {
+      key: "favorite",
+      label: "爱好",
+      labelField: "fl",
+      valueField: "fv",
+      sort: 1,
+      options: [
+        { fl: "吃饭", fv: 0 },
+        { fl: "睡觉", fv: 1 },
+        { fl: "打豆豆", fv: 2 },
+      ],
+      value: [],
+      render2: (f) => renderCheckboxGroup([], {}, f),
     },
     {
       key: "admin",
       label: "管理员？",
-      value: ref(null),
-      render2: f => renderSwitch(f.value, {}, f),
+      value: null,
+      render2: (f) => renderSwitch({}, f),
     },
     {
       key: "birthday",
       label: "生日",
-      value: ref(new Date()),
-      render2: f => renderDatePicker(f.value, {type: 'datetime'}, f),
+      value: null,
+      render2: (f) => renderDatePicker({ showTime: true }, f),
     },
     {
       key: "birthdayT",
       label: "时间",
-      value: ref(new Date()),
-      render2: f => renderTimePicker(f.value, {}, f),
+      value: null,
+      render2: (f) => renderTimePicker({}, f),
     },
     {
       key: "future",
       label: "未来",
-      labelField:'label',
-      valueField: 'value',
-      value: ref([
-        {label: '你没见过不等于没有', value: 'hello world 1'},
+      value: [
+        { label: "你没见过不等于没有", value: "hello world 1" },
         {
-          label: '不要给自己设限',
-          value: 'hello world 2'
+          label: "不要给自己设限",
+          value: "hello world 2",
         },
         {
-          label: '不要说连升两级',
-          value: 'hello world 3'
+          label: "不要说连升两级",
+          value: "hello world 3",
         },
         {
-          label: '直接升到 CEO 都是有可能的',
-          value: 'hello world 4'
-        }
-      ]),
-      render2: f => {
-        const {value,...restF} = f
-        return renderDynamicTags(f.value, {tagType:'primary'}, restF)
-      }
+          label: "直接升到 CEO 都是有可能的",
+          value: "hello world 4",
+        },
+      ],
+      render2: (f) => renderDynamicTags(f.value, {}, f),
     },
     {
       key: "checkbox",
       label: "复选",
-      value: ref(null),
-      render2: f => renderCheckbox(f.value, {}, f),
+      value: true,
+      render2: (f) => renderCheckbox({}, f),
+      formItemProps: {
+        valuePropName: "checked",
+      },
     },
     {
       key: "slider",
       label: "滑块",
-      value: ref(0),
-      render2: f => renderSlider(f.value, {}, f),
+      value: 0,
+      render2: (f) => renderSlider({}, f),
     },
     {
       key: "inputNumber",
-      label: "滑块",
-      value: ref(0),
-      render2: f => renderInputNumber(f.value, {}, f),
+      label: "数字输入",
+      value: 20,
+      render2: (f) => renderInputNumber({}, f),
     },
-  ])
-  const useForm = useDyForm(formItems)
-  const getData = () => {
-    console.log(useForm.getValues())
-  }
-  const resetData = () => {
-    useForm.onReset()
-  }
-  const setData = () => {
-    useForm.setValues({
-      username: '1111',
-      password: '321321123'
-    })
-  }
-  const validatorData = () => {
-    // 校验
-    naiDynamicFormRef.value?.validator().then(data => {
-      console.log(data)
-    }).catch(err => {
-      console.log(err)
-    })
-  }
-</script>
+  ]);
 
-<template>
-  <NaiDynamicForm :items="formItems" ref="naiDynamicFormRef" :rules="rules"/>
-  <div class="control">
-    <n-button @click="getData" type="success" size="small">get Data</n-button>
-    <n-button @click="setData" type="warning" size="small">set Data</n-button>
-    <n-button @click="validatorData" type="default" size="small">validate Data</n-button>
-    <n-button @click="resetData" type="error" size="small">reset Data</n-button>
-  </div>
-</template>
+  const useForm = useDyForm([formItems, setFormItems]);
+  const antdFormRef = useRef(null);
 
-<style scoped>
-  .control {
-    display: flex;
-    gap: 5px;
-  }
-</style>
+  const rules = {
+    desc: [{ required: true, message: "请输入详情" }],
+  };
 
+  return (
+    <div className="dynamicFormTest">
+      <AdDynamicForm ref={antdFormRef} rules={rules} items={formItems} />
+      <div
+        className="footer"
+        style={{
+          display: "flex",
+          gap: "5px",
+        }}
+      >
+        <Button
+          color={"green"}
+          variant={"outlined"}
+          onClick={() => {
+            const res = useForm.getValues();
+            console.log(res);
+          }}
+        >
+          getData
+        </Button>
+        <Button
+          color={"orange"}
+          variant={"outlined"}
+          onClick={() => {
+            useForm.setValues({
+              username: "antd",
+              password: "I love you",
+            });
+          }}
+        >
+          setData
+        </Button>
+        <Button
+          color={"blue"}
+          variant={"outlined"}
+          onClick={() => {
+            antdFormRef.current
+              ?.validator()
+              .then((v) => {
+                console.log(v);
+              })
+              .catch((r) => {
+                console.log(r);
+              });
+          }}
+        >
+          validator
+        </Button>
+        <Button
+          color={"red"}
+          variant={"outlined"}
+          onClick={() => {
+            useForm.onReset();
+          }}
+        >
+          reset
+        </Button>
+        <Button
+          variant={"outlined"}
+          onClick={() => {
+            useForm.setDisabled(true);
+          }}
+        >
+          setDisabled
+        </Button>
+      </div>
+    </div>
+  );
+};
 
+export default AllForm;
 ```
 
 :::
 
 </template>
-<NDyForm/>
-</NaiBlock>
+</BlockOther>
