@@ -104,7 +104,16 @@ export default defineConfig({
                             text: '表单组件',
                             items: [
                                 {text: '与antd配合使用', link: concatPath('react', 'dy-antd-form')},
-                                // {text: 'Props', link: concatPath('react', 'form-props')},
+                                {text: 'Props', link: concatPath('react', 'form-props')},
+                            ]
+                        },
+                        {
+                            text: '通用',
+                            items: [
+                                {text: 'Types', link: concatPath('react', 'types')},
+                                {text: 'Render2', link: concatPath('react', 'render2')},
+                                // {text: 'Hooks', link: concatPath('react', 'hooks')},
+                                // {text: 'Function', link: concatPath('react', 'function')},
                             ]
                         },
                     ],

@@ -39,7 +39,6 @@
 | path         | 表单校验 path（不传则默认使用 `key`）                         | `string`                             | `—`             | 否  |
 | hidden       | 是否隐藏该项                                           | `boolean`                            | `false`         | 否  |
 | render2      | 自定义渲染函数（返回 VNode）                                | `(formItem: DyFormItem) => VNode`    | `—`             | 否  |
-| reset        | 自定义重置逻辑                                          | `(formItem: DyFormItem) => void`     | `—`             | 否  |
 | rule         | 单项校验规则（由具体 UI 层决定类型，如 Naive UI 的 FormItemRule 等） | `RuleT`                              | `—`             | 否  |
 | required     | 简化必填（若未传 `rule`，可自动生成必填规则）                       | `boolean`                            | `false`         | 否  |
 | requiredHint | 必填提示                                             | `(label: string) => string`          | ``"label"不能为空`` | 否  |

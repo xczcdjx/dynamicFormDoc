@@ -40,7 +40,6 @@
 | path         | Validation path (defaults to `key` if not provided)                                                 | `string`                             | `—`                       | No       |
 | hidden       | Whether to hide this item                                                                           | `boolean`                            | `false`                   | No       |
 | render2      | Custom render function (returns a VNode)                                                            | `(formItem: DyFormItem) => VNode`    | `—`                       | No       |
-| reset        | Custom reset logic                                                                                  | `(formItem: DyFormItem) => void`     | `—`                       | No       |
 | rule         | Field validation rule (type depends on the UI layer, e.g., Naive UI’s `FormItemRule`)               | `RuleT`                              | `—`                       | No       |
 | required     | Shorthand required flag (if `rule` is not provided, a required rule can be generated automatically) | `boolean`                            | `false`                   | No       |
 | requiredHint | Required-field message generator                                                                    | `(label: string) => string`          | `"label" cannot be empty` | No       |
