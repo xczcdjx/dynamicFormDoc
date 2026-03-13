@@ -8,7 +8,7 @@ outline: deep
 
 ## 基本使用
 
-<BlockOther linkUrl="https://5trqc7-4173.csb.app/input-cascade?hideMenu=true" isLocal>
+<BlockOther pathUrl="/testPackage-react/#/input-cascade" isOpen>
 <template #default="{dl}">
 <PreviewBlock v-bind="dl" mh="520px"/>
 </template>

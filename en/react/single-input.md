@@ -8,8 +8,16 @@ Dynamic Input
 
 ## Basic Usage
 
+<BlockOther pathUrl="/testPackage-react" isOpen>
+<template #default="{dl}">
+<PreviewBlock v-bind="dl" mh="420px"/>
+</template>
+<template #code>
+
+::: code-group
+
 ```tsx
-import {useState} from "react";
+import {useState, useRef} from "react";
 import {DynamicInput, dynamicFormRef} from "dynamicformdjx-react";
 
 function App() {
@@ -38,10 +46,40 @@ function App() {
 export default App
 ```
 
-## Preview Demo
-<ClientOnly>
-<PreviewBlock url="https://5trqc7-6003.csb.app/"/>
-</ClientOnly>
+```jsx
+import {useState, useRef} from "react";
+import {DynamicInput} from "dynamicformdjx-react";
+
+function App() {
+    const [obj, setObj] = useState({
+        a: "Hello world",
+        b: 1314,
+        c: [5, 2, 0],
+    });
+    const dynamicInputRef = useRef(null)
+    return (<div>
+        <DynamicInput ref={dynamicInputRef} isController value={obj} onChange={(e) => setObj(e)}/>
+        <pre>
+            {JSON.stringify(obj, null, 2)}
+        </pre>
+        <div>
+            <button onClick={() => {
+                dynamicInputRef.current?.onSet?.({
+                    test: 'hello World'
+                })
+            }}>setData
+            </button>
+        </div>
+    </div>)
+}
+
+export default App;
+```
+
+:::
+
+</template>
+</BlockOther>
 
 ## API
 
@@ -70,3 +108,15 @@ export default App
 [Go to v3 Expose](/en/v3/single-input.html#expose)
 
 [//]: # (## Extra Use)
+
+### Slots (Function)
+
+- Callback method, similar to Vue slots.
+
+#### Types
+
+[Go to v3 Slots types](../v3/single-input.html#types)
+
+#### Slot lists
+
+[Go v3 Slots lists](../v3/single-input.html#slot-list)

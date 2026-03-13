@@ -3,7 +3,7 @@
     <!-- 预览区域 -->
     <div class="demo-preview">
       <ClientOnly>
-        <slot :dl="{url:linkUrl,isLocal}"/>
+        <slot :dl="{url:lUrl}"/>
       </ClientOnly>
     </div>
 
@@ -21,12 +21,12 @@
     <div class="demo-toolbar">
       <div class="demo-actions">
         <a
-            v-if="linkUrl"
+            v-show="isOpen"
             class="demo-icon-btn"
             :href="lUrl"
             target="_blank"
             rel="noreferrer"
-            title="在新窗口打开"
+            :title="hintLang.openNew"
         >
           <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M14 3h7v7" />
@@ -39,7 +39,7 @@
         <button
             class="demo-icon-btn"
             type="button"
-            title="展开代码"
+            :title="hintLang.unfold"
             @click="toggleCode"
         >
           <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
@@ -63,11 +63,17 @@
 <script setup>
 
 import {computed, ref} from "vue";
+import {useData} from "vitepress";
 
 const props = defineProps({
   linkUrl: {
     type: String,
-    default: "",
+  },
+  pathUrl:{
+    type: String,
+  },
+  isOpen:{
+    type: Boolean,
   },
   title: {
     type: String,
@@ -80,14 +86,46 @@ const props = defineProps({
   isLocal: {
     type: Boolean,
     default: false,
-  },
+  }
 });
 
 const codeRef = ref(null);
+const {isDark,lang} = useData()
+const site="https://xczcdjx.github.io/packageTest/"
+
 const lUrl=computed(()=>{
-  let u = new URL(props.linkUrl);
-  if (props.isLocal) u=new URL('http://localhost:6003'+u.pathname)
+  let u = new URL(props.linkUrl??(site+props.pathUrl))
+
+  const hash = u.hash || '#/'
+  const hashBody = hash.slice(1) // 去掉开头的 #
+
+  const [hashPath, hashQuery = ''] = hashBody.split('?')
+  const hashParams = new URLSearchParams(hashQuery)
+
+  hashParams.set('theme', isDark.value ? 'dark' : 'light')
+  hashParams.set('hideMenu', 'true')
+
+  u.hash = `${hashPath}?${hashParams.toString()}`
+
+  if (props.isLocal) {
+    let p=6003
+    if (u.pathname.includes('Vue2')) p=6004
+    u = new URL(`http://localhost:${p}` + u.pathname + u.search + u.hash)
+    // console.log(u)
+  }
+
+  // console.log(u.toString())
   return u.toString()
+})
+const hintLang=computed(()=>{
+  if (lang.value==='en-US') return {
+    openNew:'open in new window',
+    unfold:'show code'
+  }
+  else return {
+    openNew:'在新窗口打开',
+    unfold:'展开代码'
+  }
 })
 const toggleCode = () => {
   if (codeRef.value) {

@@ -8,6 +8,12 @@ outline: deep
 
 ## 基本使用
 
+<BlockOther pathUrl="/dynamicForm-Vue2-old/#/input-cascade" isOpen>
+<template #default="{dl}">
+<PreviewBlock v-bind="dl" mh="420px"/>
+</template>
+<template #code>
+
 ```vue [JavaScript]
 <script>
   import {DynamicCascadeInput} from "dynamicformdjx-vue2";
@@ -50,10 +56,8 @@ outline: deep
 </template>
 ```
 
-## 运行 Demo
-<ClientOnly>
-<PreviewBlock url="https://5trqc7-6004.csb.app/#/input-cascade"/>
-</ClientOnly>
+</template>
+</BlockOther>
 
 ## API
 >  (属性及方法参数与vue3版本一致)

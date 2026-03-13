@@ -7,7 +7,7 @@ outline: deep
 动态录入
 
 ## 基本使用
-<BlockOther linkUrl="https://5trqc7-4173.csb.app/?hideMenu=true" isLocal>
+<BlockOther pathUrl="/testPackage-react" isOpen>
 <template #default="{dl}">
 <PreviewBlock v-bind="dl" mh="420px"/>
 </template>
