@@ -61,8 +61,6 @@ outline: deep
 
 <NaiBlock>
 <template #code>
-<details>
-<summary>code</summary>
 
 ```vue
 
@@ -100,8 +98,6 @@ outline: deep
 
 </style>
 ```
-
-</details>
 
   </template>
 <PopupModal/>
@@ -167,8 +163,6 @@ outline: deep
 
 <NaiBlock>
 <template #code>
-<details>
-<summary>code</summary>
 
 ```vue
 
@@ -201,7 +195,6 @@ outline: deep
 </template>
 ```
 
-</details>
 </template>
 <ZealCard/>
 </NaiBlock>
@@ -273,8 +266,6 @@ outline: deep
 
 <NaiBlock>
 <template #code>
-<details>
-<summary>code</summary>
 
 ```vue [Typescript]
 
@@ -337,7 +328,6 @@ outline: deep
 </template>
 ```
 
-</details>
 </template>
 <ZealTableSearch/>
 </NaiBlock>
@@ -377,8 +367,6 @@ outline: deep
 
 <NaiBlock>
 <template #code>
-<details>
-<summary>code</summary>
 
 ```vue 
 
@@ -408,7 +396,6 @@ outline: deep
 </template>
 ```
 
-</details>
 </template>
 <ZealPagination/>
 </NaiBlock>
@@ -487,8 +474,6 @@ outline: deep
 
 <NaiBlock>
 <template #code>
-<details>
-<summary>code</summary>
 
 ```vue [Typescript]
 
@@ -558,7 +543,6 @@ outline: deep
 </style>
 ```
 
-</details>
 </template>
 <EleZealTableTest/>
 </NaiBlock>

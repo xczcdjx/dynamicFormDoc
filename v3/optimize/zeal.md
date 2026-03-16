@@ -12,8 +12,6 @@ aside: false
 
 <NaiBlock>
 <template #code>
-<details>
-<summary>code</summary>
 
 ::: code-group
 
@@ -662,7 +660,6 @@ aside: false
 
 :::
 
-</details>
   </template>
 <NCommonZeal/>
 </NaiBlock>
@@ -671,8 +668,6 @@ aside: false
 
 <EleBlock>
 <template #code>
-<details>
-<summary>code</summary>
 
 ::: code-group
 
@@ -1272,7 +1267,6 @@ aside: false
 
 :::
 
-</details>
   </template>
 <ECommonZeal/>
 </EleBlock>

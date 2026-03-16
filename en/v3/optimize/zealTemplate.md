@@ -12,8 +12,7 @@ and `EleZealTable`.
 
 <NaiBlock>
 <template #code>
-<details>
-<summary>code</summary>
+
 
 ::: code-group
 
@@ -585,7 +584,7 @@ and `EleZealTable`.
 
 :::
 
-</details>
+
   </template>
 
 <NZealTemplate/>
@@ -598,8 +597,7 @@ and `EleZealTable`.
 
 <EleBlock>
 <template #code>
-<details>
-<summary>code</summary>
+
 
 ::: code-group
 
@@ -1138,7 +1136,7 @@ and `EleZealTable`.
 
 :::
 
-</details>
+
   </template>
 <EZealTemplate/>
 </EleBlock>

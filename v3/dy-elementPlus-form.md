@@ -676,7 +676,7 @@
 ## 4.总表单
 > 所有render2函数从"dynamicformdjx/elementPlus"中导入
 
-<NaiBlock>
+<EleBlock>
 <template #code>
 
 ::: code-group
@@ -1156,4 +1156,4 @@
 
 </template>
 <EDyForm/>
-</NaiBlock>
+</EleBlock>

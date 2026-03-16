@@ -680,7 +680,7 @@ Dynamic form
 
 > All render2 functions are imported from "dynamicformdjx/naiveUi"
 
-<NaiBlock>
+<EleBlock>
 <template #code>
 
 ::: code-group
@@ -1160,4 +1160,4 @@ Dynamic form
 
 </template>
 <EDyForm/>
-</NaiBlock>
+</EleBlock>

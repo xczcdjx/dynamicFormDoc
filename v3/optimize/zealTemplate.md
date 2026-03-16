@@ -11,8 +11,6 @@ aside: false
 
 <NaiBlock>
 <template #code>
-<details>
-<summary>code</summary>
 
 ::: code-group
 
@@ -584,7 +582,6 @@ aside: false
 
 :::
 
-</details>
   </template>
 
 <NZealTemplate/>
@@ -593,10 +590,9 @@ aside: false
 ## 与element plus使用
 
 > table 使用的`EleZealTable`组件,类似naive ui data-table用法的简单封装，也可直接使用el-table
+
 <EleBlock>
 <template #code>
-<details>
-<summary>code</summary>
 
 ::: code-group
 
@@ -1135,7 +1131,6 @@ aside: false
 
 :::
 
-</details>
   </template>
 <EZealTemplate/>
 </EleBlock>

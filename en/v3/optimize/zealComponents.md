@@ -65,8 +65,7 @@ A popup modal dialog. The following example is based on the **Naive UI** version
 
 <NaiBlock>
 <template #code>
-<details>
-<summary>code</summary>
+
 
 ```vue
 
@@ -105,7 +104,7 @@ A popup modal dialog. The following example is based on the **Naive UI** version
 </style>
 ```
 
-</details>
+
 
   </template>
 <PopupModal/>
@@ -178,8 +177,7 @@ size for responsive layouts.
 
 <NaiBlock>
 <template #code>
-<details>
-<summary>code</summary>
+
 
 ```vue
 
@@ -212,7 +210,7 @@ size for responsive layouts.
 </template>
 ```
 
-</details>
+
 </template>
 <ZealCard/>
 </NaiBlock>
@@ -290,8 +288,7 @@ It provides built-in **Reset / Search** buttons and exposes methods via `expose`
 
 <NaiBlock>
 <template #code>
-<details>
-<summary>code</summary>
+
 
 ```vue [Typescript]
 
@@ -354,7 +351,7 @@ It provides built-in **Reset / Search** buttons and exposes methods via `expose`
 </template>
 ```
 
-</details>
+
 </template>
 <ZealTableSearch/>
 </NaiBlock>
@@ -404,8 +401,7 @@ This avoids overcrowding the pagination UI on mobile devices.
 
 <NaiBlock>
 <template #code>
-<details>
-<summary>code</summary>
+
 
 ```vue 
 
@@ -435,7 +431,7 @@ This avoids overcrowding the pagination UI on mobile devices.
 </template>
 ```
 
-</details>
+
 </template>
 <ZealPagination/>
 </NaiBlock>
@@ -514,8 +510,7 @@ Therefore, you can write:
 
 <NaiBlock>
 <template #code>
-<details>
-<summary>code</summary>
+
 
 ```vue [Typescript]
 
@@ -585,7 +580,6 @@ Therefore, you can write:
 </style>
 ```
 
-</details>
 </template>
 <EleZealTableTest/>
 </NaiBlock>

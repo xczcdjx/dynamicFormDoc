@@ -13,8 +13,6 @@ Example: simplify operations in a CRUD list.
 
 <NaiBlock>
 <template #code>
-<details>
-<summary>code</summary>
 
 ::: code-group
 
@@ -663,7 +661,6 @@ Example: simplify operations in a CRUD list.
 
 :::
 
-</details>
   </template>
 <NCommonZeal/>
 </NaiBlock>
@@ -672,8 +669,6 @@ Example: simplify operations in a CRUD list.
 
 <EleBlock>
 <template #code>
-<details>
-<summary>code</summary>
 
 ::: code-group
 
@@ -1273,7 +1268,6 @@ Example: simplify operations in a CRUD list.
 
 :::
 
-</details>
   </template>
 <ECommonZeal/>
 </EleBlock>
