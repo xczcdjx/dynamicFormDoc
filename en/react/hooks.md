@@ -6,6 +6,10 @@ outline: deep
 
 Provides `useReactiveForm` and `useDyForm` and `useDecorateForm` to quickly update input values and manage form state.
 
+:::tip
+Most of the types below are similar to the props in the vue3 version.
+:::
+
 ## 1. useReactiveForm
 
 Used to wrap a `DyFormItem[]` with `shallowReactive` in a unified way.

@@ -112,7 +112,7 @@ export default defineConfig({
                             items: [
                                 {text: 'Types', link: concatPath('react', 'types')},
                                 {text: 'Render2', link: concatPath('react', 'render2')},
-                                // {text: 'Hooks', link: concatPath('react', 'hooks')},
+                                {text: 'Hooks', link: concatPath('react', 'hooks')},
                                 // {text: 'Function', link: concatPath('react', 'function')},
                             ]
                         },
@@ -198,6 +198,21 @@ export default defineConfig({
                             items: [
                                 {text: 'Single Component', link: concatPath('react', 'single-input', 'en')},
                                 {text: 'Cascade Component', link: concatPath('react', 'cascade-input', 'en')},
+                            ]
+                        },
+                        {
+                            text: 'Form Component',
+                            items: [
+                                {text: 'With antd', link: concatPath('react', 'dy-antd-form','en')},
+                                {text: 'Props', link: concatPath('react', 'form-props','en')},
+                            ]
+                        },
+                        {
+                            text: 'Common',
+                            items: [
+                                {text: 'Types', link: concatPath('react', 'types', 'en')},
+                                {text: 'Render2', link: concatPath('react', 'render2', 'en')},
+                                {text: 'Hooks', link: concatPath('react', 'hooks', 'en')},
                             ]
                         },
                     ],
