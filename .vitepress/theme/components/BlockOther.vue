@@ -144,7 +144,7 @@ const toggleCode = () => {
 }
 
 .demo-preview {
-  padding: 20px;
+  padding: 5px;
 }
 
 .demo-desc {
@@ -173,8 +173,8 @@ const toggleCode = () => {
   display: none;
 }
 
-.demo-code {
-  padding: 0 20px 16px;
+.demo-code:deep(.vp-code-group) {
+  margin-top: 0;
 }
 
 .demo-toolbar {
