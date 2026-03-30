@@ -108,6 +108,14 @@ export default defineConfig({
                             ]
                         },
                         {
+                            text: '综合使用',
+                            items: [
+                                {text: '简单使用', link: concatPath('react', 'optimize/zeal')},
+                                {text: 'Zeal 模版', link: concatPath('react', 'optimize/zealTemplate')},
+                                // {text: 'Zeal 组件', link: concatPath('v3', 'optimize/zealComponents')},
+                            ]
+                        },
+                        {
                             text: '通用',
                             items: [
                                 {text: 'Types', link: concatPath('react', 'types')},
@@ -205,6 +213,14 @@ export default defineConfig({
                             items: [
                                 {text: 'With antd', link: concatPath('react', 'dy-antd-form','en')},
                                 {text: 'Props', link: concatPath('react', 'form-props','en')},
+                            ]
+                        },
+                        {
+                            text: 'Comprehensive',
+                            items: [
+                                {text: 'Simplify', link: concatPath('react', 'optimize/zeal', 'en')},
+                                {text: 'Zeal template', link: concatPath('react', 'optimize/zealTemplate', 'en')},
+                                // {text: 'Zeal components', link: concatPath('react', 'optimize/zealComponents', 'en')},
                             ]
                         },
                         {
