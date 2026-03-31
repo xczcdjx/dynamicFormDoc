@@ -15,7 +15,7 @@ export default defineConfig({
         ],
         footer: {
             message: 'Built with <a href="https://vitepress.dev/" target="_blank">VitePress</a>',
-            copyright: 'Copyright © 2026 <a href="https://github.com/xczcdjx" target="_blank">xczcdjx</a>'
+            copyright: `Copyright © ${new Date().getFullYear()} <a href="https://github.com/xczcdjx" target="_blank">xczcdjx</a>`
         }
     },
     // 多语言路由
@@ -121,8 +121,12 @@ export default defineConfig({
                                 {text: 'Types', link: concatPath('react', 'types')},
                                 {text: 'Render2', link: concatPath('react', 'render2')},
                                 {text: 'Hooks', link: concatPath('react', 'hooks')},
-                                // {text: 'Function', link: concatPath('react', 'function')},
+                                {text: 'Function', link: concatPath('react', 'function')},
                             ]
+                        },
+                        {
+                            text: '历史更新',
+                            link: concatPath('react', 'history'),
                         },
                     ],
                 },
@@ -229,7 +233,12 @@ export default defineConfig({
                                 {text: 'Types', link: concatPath('react', 'types', 'en')},
                                 {text: 'Render2', link: concatPath('react', 'render2', 'en')},
                                 {text: 'Hooks', link: concatPath('react', 'hooks', 'en')},
+                                {text: 'Function', link: concatPath('react', 'function','en')},
                             ]
+                        },
+                        {
+                            text: 'Version History',
+                            link: concatPath('react', 'history', 'en'),
                         },
                     ],
                 },

@@ -35,7 +35,7 @@ features:
   - title: 动态表单
     link: /v3/dy-naiveUi-form/
     linkText: 查看文档
-    details: 现已适配v3+naive ui或v3+element plus
+    details: 现已适配v3+naive ui或v3+element plus和react+antd
 
 ---
 

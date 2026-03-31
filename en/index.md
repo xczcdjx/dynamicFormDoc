@@ -34,5 +34,5 @@ features:
   - title: Dynamic Form
     link: /en/v3/dy-naiveUi-form/
     linkText: View Docs
-    details: Now compatible with Vue 3 + Naive UI or Vue 3 + Element Plus
+    details: Now compatible with Vue 3 + Naive UI or Vue 3 + Element Plus, and React + Antd
 ---
