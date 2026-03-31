@@ -234,79 +234,101 @@ const formItems = useDecorateForm<FormRow>([
 
 ---
 
-## 4. usePagination
+## 4. useStateCallback
 
-Pagination hook that provides basic pagination configuration.
+A delayed state synchronization hook.
+
+### Signature
+
+```ts
+export function useStateCallback<T>(
+        initialValue: T
+): [T, (value: SetStateAction<T>, cb?: (v: T) => void) => void]
+```
+
+### Parameters
+
+* `initialValue`: Initial value
+
+### Example
+
+```ts
+const [count, setCount] = useStateCallback<number>(0)
+
+function handleCountChange() {
+  setCount(count + 1, p => {
+    console.log(p)
+  })
+}
+```
+
+## 5. usePagination
+
+A pagination hook that provides basic pagination configuration.
 
 ### Signature
 
 ```ts
 export type PageModal = {
-    pageSize: number
-    pageNo: number
-    total: number
+  pageSize: number
+  pageNo: number
+  total: number
 }
-
 export type ZealPagination = {
-    showSizePicker: boolean
-    pageCount?: number
-    pageSizes: number[]
-    pageSlot?: number
-    onChange: () => void
-    onPageSizeChange: () => void
-    setTotalSize: (totalSize: number) => void
-    layout?: string
+  showSizePicker: boolean
+  pageCount?: number
+  pageSizes: number[]
+  pageSlot?: number
+  onChange: (pageNo: number, pageSize: number) => void;
+  onPageSizeChange: (pageSize?: number) => void;
+  layout?: string
 } & PageModal
 
 export function usePagination(
-    cb?: () => void,
-    options?: Partial<ZealPagination>
-): ZealPagination
+        cb?: (pageNo: number, pageSize?: number) => void, options?: Partial<ZealPagination>
+): {
+  pagination: ZealPagination
+  pageModalRef: React.MutableRefObject<PageModal>
+  setPageNo: (pageNo: number, skip?: boolean) => void
+  setPageSize: (pageSize: number, skip?: boolean) => void
+  setTotal: (total: number) => void
+}
 ```
 
 ### Parameters
 
-* `cb`: Request callback. It will be triggered when the internal page number or page size changes.
-* `options`: Initial pagination configuration. The passed options will be merged with the default values.
+* `cb`: Request callback, triggered when the internal page number or page size changes
+* `options`: Initial pagination configuration, merged with the default values if provided
 
 ### Example
 
 ```ts
-const pagination = usePagination(fetchData)
+const {pagination} = usePagination(fetchData)
 
-function fetchData() {
-    const {pageNo, pageSize} = pagination
-    // ...
+function fetchData(pn: number, ps: number) {
+  const {pageNo, pageSize} = paginaton
+  // ...
 }
 ```
 
----
-
-## 5. useWindowSize
+## 6. useWindowSize
 
 Listens to window size changes and provides the updated width and height.
 
 ### Signature
 
 ```ts
-type SizeObjType = {
-    isMobile: boolean
-    width: number
-    height: number
-}
+type SizeObjType = { isMobile: boolean, width: number, height: number };
 
 export function useWindowSize(
-    mobileWidth: number,
-    delay: number
+        mobileWidth: number, delay: number
 ): SizeObjType
 ```
 
 ### Parameters
 
-* `mobileWidth`: Maximum width for mobile devices. When `width` is smaller than this value, `isMobile` will be `true`.
-  Default is `756`.
-* `delay`: Delay time in milliseconds. When the window size changes, the new value will be returned after this delay.
-  Default is `500`.
+* `mobileWidth`: Maximum width for mobile mode. When `width` is smaller than this value, `isMobile` will be `true`. Default is `756`
+* `delay`: Delay in milliseconds. When the window width or height changes, the updated value is returned after this delay. Default is `500`
 
 ### Example
 
@@ -314,66 +336,84 @@ export function useWindowSize(
 const {isMobile, width, height} = useWindowSize()
 ```
 
----
+## 7. useObserverSize
 
-## 6. useObserverSize
-
-Calculates the remaining height inside the content area.
+Calculates the remaining inner content height.
 
 ### Signature
 
 ```ts
-export function useObserverSize<T extends VueComponentCtor>(ct: T): {
-    wrapRef,
-    cardRef,
-    restRef,
-    tableHeight
+export type CtxHeightState = {
+  wrapInnerH: number;
+  restH: number;
+  headerH: number;
+  footerH: number;
+  contentPadY: number;
+}
+
+export function useObserverSize(delay: number): {
+  wrapRef: React.MutableRefObject<HTMLDivElement | null>;
+  cardRef: React.MutableRefObject<HTMLDivElement | null>;
+  restRef: React.MutableRefObject<HTMLDivElement | null>;
+  tableHeight: number;
+  calc: () => void;
+  ctxHeight: CtxHeightState
 }
 ```
 
 ### Parameters
 
-* `ct`: Component constructor. Internally, it only checks
-  `ct.name === 'ElCard' ? 'el' : 'n'`
-  to calculate the remaining content height.
+* `delay`: Delay time
 
 ### Example
 
-> Using **ElCard** as an example
+> Example using Antd `Card`
 
-```vue
+```tsx
+import {useObserverSize} from "dynamicformdjx-react";
+import {Card} from "antd";
+import {RefObject} from "react";
 
-<script setup lang="ts">
-  import {useObserverSize} from "dynamicformdjx";
-  import {ElCard} from "element-plus";
+function CardTest() {
+  const zealHeight = '100vh'
+  const outPadding = 20
+  const {wrapRef, cardRef, restRef, tableHeight, ctxHeight} = useObserverSize();
+  return <div className='container' ref={wrapRef}>
+    <div
+            className="zealCard"
+            style={{
+              height: `calc(${zealHeight} - ${outPadding * 2}px)`,
+            }}
+            ref={wrapRef}
+    >
+      <Card
+              ref={cardRef as RefObject<HTMLDivElement>}
+              title={<div className='title'>
 
-  const {wrapRef, cardRef, restRef, tableHeight} = useObserverSize(ElCard);
-</script>
-
-<template>
-  <div class="container" ref="wrapRef">
-    <el-card ref="cardRef">
-      <template #header>
-        useObserverSize Test
-      </template>
-      <div
-          class="content"
-          :style="{
-          height: tableHeight + 'px'
-        }"
+              </div>}
+              actions={[
+                <div className='footer'></div>
+              ]}
+              style={{height: "100%"}}
+              styles={{
+                header: {
+                  padding: '10px'
+                },
+                body: {
+                  padding: '1px',
+                  height: tableHeight + 'px',
+                },
+              }}
       >
-        <p>tableHeight {{ tableHeight }}</p>
-      </div>
-    </el-card>
-    <div class="rest" ref="restRef"></div>
-  </div>
-</template>
+        <div className="content">
 
-<style scoped>
-  .container {
-    height: calc(100vh - 40px);
-  }
-</style>
+        </div>
+      </Card>
+      <div ref={restRef}></div>
+    </div>
+  </div>
+}
+
+export default CardTest;
 ```
 
----

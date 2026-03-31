@@ -232,3 +232,186 @@ const formItems = useDecorateForm<FormRow>([
     },
 ])
 ```
+
+## 4. useStateCallback
+
+延迟同步state函数
+
+### 签名
+
+```ts
+export function useStateCallback<T>(
+        initialValue: T
+): [T, (value: SetStateAction<T>, cb?: (v: T) => void) => void]
+```
+
+### 参数
+
+- `initialValue`：初始值
+
+### 示例
+
+```ts
+const [count, setCount] = useStateCallback<number>(0)
+
+function handleCountChange() {
+  setCount(count + 1, p => {
+    console.log(p)
+  })
+}
+```
+
+## 5. usePagination
+
+分页hooks，提供基本分页配置
+
+### 签名
+
+```ts
+export type PageModal = {
+  pageSize: number
+  pageNo: number
+  total: number
+}
+export type ZealPagination = {
+  showSizePicker: boolean
+  pageCount?: number
+  pageSizes: number[]
+  pageSlot?: number
+  onChange: (pageNo: number, pageSize: number) => void;
+  onPageSizeChange: (pageSize?: number) => void;
+  layout?: string
+} & PageModal
+
+export function usePagination(
+        cb?: (pageNo: number, pageSize?: number) => void, options?: Partial<ZealPagination>
+): {
+  pagination: ZealPagination
+  pageModalRef: React.MutableRefObject<PageModal>
+  setPageNo: (pageNo: number, skip?: boolean) => void
+  setPageSize: (pageSize: number, skip?: boolean) => void
+  setTotal: (total: number) => void
+}
+```
+
+### 参数
+
+- `cb`：请求回调，当内部页码和页数改变会触发
+- `options`：初始化分页项数据,(传入会合并)
+
+### 示例
+
+```ts
+const {pagination} = usePagination(fetchData)
+
+function fetchData(pn: number, ps: number) {
+  const {pageNo, pageSize} = paginaton
+  // ...
+}
+```
+
+## 6. useWindowSize
+
+监听窗口大小，提供更改后的宽高
+
+### 签名
+
+```ts
+type SizeObjType = { isMobile: boolean, width: number, height: number };
+
+export function useWindowSize(
+        mobileWidth: number, delay: number
+): SizeObjType
+```
+
+### 参数
+
+- `mobileWidth`：移动端宽度最大值，当width小于这个值时isMobile为true，默认为756
+- `delay`：延迟毫秒数，当窗口宽高改变时，延迟该时长后返回新值，默认为500
+
+### 示例
+
+```ts
+const {isMobile, width, height} = useWindowSize()
+```
+
+## 7. useObserverSize
+
+计算剩余content内部高度
+
+### 签名
+
+```ts
+export type CtxHeightState = {
+  wrapInnerH: number;
+  restH: number;
+  headerH: number;
+  footerH: number;
+  contentPadY: number;
+}
+
+export function useObserverSize(delay: number): {
+  wrapRef: React.MutableRefObject<HTMLDivElement | null>;
+  cardRef: React.MutableRefObject<HTMLDivElement | null>;
+  restRef: React.MutableRefObject<HTMLDivElement | null>;
+  tableHeight: number;
+  calc: () => void;
+  ctxHeight: CtxHeightState
+}
+```
+
+### 参数
+
+- `delay`：延迟时间
+
+### 示例
+
+> 以Antd 的Card 示例
+
+```tsx
+import {useObserverSize} from "dynamicformdjx-react";
+import {Card} from "antd";
+import {RefObject} from "react";
+
+function CardTest() {
+  const zealHeight = '100vh'
+  const outPadding = 20
+  const {wrapRef, cardRef, restRef, tableHeight, ctxHeight} = useObserverSize();
+  return <div className='container' ref={wrapRef}>
+    <div
+            className="zealCard"
+            style={{
+              height: `calc(${zealHeight} - ${outPadding * 2}px)`,
+            }}
+            ref={wrapRef}
+    >
+      <Card
+              ref={cardRef as RefObject<HTMLDivElement>}
+              title={<div className='title'>
+
+              </div>}
+              actions={[
+                <div className='footer'></div>
+              ]}
+              style={{height: "100%"}}
+              styles={{
+                header: {
+                  padding: '10px'
+                },
+                body: {
+                  padding: '1px',
+                  height: tableHeight + 'px',
+                },
+              }}
+      >
+        <div className="content">
+
+        </div>
+      </Card>
+      <div ref={restRef}></div>
+    </div>
+  </div>
+}
+
+export default CardTest;
+```

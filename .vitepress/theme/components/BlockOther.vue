@@ -114,7 +114,7 @@ const lUrl=computed(()=>{
     // console.log(u)
   }
 
-  // console.log(u.toString())
+  console.log(u.toString())
   return u.toString()
 })
 const hintLang=computed(()=>{
