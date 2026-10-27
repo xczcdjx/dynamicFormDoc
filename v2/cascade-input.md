@@ -10,7 +10,7 @@ outline: deep
 
 <BlockOther pathUrl="/dynamicForm-Vue2-old/#/input-cascade" isOpen>
 <template #default="{dl}">
-<PreviewBlock v-bind="dl" mh="420px"/>
+<PreviewBlock hideMenu v-bind="dl" mh="420px"/>
 </template>
 <template #code>
 

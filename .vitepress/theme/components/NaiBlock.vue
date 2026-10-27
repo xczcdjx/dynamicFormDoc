@@ -169,7 +169,9 @@ onMounted(() => {
         <div class="demo-block">
           <!-- 预览区域 -->
           <div class="demo-preview">
-            <slot :dl="{ url: lUrl }" />
+            <ClientOnly>
+        <slot :dl="{ url: lUrl }" />
+      </ClientOnly>
           </div>
 
           <!-- 说明区域 -->

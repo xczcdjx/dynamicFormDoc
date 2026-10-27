@@ -17,7 +17,7 @@ outline: deep
 ::: code-group
 
 ```tsx
-import {useState} from "react";
+import {useState, useRef} from "react";
 import {DynamicCascadeInput, type dynamicCascadeInputRef} from "dynamicformdjx-react";
 
 const App = () => {
@@ -54,7 +54,7 @@ export default App;
 ```
 
 ```jsx
-import {useState} from "react";
+import {useState, useRef} from "react";
 import {DynamicCascadeInput} from "dynamicformdjx-react";
 
 const App = () => {
@@ -253,7 +253,7 @@ export default App;
 |-------|--------------------------------------|----------|-----|----|
 | value | 绑定到表单的模型值，父组件传入并与表单同步 (代替modelValue) | `object` | -   | ✅  |
 
-[跳到 v3 Props](../v3/single-input#props)
+[跳到 v3 Props](../v3/cascade-input#props)
 
 ### Function
 

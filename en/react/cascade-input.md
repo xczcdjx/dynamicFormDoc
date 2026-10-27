@@ -8,7 +8,7 @@ Dynamic Cascade input
 
 ## Basic Usage
 ```tsx
-import {useState} from "react";
+import {useState, useRef} from "react";
 import {DynamicCascadeInput,dynamicCascadeInputRef} from "dynamicformdjx-react";
 const App=()=>{
     const [obj,setObj]=useState<Record<string, any>>({

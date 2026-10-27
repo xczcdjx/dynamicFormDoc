@@ -85,7 +85,7 @@ const props = defineProps({
   },
   isLocal: {
     type: Boolean,
-    default: false,
+    default: import.meta.env.DEV,
   }
 });
 
@@ -94,7 +94,7 @@ const {isDark,lang} = useData()
 const site="https://xczcdjx.github.io/packageTest/"
 
 const lUrl=computed(()=>{
-  let u = new URL(props.linkUrl??(site+props.pathUrl))
+  let u = new URL(props.linkUrl??(site + (props.pathUrl || '').replace(/^\/+/, '')))
 
   const hash = u.hash || '#/'
   const hashBody = hash.slice(1) // 去掉开头的 #
@@ -110,11 +110,10 @@ const lUrl=computed(()=>{
   if (props.isLocal) {
     let p=6003
     if (u.pathname.includes('Vue2')) p=6004
-    u = new URL(`http://localhost:${p}` + u.pathname + u.search + u.hash)
+    u = new URL(`http://localhost:${p}/` + u.search + u.hash)
     // console.log(u)
   }
 
-  console.log(u.toString())
   return u.toString()
 })
 const hintLang=computed(()=>{

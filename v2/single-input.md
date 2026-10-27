@@ -9,7 +9,7 @@ outline: deep
 
 <BlockOther pathUrl="/dynamicForm-Vue2-old" isOpen>
 <template #default="{dl}">
-<PreviewBlock v-bind="dl" mh="320px"/>
+<PreviewBlock hideMenu v-bind="dl" mh="320px"/>
 </template>
 <template #code>
 

@@ -86,6 +86,34 @@ export default defineConfig({
                                 {text: '级联输入', link: concatPath('v2', 'cascade-input')},
                             ]
                         },
+                        {
+                            text: '表单组件',
+                            items: [
+                                {text: '与element ui配合使用', link: concatPath('v2', 'dy-elementUi-form')},
+                                {text: 'Props', link: concatPath('v2', 'form-props')},
+                            ]
+                        },
+                        {
+                            text: '综合使用',
+                            items: [
+                                {text: '简单使用', link: concatPath('v2', 'optimize/zeal')},
+                                {text: 'Zeal 模版', link: concatPath('v2', 'optimize/zealTemplate')},
+                                {text: 'Zeal 组件', link: concatPath('v2', 'optimize/zealComponents')},
+                            ]
+                        },
+                        {
+                            text: '通用',
+                            items: [
+                                {text: 'Types', link: concatPath('v2', 'types')},
+                                {text: 'Render2', link: concatPath('v2', 'render2')},
+                                {text: 'Hooks', link: concatPath('v2', 'hooks')},
+                                {text: 'Function', link: concatPath('v2', 'function')},
+                            ]
+                        },
+                        {
+                            text: '历史更新',
+                            link: concatPath('v2', 'history'),
+                        },
                     ],
 
                     '/react/': [
