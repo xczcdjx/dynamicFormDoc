@@ -6,10 +6,10 @@ outline: deep
 
 ## 安装
 
-本文表单 API 对应本地 `0.0.7` 包。表单辅助函数使用 `Vue.observable`，需要 Vue 2.6+；当前 Element UI 子入口还包含使用内置 Composition API 的组件，因此请使用 Vue 2.7.x。示例实际安装 Vue 2.7.16 与 Element UI 2.15.14。
+当前 `0.1.0` 包最低支持 **Vue 2.7.0**，兼容范围为 `^2.7.0`。主入口使用 `toRaw`，公共 Hooks 和 Element UI 组件使用 Vue 2.7 内置 Composition API。开发和示例固定使用 Vue **2.7.16**，搭配 Element UI 2.15.14；模板编译器 `vue-template-compiler` 必须与 Vue 同版本。
 
 ```bash
-npm install vue@^2.7.16 dynamicformdjx-vue2 element-ui@^2.15.14
+npm install vue@2.7.16 dynamicformdjx-vue2 element-ui@^2.15.14
 ```
 
 仅使用 `DynamicInput`、`DynamicCascadeInput` 时从主入口导入；使用 Element UI 表单时从 `/elementUi` 子入口导入。

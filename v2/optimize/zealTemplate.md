@@ -220,22 +220,17 @@ export default {
 </template>
 
 <style>
-.zeal-final { height: 100vh; min-height: 560px; padding: 20px; box-sizing: border-box; background: #f7f8fa; }
-.zeal-final .el-card { width: 100%; border-color: #e4e7ed; background: #fff; color: #303133; }
+.zeal-final { height: 100vh; min-height: 560px; padding: 20px; box-sizing: border-box; }
+.zeal-final .el-card { width: 100%; }
 .zeal-final .el-card__header { border-bottom: 0; padding: 22px 24px 14px; }
 .zeal-final .el-card__body { padding: 0 24px 16px; }
-.zeal-final .eleZealTableSearch .naiTitle { font-size: 16px; font-weight: 600; color: #222; }
+.zeal-final .eleZealTableSearch .naiTitle { font-size: 16px; font-weight: 600; }
 .zeal-final .searchForm .el-col:first-child .el-input-number { max-width: 260px; }
-.zeal-final .el-table { color: #303133; }
-.zeal-final .el-table th { background: #f8f8fa; }
-.zeal-final .el-table--striped .el-table__body tr.el-table__row--striped td { background: #fff; }
-.zeal-final .el-table__body tr:hover > td { background: #f5f7fa !important; }
 @media (max-width: 756px) {
   .zeal-final { padding: 8px; }
   .zeal-final .el-card__header { padding: 16px 12px 12px; }
   .zeal-final .el-card__body { padding: 0 12px 12px; }
   .zeal-final .mobile-song-title { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
-  .zeal-final .mobile-song-length { color: #909399; }
 }
 </style>
 
